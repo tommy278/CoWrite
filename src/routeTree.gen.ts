@@ -16,7 +16,9 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as ApiSetSessionRouteImport } from './routes/api/set-session'
 import { Route as AuthedDashboardIndexRouteImport } from './routes/_authed/dashboard/index'
+import { Route as AuthedDashboardViewDocumentDoc_idRouteImport } from './routes/_authed/dashboard/view-document/$doc_id'
 
 const AuthedRoute = AuthedRouteImport.update({
   id: '/_authed',
@@ -52,75 +54,99 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSetSessionRoute = ApiSetSessionRouteImport.update({
+  id: '/api/set-session',
+  path: '/api/set-session',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthedDashboardIndexRoute = AuthedDashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedDashboardViewDocumentDoc_idRoute =
+  AuthedDashboardViewDocumentDoc_idRouteImport.update({
+    id: '/dashboard/view-document/$doc_id',
+    path: '/dashboard/view-document/$doc_id',
+    getParentRoute: () => AuthedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/set-session': typeof ApiSetSessionRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthedDashboardIndexRoute
+  '/dashboard/view-document/$doc_id': typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/set-session': typeof ApiSetSessionRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthedDashboardIndexRoute
+  '/dashboard/view-document/$doc_id': typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
+  '/api/set-session': typeof ApiSetSessionRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
+  '/_authed/dashboard/view-document/$doc_id': typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/set-session'
     | '/auth/callback'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
     | '/dashboard'
+    | '/dashboard/view-document/$doc_id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/set-session'
     | '/auth/callback'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
     | '/dashboard'
+    | '/dashboard/view-document/$doc_id'
   id:
     | '__root__'
     | '/'
     | '/_authed'
+    | '/api/set-session'
     | '/auth/callback'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
     | '/_authed/dashboard/'
+    | '/_authed/dashboard/view-document/$doc_id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
+  ApiSetSessionRoute: typeof ApiSetSessionRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
@@ -179,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/set-session': {
+      id: '/api/set-session'
+      path: '/api/set-session'
+      fullPath: '/api/set-session'
+      preLoaderRoute: typeof ApiSetSessionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authed/dashboard/': {
       id: '/_authed/dashboard/'
       path: '/dashboard'
@@ -186,15 +219,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedDashboardIndexRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/dashboard/view-document/$doc_id': {
+      id: '/_authed/dashboard/view-document/$doc_id'
+      path: '/dashboard/view-document/$doc_id'
+      fullPath: '/dashboard/view-document/$doc_id'
+      preLoaderRoute: typeof AuthedDashboardViewDocumentDoc_idRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
 interface AuthedRouteChildren {
   AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
+  AuthedDashboardViewDocumentDoc_idRoute: typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
+  AuthedDashboardViewDocumentDoc_idRoute:
+    AuthedDashboardViewDocumentDoc_idRoute,
 }
 
 const AuthedRouteWithChildren =
@@ -203,6 +246,7 @@ const AuthedRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
+  ApiSetSessionRoute: ApiSetSessionRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
