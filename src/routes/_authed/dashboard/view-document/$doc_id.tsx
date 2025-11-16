@@ -15,5 +15,5 @@ function RouteComponent() {
   const document = useLoaderData({
     from: '/_authed/dashboard/view-document/$doc_id',
   })
-  return <div>Hello "/_authed/view-document"! {document.title}</div>
+  return <div>{document.title}</div>
 }

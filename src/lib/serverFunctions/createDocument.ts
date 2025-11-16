@@ -8,7 +8,13 @@ export const createDocumentFn = createServerFn({ method: 'POST' })
 
     const { data: newDoc, error } = await supabase
       .from('documents')
-      .insert([{ title: data.title }])
+      .insert([
+        {
+          title: data.title,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ])
       .select()
 
     if (error) throw new Error(error.message)

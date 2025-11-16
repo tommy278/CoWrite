@@ -1,15 +1,25 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { Route as ParentRoute } from '@/routes/__root'
 import { useForm } from '@tanstack/react-form'
 import { useState } from 'react'
 import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
+import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
+import { getUserFn } from '@/lib/serverFunctions/getUserFn'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
+  loader: async () => {
+    const user = await getUserFn()
+    const user_id = user?.id
+    if (user_id === undefined) return
+    const data = await getAllDocumentsFn({ data: { user_id: user_id } })
+    return data
+  },
 })
 
 function RouteComponent() {
   const { user } = ParentRoute.useRouteContext()
+  const data = Route.useLoaderData()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
@@ -36,8 +46,31 @@ function RouteComponent() {
     },
   })
   return (
-    <div>
-      {!isOpen && <button onClick={() => setIsOpen(!isOpen)}>Expand</button>}
+    <>
+      <div className="grid grid-cols-3 gap-4 p-4">
+        <div>
+          {!isOpen && (
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="h-full w-full cursor-pointer"
+            >
+              Expand
+            </button>
+          )}
+        </div>
+        {data?.map((doc, index) => (
+          <Link
+            key={index}
+            to="/dashboard/view-document/$doc_id"
+            params={{ doc_id: doc.id }}
+          >
+            <div className="h-20 bg-blue-500">
+              <h1>{doc.title}</h1>
+              <p>{doc.content}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
       {isOpen && (
         <div className="flex min-h-screen items-center justify-center bg-gray-50">
           <form
@@ -88,6 +121,6 @@ function RouteComponent() {
           </form>
         </div>
       )}
-    </div>
+    </>
   )
 }
