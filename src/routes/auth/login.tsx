@@ -134,7 +134,7 @@ function RouteComponent() {
           <button type="submit">Log in</button>
         </div>
 
-        <DesktopSignin />
+        <DesktopSignin text="Log in" />
         <MobileSignin text="Or sign in with" />
 
         <div className="flex justify-center">

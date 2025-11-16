@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { supabase } from '@/lib/supabase/supabase'
 import { emailSchema, passwordSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
+import { registerFn } from '@/lib/serverFunctions/registerFn'
 
 export const Route = createFileRoute('/auth/register')({
   component: RouteComponent,
@@ -24,27 +24,24 @@ const defaultUser: User = {
 }
 
 function RouteComponent() {
+  const router = useRouter()
   const form = useForm({
     defaultValues: defaultUser,
-    onSubmit: async ({ value, formApi }) => {
-      if (value.password === value.confirmPassword) {
-        const { error } = await supabase.auth.signUp({
+    onSubmit: async ({ value }) => {
+      console.log(value)
+      const { error, message } = await registerFn({
+        data: {
           email: value.email,
           password: value.password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
-            data: {
-              display_name: value.name,
-            },
-          },
-        })
-
-        if (error) {
-          alert(error.message)
-        } else {
-          alert('SignUp successful')
-          formApi.reset()
-        }
+        },
+      })
+      if (error) {
+        alert(message)
+        console.error(message)
+      } else {
+        alert(message)
+        router.invalidate({ sync: true })
+        router.navigate({ to: '/dashboard' })
       }
     },
   })
@@ -204,7 +201,7 @@ function RouteComponent() {
         <button className="button-primary" type="submit">
           Sign Up
         </button>
-        <DesktopSignin />
+        <DesktopSignin text="Sign up" />
         <MobileSignin text="Or sign up with" />
       </form>
     </div>

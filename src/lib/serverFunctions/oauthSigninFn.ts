@@ -13,7 +13,7 @@ export const oauthSigninFn = createServerFn()
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider as unknown as Provider,
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        redirectTo: `${import.meta.env.VITE_APP_URL}/auth/callback`,
         queryParams: {
           flow_type: 'pkce',
         },
