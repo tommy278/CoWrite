@@ -48,16 +48,16 @@ function RouteComponent() {
   return (
     <>
       <div className="grid grid-cols-3 gap-4 p-4">
-        <div>
-          {!isOpen && (
+        {!isOpen && (
+          <div className="bg-cyan-200">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="h-full w-full cursor-pointer"
             >
               Expand
             </button>
-          )}
-        </div>
+          </div>
+        )}
         {data?.map((doc, index) => (
           <Link
             key={index}
@@ -72,7 +72,10 @@ function RouteComponent() {
         ))}
       </div>
       {isOpen && (
-        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={() => setIsOpen(false)}
+        >
           <form
             onSubmit={(e) => {
               e.stopPropagation()
