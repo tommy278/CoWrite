@@ -22,7 +22,6 @@ function RouteComponent() {
         return
       }
       try {
-        console.log(user.id)
         const newDocument = await createDocumentFn({
           data: { title: value.title },
         })
