@@ -17,6 +17,7 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as AuthedDashboardIndexRouteImport } from './routes/_authed/dashboard/index'
+import { Route as AuthedDashboardViewDocumentDoc_idRouteImport } from './routes/_authed/dashboard/view-document/$doc_id'
 
 const AuthedRoute = AuthedRouteImport.update({
   id: '/_authed',
@@ -57,6 +58,12 @@ const AuthedDashboardIndexRoute = AuthedDashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedDashboardViewDocumentDoc_idRoute =
+  AuthedDashboardViewDocumentDoc_idRouteImport.update({
+    id: '/dashboard/view-document/$doc_id',
+    path: '/dashboard/view-document/$doc_id',
+    getParentRoute: () => AuthedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthedDashboardIndexRoute
+  '/dashboard/view-document/$doc_id': typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,6 +83,7 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof AuthedDashboardIndexRoute
+  '/dashboard/view-document/$doc_id': typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,6 +95,7 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
+  '/_authed/dashboard/view-document/$doc_id': typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/dashboard'
+    | '/dashboard/view-document/$doc_id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/dashboard'
+    | '/dashboard/view-document/$doc_id'
   id:
     | '__root__'
     | '/'
@@ -116,6 +128,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/reset-password'
     | '/_authed/dashboard/'
+    | '/_authed/dashboard/view-document/$doc_id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -186,15 +199,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedDashboardIndexRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/dashboard/view-document/$doc_id': {
+      id: '/_authed/dashboard/view-document/$doc_id'
+      path: '/dashboard/view-document/$doc_id'
+      fullPath: '/dashboard/view-document/$doc_id'
+      preLoaderRoute: typeof AuthedDashboardViewDocumentDoc_idRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
 interface AuthedRouteChildren {
   AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
+  AuthedDashboardViewDocumentDoc_idRoute: typeof AuthedDashboardViewDocumentDoc_idRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
+  AuthedDashboardViewDocumentDoc_idRoute:
+    AuthedDashboardViewDocumentDoc_idRoute,
 }
 
 const AuthedRouteWithChildren =

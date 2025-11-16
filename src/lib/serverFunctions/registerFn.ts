@@ -1,11 +1,11 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getSupabaseServerClient } from '@/lib/supabase/clientSupabase'
 
-export const loginFn = createServerFn({ method: 'POST' })
+export const registerFn = createServerFn({ method: 'POST' })
   .inputValidator((d: { email: string; password: string }) => d)
   .handler(async ({ data }) => {
     const supabase = getSupabaseServerClient()
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
     })
@@ -19,6 +19,6 @@ export const loginFn = createServerFn({ method: 'POST' })
 
     return {
       error: false,
-      message: 'Login successful',
+      message: 'Registration successful',
     }
   })

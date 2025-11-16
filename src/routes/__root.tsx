@@ -1,10 +1,13 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Scripts,
+  createRootRoute,
+  Link,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { getUserFn } from '@/lib/serverFunctions/getUserFn'
-import { UserProvider } from "@/context/UserContext";
 import Header from '../components/Header'
-
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -28,11 +31,22 @@ export const Route = createRootRoute({
       },
     ],
   }),
-  loader: async () => {
+  beforeLoad: async () => {
     const user = await getUserFn()
     return { user }
   },
   shellComponent: RootDocument,
+  notFoundComponent: () => {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center gap-y-10">
+        <h1 className="text-5xl font-semibold">404</h1>
+        <p className="text-3xl font-medium">Page not found</p>
+        <Link to="/" className="text-blue-700 underline">
+          Return Home
+        </Link>
+      </div>
+    )
+  },
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -42,10 +56,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <UserProvider>
-          <Header />
-          {children}
-        </UserProvider>
+        <Header />
+        {children}
         <TanStackDevtools
           config={{
             position: 'bottom-right',
