@@ -8,10 +8,7 @@
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
   },
-  "cSpell.words": [
-    "authstack",
-    "supabase"
-  ],
+  "cSpell.words": ["authstack", "pkce", "supabase"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "[javascript]": {

@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase/supabase'
+import { oauthSigninFn } from '@/lib/serverFunctions/oauthSigninFn'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 
@@ -16,15 +16,8 @@ export default function MobileSignin({ text }: { text: string }) {
           className="inline-flex cursor-pointer rounded-md bg-blue-500 px-10 py-3"
           type="button"
           onClick={async () => {
-            await supabase.auth.signInWithOAuth({
-              provider: 'google',
-              options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-                queryParams: {
-                  flow_type: 'pkce',
-                },
-              },
-            })
+            const { url } = await oauthSigninFn({ data: 'google' })
+            window.location.href = url
           }}
         >
           <FcGoogle size={20} />
@@ -34,15 +27,8 @@ export default function MobileSignin({ text }: { text: string }) {
           type="button"
           className="inline-flex cursor-pointer rounded-md bg-gray-400 p-2 px-10 py-3"
           onClick={async () => {
-            await supabase.auth.signInWithOAuth({
-              provider: 'github',
-              options: {
-                redirectTo: `${window.location.origin}/auth/callback`,
-                queryParams: {
-                  flow_type: 'pkce',
-                },
-              },
-            })
+            const { url } = await oauthSigninFn({ data: 'github' })
+            window.location.href = url
           }}
         >
           <FaGithub size={20} />
