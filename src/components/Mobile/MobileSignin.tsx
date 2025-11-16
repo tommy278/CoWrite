@@ -1,7 +1,6 @@
 import { supabase } from '@/lib/supabase/supabase'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
-import { callbackUrl } from '@/lib/constants'
 
 export default function MobileSignin({ text }: { text: string }) {
   return (
@@ -20,7 +19,10 @@ export default function MobileSignin({ text }: { text: string }) {
             await supabase.auth.signInWithOAuth({
               provider: 'google',
               options: {
-                redirectTo: callbackUrl,
+                redirectTo: `${window.location.origin}/auth/callback`,
+                queryParams: {
+                  flow_type: 'pkce',
+                },
               },
             })
           }}
@@ -35,7 +37,10 @@ export default function MobileSignin({ text }: { text: string }) {
             await supabase.auth.signInWithOAuth({
               provider: 'github',
               options: {
-                redirectTo: callbackUrl,
+                redirectTo: `${window.location.origin}/auth/callback`,
+                queryParams: {
+                  flow_type: 'pkce',
+                },
               },
             })
           }}

@@ -1,36 +1,31 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-// import { Route as ParentRoute } from '@/routes/__root'
+import { Route as ParentRoute } from '@/routes/__root'
 import { useForm } from '@tanstack/react-form'
 import { useState } from 'react'
-import { createDocument } from '@/lib/supabase/documents'
+import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const user = {
-    id: '2.2',
-  }
+  const { user } = ParentRoute.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   const form = useForm({
     defaultValues: { title: '' },
     onSubmit: async ({ value }) => {
-      console.log(user)
       if (!user?.id) {
         alert('Something went wrong. Please log in and try again.')
         console.error('No user id found')
         return
       }
       try {
-        const data = await createDocument({
-          userId: user.id,
-          title: value.title,
+        console.log(user.id)
+        const newDocument = await createDocumentFn({
+          data: { title: value.title },
         })
-
-        const newDocument = data?.[0]
         if (!newDocument) throw new Error('No Document returned ')
         form.reset()
         setIsOpen(false)

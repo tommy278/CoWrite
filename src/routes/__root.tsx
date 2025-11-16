@@ -6,8 +6,7 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { getUserFromCookiesFn } from '@/lib/serverFunctions/getUserFromCookiesFn'
-import { getServerHeadersFn } from '@/lib/serverFunctions/getServerHeadersFn'
+import { getUserFn } from '@/lib/serverFunctions/getUserFn'
 import Header from '../components/Header'
 import appCss from '../styles.css?url'
 
@@ -33,8 +32,7 @@ export const Route = createRootRoute({
     ],
   }),
   beforeLoad: async () => {
-    const cookieHeader = await getServerHeadersFn()
-    const user = await getUserFromCookiesFn(cookieHeader)
+    const user = await getUserFn()
     return { user }
   },
   shellComponent: RootDocument,

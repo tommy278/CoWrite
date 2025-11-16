@@ -1,5 +1,6 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useEffect } from 'react'
+import { setSessionFn } from '@/lib/serverFunctions/setSessionFn'
 
 export const Route = createFileRoute('/auth/callback')({
   component: CallbackPage,
@@ -15,11 +16,8 @@ export default function CallbackPage() {
       const refresh_token = hash.get('refresh_token')
 
       if (access_token && refresh_token) {
-        await fetch('/api/set-session', {
-          method: 'POST',
-          body: JSON.stringify({ access_token, refresh_token }),
-          headers: { 'Content-Type': 'application/json' },
-        })
+        setSessionFn({ data: { access_token, refresh_token } })
+        router.invalidate({ sync: true })
         router.navigate({ to: '/dashboard' })
       }
     }
