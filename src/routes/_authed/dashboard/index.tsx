@@ -1,10 +1,10 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { Route as ParentRoute } from '@/routes/__root'
 import { useForm } from '@tanstack/react-form'
-import { useState } from 'react'
 import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
 import { getUserFn } from '@/lib/serverFunctions/getUserFn'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
@@ -49,7 +49,7 @@ function RouteComponent() {
     <>
       <div className="grid grid-cols-3 gap-4 p-4">
         {!isOpen && (
-          <div className="bg-cyan-200">
+          <div className="rounded-md bg-cyan-200 p-10">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="h-full w-full cursor-pointer"
@@ -64,7 +64,7 @@ function RouteComponent() {
             to="/dashboard/view-document/$doc_id"
             params={{ doc_id: doc.id }}
           >
-            <div className="h-20 bg-blue-500">
+            <div className="rounded-md bg-blue-500 p-10">
               <h1>{doc.title}</h1>
               <p>{doc.content}</p>
             </div>

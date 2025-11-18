@@ -3,6 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
 import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
+import AutoResizeTextArea from '@/lib/helpers/AutoResizeTextArea'
 
 export const Route = createFileRoute(
   '/_authed/dashboard/view-document/$doc_id'
@@ -18,15 +19,20 @@ function RouteComponent() {
   const document = useLoaderData({
     from: '/_authed/dashboard/view-document/$doc_id',
   })
-  console.log(document.id)
+  const { id = '', title = ' Untitled Document', content = '' } = document || {}
   const titleForm = useForm({
-    defaultValues: { id: document.id, title: document.title },
+    defaultValues: {
+      id,
+      title,
+    },
     onSubmit: async ({ value }) => {
       try {
+        const title =
+          value.title.trim() === '' ? 'Untitled Document' : value.title
         await updateTitleFn({
-          data: { id: value.id, title: value.title },
+          data: { id: value.id, title },
         })
-        alert('Title successfully updated')
+        titleForm.setFieldValue('title', title)
       } catch (error) {
         console.error(error)
         alert('Something went wrong')
@@ -35,7 +41,7 @@ function RouteComponent() {
   })
 
   const contentForm = useForm({
-    defaultValues: { id: document.id, content: document.content ?? '' },
+    defaultValues: { id, content },
   })
 
   return (
@@ -49,13 +55,6 @@ function RouteComponent() {
       >
         <titleForm.Field
           name="title"
-          validators={{
-            onChange: ({ value }) => {
-              if (value.length < 3) return 'Title not long enough'
-              if (value.length > 100) return 'Title too long'
-              return undefined
-            },
-          }}
           children={(field) => (
             <>
               <input
@@ -63,7 +62,7 @@ function RouteComponent() {
                 autoFocus
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className={`px-3 py-2 ${
+                className={`my-4 mb-5 ml-10 rounded-md border px-3 py-2 ${
                   field.state.meta.errors.length > 0
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-300 focus:ring-blue-500'
@@ -91,8 +90,9 @@ function RouteComponent() {
           validators={{
             onChangeAsync: async ({ value }) => {
               try {
+                if (!value) return
                 await updateContentFormFn({
-                  data: { id: document.id, content: value },
+                  data: { id, content: value },
                 })
               } catch (error) {
                 console.error(error)
@@ -102,14 +102,12 @@ function RouteComponent() {
           }}
           children={(field) => {
             const isSaving = field.state.meta.isValidating
-
             return (
-              <div>
-                <textarea
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
+              <div className="flex justify-center">
+                <AutoResizeTextArea
+                  value={field.state.value || ''}
                   onChange={(e) => field.handleChange(e.target.value)}
-                  rows={5}
+                  className="rounded-md bg-gray-300"
                 />
                 {isSaving && <span>Saving...</span>}
                 {field.state.meta.errors.length > 0 && (
