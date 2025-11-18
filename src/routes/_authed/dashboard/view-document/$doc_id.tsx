@@ -3,7 +3,12 @@ import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
 import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
-import AutoResizeTextArea from '@/lib/helpers/AutoResizeTextArea'
+import Tiptap from '@/components/TipTap'
+
+interface TiptapJSON {
+  type: 'doc'
+  content: Array<any>
+}
 
 export const Route = createFileRoute(
   '/_authed/dashboard/view-document/$doc_id'
@@ -19,7 +24,9 @@ function RouteComponent() {
   const document = useLoaderData({
     from: '/_authed/dashboard/view-document/$doc_id',
   })
-  const { id = '', title = ' Untitled Document', content = '' } = document || {}
+  const { id = '', title = 'Untitled Document' } = document || {}
+  if (!document?.content) return null
+
   const titleForm = useForm({
     defaultValues: {
       id,
@@ -41,7 +48,10 @@ function RouteComponent() {
   })
 
   const contentForm = useForm({
-    defaultValues: { id, content },
+    defaultValues: {
+      id,
+      content: document.content ?? { type: 'doc', content: [] },
+    },
   })
 
   return (
@@ -104,10 +114,9 @@ function RouteComponent() {
             const isSaving = field.state.meta.isValidating
             return (
               <div className="flex justify-center">
-                <AutoResizeTextArea
-                  value={field.state.value || ''}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="rounded-md bg-gray-300"
+                <Tiptap
+                  value={field.state.value as TiptapJSON}
+                  onChange={(json: TiptapJSON) => field.handleChange(json)}
                 />
                 {isSaving && <span>Saving...</span>}
                 {field.state.meta.errors.length > 0 && (
