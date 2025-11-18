@@ -1,5 +1,4 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
-import { Route as ParentRoute } from '@/routes/__root'
 import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
@@ -18,7 +17,7 @@ export const Route = createFileRoute('/_authed/dashboard/')({
 })
 
 function RouteComponent() {
-  const { user } = ParentRoute.useRouteContext()
+  const { user } = Route.useRouteContext()
   const data = Route.useLoaderData()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
