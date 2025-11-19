@@ -4,6 +4,12 @@ import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
 import { getUserFn } from '@/lib/serverFunctions/getUserFn'
 import { useState } from 'react'
+import { generateHTML } from '@tiptap/html'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Bold from '@tiptap/extension-bold'
+import HardBreak from '@tiptap/extension-hard-break'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
@@ -21,6 +27,8 @@ function RouteComponent() {
   const data = Route.useLoaderData()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+
+  const extensions = [Document, Paragraph, Text, Bold, HardBreak]
 
   const form = useForm({
     defaultValues: { title: '' },
@@ -57,70 +65,73 @@ function RouteComponent() {
             </button>
           </div>
         )}
-        {data?.map((doc, index) => (
-          <Link
-            key={index}
-            to="/dashboard/view-document/$doc_id"
-            params={{ doc_id: doc.id }}
-          >
-            <div className="rounded-md bg-blue-500 p-10">
-              <h1>{doc.title}</h1>
-              <p>{doc.content}</p>
-            </div>
-          </Link>
-        ))}
+
+        {data?.map((doc, index) => {
+          if (!doc.content) return <p>No Content found</p>
+          const htmlContent = generateHTML(doc.content, extensions)
+          return (
+            <Link
+              key={index}
+              to="/dashboard/view-document/$doc_id"
+              params={{ doc_id: doc.id }}
+            >
+              <div
+                className="rounded-md bg-blue-500 p-10"
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
+              ></div>
+            </Link>
+          )
+        })}
       </div>
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"
           onClick={() => setIsOpen(false)}
         >
-          <form
-            onSubmit={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-              form.handleSubmit()
-            }}
-            className="form-content"
-          >
-            <button type="button" onClick={() => setIsOpen(false)}>
-              Close
-            </button>
-            <form.Field
-              name="title"
-              validators={{
-                onChange: ({ value }) => {
-                  if (value.length < 3) return 'Title not long enough'
-                  if (value.length > 100) return 'Title too long'
-                  return undefined
-                },
+          <div onClick={(e) => e.stopPropagation()}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                form.handleSubmit()
               }}
-              children={(field) => (
-                <>
-                  <input
-                    value={field.state.value}
-                    placeholder="Title"
-                    autoFocus
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    className={`input-field ${
-                      field.state.meta.errors.length > 0
-                        ? 'border-red-500 focus:ring-red-500'
-                        : 'border-gray-300 focus:ring-blue-500'
-                    }`}
-                  />
-                  {field.state.meta.errors.map((error, i) => (
-                    <div key={i} className="text-red-500">
-                      {error}
-                    </div>
-                  ))}
-                </>
-              )}
-            />
-            <button type="submit" className="button-primary">
-              Create
-            </button>
-          </form>
+              className="form-content"
+            >
+              <form.Field
+                name="title"
+                validators={{
+                  onChange: ({ value }) => {
+                    if (value.length < 3) return 'Title not long enough'
+                    if (value.length > 100) return 'Title too long'
+                    return undefined
+                  },
+                }}
+                children={(field) => (
+                  <>
+                    <input
+                      value={field.state.value}
+                      placeholder="Title"
+                      autoFocus
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      className={`input-field ${
+                        field.state.meta.errors.length > 0
+                          ? 'border-red-500 focus:ring-red-500'
+                          : 'border-gray-300 focus:ring-blue-500'
+                      }`}
+                    />
+                    {field.state.meta.errors.map((error, i) => (
+                      <div key={i} className="text-red-500">
+                        {error}
+                      </div>
+                    ))}
+                  </>
+                )}
+              />
+              <button type="submit" className="button-primary">
+                Create
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </>

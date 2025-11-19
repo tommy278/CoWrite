@@ -2,11 +2,16 @@ import { createServerFn } from '@tanstack/react-start'
 import { getSupabaseServerClient } from '@/lib/supabase/clientSupabase'
 import { z } from 'zod'
 
+interface TiptapJSON {
+  type: 'doc'
+  content: Array<any>
+}
+
 interface Document {
   id: string
   user_id: string
   title: string
-  content: string | null
+  content: TiptapJSON | null
   created_at: string
   updated_at: string
   deleted_at: string | null

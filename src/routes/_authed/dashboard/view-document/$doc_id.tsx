@@ -3,7 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
 import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
-import Tiptap from '@/components/TipTap'
+import Tiptap from '@/components/Tiptap'
 
 interface TiptapJSON {
   type: 'doc'
@@ -55,13 +55,14 @@ function RouteComponent() {
   })
 
   return (
-    <div>
+    <div className="flex w-full flex-col items-center">
       <form
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
           titleForm.handleSubmit()
         }}
+        className="flex w-full max-w-3xl justify-start"
       >
         <titleForm.Field
           name="title"
@@ -70,6 +71,7 @@ function RouteComponent() {
               <input
                 value={field.state.value}
                 autoFocus
+                name="Title"
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
                 className={`my-4 mb-5 ml-10 rounded-md border px-3 py-2 ${
@@ -93,6 +95,7 @@ function RouteComponent() {
           e.stopPropagation()
           contentForm.handleSubmit()
         }}
+        className="flex justify-center"
       >
         <contentForm.Field
           name="content"
@@ -113,7 +116,7 @@ function RouteComponent() {
           children={(field) => {
             const isSaving = field.state.meta.isValidating
             return (
-              <div className="flex justify-center">
+              <>
                 <Tiptap
                   value={field.state.value as TiptapJSON}
                   onChange={(json: TiptapJSON) => field.handleChange(json)}
@@ -124,7 +127,7 @@ function RouteComponent() {
                     {field.state.meta.errors.join(', ')}
                   </span>
                 )}
-              </div>
+              </>
             )
           }}
         />

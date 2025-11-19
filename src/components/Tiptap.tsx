@@ -1,5 +1,6 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import HardBreak from '@tiptap/extension-hard-break'
 
 interface TiptapJSON {
   type: 'doc'
@@ -14,18 +15,23 @@ interface TiptapProps {
 
 const Tiptap = ({ value, className, onChange }: TiptapProps) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, HardBreak],
     content: value,
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getJSON())
+    },
+    editorProps: {
+      attributes: {
+        class: 'focus:outline-none outline-none prose max-w-none min-h-[400px]',
+      },
     },
   })
 
   return (
     <EditorContent
       editor={editor}
-      className={`min-h-[300px] rounded-md border border-gray-300 bg-white p-4 focus:ring-2 focus:ring-indigo-500 focus:outline-none ${className}`}
+      className={`w-[80%] rounded-md border bg-white p-5 focus:outline-none ${className}`}
     />
   )
 }

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { supabase } from '@/lib/supabase/supabase'
+import { resetPasswordFn } from '@/lib/serverFunctions/resetPasswordFn'
 import { emailSchema } from '@/lib/helpers/validators'
 
 export const Route = createFileRoute('/auth/forgot-password')({
@@ -11,14 +11,13 @@ function RouteComponent() {
   const form = useForm({
     defaultValues: { email: '' },
     onSubmit: async ({ value, formApi }) => {
-      const { error } = await supabase.auth.resetPasswordForEmail(value.email, {
-        redirectTo: 'http://localhost:3000/auth/reset-password',
-      })
-      if (error) {
-        alert(error.message)
-      } else {
+      try {
+        await resetPasswordFn({ data: { email: value.email } })
         alert('Password reset email sent. Check your inbox.')
         formApi.reset()
+      } catch (error) {
+        console.error(error)
+        alert('Something went wrong. Please try again later.')
       }
     },
   })
