@@ -25,3 +25,27 @@ code {
 .button-primary {
   @apply h-10 w-full rounded-md bg-blue-600 text-white transition-colors duration-150 hover:bg-blue-700;
 }
+
+.prose-editor h1 {
+  @apply text-4xl font-bold;
+}
+
+.prose-editor h2 {
+  @apply text-3xl font-bold;
+}
+
+.prose-editor h3 {
+  @apply text-3xl font-semibold;
+}
+
+.prose-editor h4 {
+  @apply text-2xl font-semibold;
+}
+
+.prose-editor h5 {
+  @apply text-xl font-semibold;
+}
+
+.prose-editor h6 {
+  @apply text-lg font-semibold;
+}

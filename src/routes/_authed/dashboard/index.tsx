@@ -5,14 +5,7 @@ import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
 import { getUserFn } from '@/lib/serverFunctions/getUserFn'
 import { useState } from 'react'
 import { generateHTML } from '@tiptap/html'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
-import HardBreak from '@tiptap/extension-hard-break'
-import Underline from '@tiptap/extension-underline'
-import StrikeThrough from '@tiptap/extension-strike'
+import { extensions } from '@/lib/constants'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
@@ -30,17 +23,6 @@ function RouteComponent() {
   const data = Route.useLoaderData()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-
-  const extensions = [
-    Document,
-    Paragraph,
-    Text,
-    Bold,
-    HardBreak,
-    Italic,
-    Underline,
-    StrikeThrough,
-  ]
 
   const form = useForm({
     defaultValues: { title: '' },
@@ -87,10 +69,10 @@ function RouteComponent() {
               to="/dashboard/view-document/$doc_id"
               params={{ doc_id: doc.id }}
             >
-              <div
-                className="rounded-md bg-blue-500 p-10"
-                dangerouslySetInnerHTML={{ __html: htmlContent }}
-              ></div>
+              <div className="rounded-md bg-blue-500 p-10">
+                <h1 className="font-semibold">{doc.title}</h1>
+                <p dangerouslySetInnerHTML={{ __html: htmlContent }}></p>
+              </div>
             </Link>
           )
         })}

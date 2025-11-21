@@ -14,7 +14,7 @@ export default function ButtonCard({
 }: ButtonCardProps) {
   return (
     <div
-      className={`rounded-md p-1 ${editor?.isActive(state) ? 'bg-blue-500' : ''}`}
+      className={`rounded-md p-1 px-2 ${editor?.isActive(state) ? 'bg-blue-500' : ''}`}
     >
       {children}
     </div>
