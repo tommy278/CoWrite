@@ -2,7 +2,6 @@ import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import type { Editor } from '@tiptap/react'
 import Heading from '@tiptap/extension-heading'
 import StarterKit from '@tiptap/starter-kit'
-import HardBreak from '@tiptap/extension-hard-break'
 import ButtonCard from './ButtonCard'
 import { ReactNode, useState } from 'react'
 import HeaderDropdown from '@/components/HeaderDropdown'
@@ -55,7 +54,7 @@ function MenuBar({
     },
   })
 
-  const [headerOpen, toggleHeaderOpen] = useState(false)
+  const [modalOpen, toggleModalOpen] = useState(false)
 
   return (
     <div className="flex items-center justify-between space-x-5">
@@ -67,11 +66,21 @@ function MenuBar({
       </button>
 
       <div>
-        <button onClick={() => toggleHeaderOpen(!headerOpen)}>H</button>
+        <button onClick={() => toggleModalOpen(!modalOpen)}>H</button>
         <div className="inset fixed z-50">
-          {headerOpen && <HeaderDropdown editor={editor} />}
+          {modalOpen && <HeaderDropdown editor={editor} />}
         </div>
       </div>
+
+      <ButtonCard editor={editor} state="code">
+        <button
+          onClick={() => editor.chain().focus().toggleCode().run()}
+          disabled={!editorState.canCode}
+          className={editorState.isCode ? 'is-active' : ''}
+        >
+          C
+        </button>
+      </ButtonCard>
 
       <ButtonCard editor={editor} state="bold">
         <button
@@ -102,7 +111,7 @@ function MenuBar({
         </button>
       </ButtonCard>
 
-      <ButtonCard editor={editor} state="strike-through">
+      <ButtonCard editor={editor} state="strike">
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editorState.canStrike}
@@ -122,7 +131,6 @@ const Tiptap = ({ value, className, onChange, children }: TiptapProps) => {
       StarterKit.configure({
         heading: false,
       }),
-      HardBreak,
       Heading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
     ],
     content: value,
