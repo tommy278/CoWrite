@@ -100,7 +100,7 @@ function RouteComponent() {
       >
         <contentForm.Field
           name="content"
-          asyncDebounceMs={1000}
+          asyncDebounceMs={3000}
           validators={{
             onChangeAsync: async ({ value }) => {
               try {
@@ -122,7 +122,7 @@ function RouteComponent() {
                   value={field.state.value as TiptapJSON}
                   onChange={(json: TiptapJSON) => field.handleChange(json)}
                 >
-                  {isSaving && <span>Saving...</span>}
+                  {isSaving ? <span>Saving...</span> : <span>Saved</span>}
                 </Tiptap>
                 {field.state.meta.errors.length > 0 && (
                   <span style={{ color: 'red' }}>

@@ -8,6 +8,7 @@ import Underline from '@tiptap/extension-underline'
 import StrikeThrough from '@tiptap/extension-strike'
 import Heading from '@tiptap/extension-heading'
 import Code from '@tiptap/extension-code'
+import Highlight from '@tiptap/extension-highlight'
 
 export const extensions = [
   Document,
@@ -20,6 +21,7 @@ export const extensions = [
   StrikeThrough,
   Heading,
   Code,
+  Highlight,
 ]
 
 export const callbackUrl: string =

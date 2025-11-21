@@ -22,6 +22,7 @@
     "@tiptap/extension-bold": "^3.10.8",
     "@tiptap/extension-document": "^3.10.8",
     "@tiptap/extension-hard-break": "^3.11.0",
+    "@tiptap/extension-highlight": "^3.11.0",
     "@tiptap/extension-paragraph": "^3.10.8",
     "@tiptap/extension-text": "^3.10.8",
     "@tiptap/html": "^3.10.8",

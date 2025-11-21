@@ -3,8 +3,10 @@ import type { Editor } from '@tiptap/react'
 import Heading from '@tiptap/extension-heading'
 import StarterKit from '@tiptap/starter-kit'
 import ButtonCard from './ButtonCard'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import HeaderDropdown from '@/components/HeaderDropdown'
+import Highlight from '@tiptap/extension-highlight'
+import HighlightDropdown from '@/components/HighlightDropdown'
 
 interface TiptapJSON {
   type: 'doc'
@@ -54,8 +56,6 @@ function MenuBar({
     },
   })
 
-  const [modalOpen, toggleModalOpen] = useState(false)
-
   return (
     <div className="flex items-center justify-between space-x-5">
       <button onClick={() => editor.chain().focus().undo().run()}>
@@ -65,12 +65,7 @@ function MenuBar({
         <span>Redo</span>
       </button>
 
-      <div>
-        <button onClick={() => toggleModalOpen(!modalOpen)}>H</button>
-        <div className="inset fixed z-50">
-          {modalOpen && <HeaderDropdown editor={editor} />}
-        </div>
-      </div>
+      <HeaderDropdown editor={editor} />
 
       <ButtonCard editor={editor} state="code">
         <button
@@ -120,6 +115,9 @@ function MenuBar({
           <span className="line-through">S</span>
         </button>
       </ButtonCard>
+
+      <HighlightDropdown editor={editor} />
+
       <div>{children}</div>
     </div>
   )
@@ -132,6 +130,7 @@ const Tiptap = ({ value, className, onChange, children }: TiptapProps) => {
         heading: false,
       }),
       Heading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
+      Highlight.configure({ multicolor: true }),
     ],
     content: value,
     immediatelyRender: false,
