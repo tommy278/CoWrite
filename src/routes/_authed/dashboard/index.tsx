@@ -9,7 +9,10 @@ import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
 import HardBreak from '@tiptap/extension-hard-break'
+import Underline from '@tiptap/extension-underline'
+import StrikeThrough from '@tiptap/extension-strike'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
@@ -28,7 +31,16 @@ function RouteComponent() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
-  const extensions = [Document, Paragraph, Text, Bold, HardBreak]
+  const extensions = [
+    Document,
+    Paragraph,
+    Text,
+    Bold,
+    HardBreak,
+    Italic,
+    Underline,
+    StrikeThrough,
+  ]
 
   const form = useForm({
     defaultValues: { title: '' },

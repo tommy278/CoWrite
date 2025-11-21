@@ -1,4 +1,4 @@
-import { createFileRoute, useLoaderData } from '@tanstack/react-router'
+import { createFileRoute, useLoaderData, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
 import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
@@ -55,14 +55,15 @@ function RouteComponent() {
   })
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <>
+      <Link to="/dashboard">back</Link>
       <form
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
           titleForm.handleSubmit()
         }}
-        className="flex w-full max-w-3xl justify-start"
+        className="w-full max-w-3xl"
       >
         <titleForm.Field
           name="title"
@@ -120,8 +121,9 @@ function RouteComponent() {
                 <Tiptap
                   value={field.state.value as TiptapJSON}
                   onChange={(json: TiptapJSON) => field.handleChange(json)}
-                />
-                {isSaving && <span>Saving...</span>}
+                >
+                  {isSaving && <span>Saving...</span>}
+                </Tiptap>
                 {field.state.meta.errors.length > 0 && (
                   <span style={{ color: 'red' }}>
                     {field.state.meta.errors.join(', ')}
@@ -132,6 +134,6 @@ function RouteComponent() {
           }}
         />
       </form>
-    </div>
+    </>
   )
 }
