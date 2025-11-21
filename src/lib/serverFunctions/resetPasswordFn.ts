@@ -7,7 +7,8 @@ export const resetPasswordFn = createServerFn({ method: 'POST' })
     const { email } = ctx.data
     const supabase = getSupabaseServerClient()
 
-    await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${import.meta.env.VITE_APP_URL}/reset-password`,
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${import.meta.env.VITE_APP_URL}/auth/reset-password`,
     })
+    if (error) throw new Error(error.message)
   })
