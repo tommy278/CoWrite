@@ -1,7 +1,7 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { supabase } from '@/lib/supabase/supabase'
 import { passwordSchema } from '@/lib/helpers/validators'
+import { updateUserFn } from '@/lib/serverFunctions/updateUserFn'
 
 export const Route = createFileRoute('/auth/reset-password')({
   component: RouteComponent,
@@ -20,24 +20,20 @@ function RouteComponent() {
   const passwordForm = useForm({
     defaultValues: defaultPasswords,
     onSubmit: async ({ value }) => {
-      if (value.newPassword !== value.confirmPassword) {
-        alert('Passwords do not match')
-        return
-      }
+      try {
+        if (value.newPassword !== value.confirmPassword) {
+          alert('Passwords do not match')
+          return
+        }
 
-      const { error } = await supabase.auth.updateUser({
-        password: value.newPassword,
-      })
-
-      if (error) {
-        alert('Something went wrong. Please try logging in again')
+        await updateUserFn({ data: { password: value.newPassword } })
+        alert('Password updated! Please log in.')
+        router.invalidate({ sync: true })
+        router.navigate({ to: '/auth/login' })
+      } catch (error) {
         console.error(error)
-        return
+        alert('Password reset unsuccessful.')
       }
-
-      alert('Password updated! Please log in.')
-      router.invalidate({ sync: true })
-      router.navigate({ to: '/auth/login' })
     },
   })
 
