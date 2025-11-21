@@ -7,6 +7,7 @@ import HardBreak from '@tiptap/extension-hard-break'
 import Underline from '@tiptap/extension-underline'
 import StrikeThrough from '@tiptap/extension-strike'
 import Heading from '@tiptap/extension-heading'
+import Code from '@tiptap/extension-code'
 
 export const extensions = [
   Document,
@@ -18,6 +19,7 @@ export const extensions = [
   Underline,
   StrikeThrough,
   Heading,
+  Code,
 ]
 
 export const callbackUrl: string =
