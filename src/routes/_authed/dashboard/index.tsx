@@ -10,18 +10,13 @@ export const Route = createFileRoute('/_authed/dashboard/')({
 })
 
 function RouteComponent() {
-  const { user, documents } = Route.useRouteContext()
+  const { documents } = Route.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   const form = useForm({
     defaultValues: { title: '' },
     onSubmit: async ({ value }) => {
-      if (!user?.id) {
-        alert('Something went wrong. Please log in and try again.')
-        console.error('No user id found')
-        return
-      }
       try {
         const newDocument = await createDocumentFn({
           data: { title: value.title },
@@ -50,12 +45,12 @@ function RouteComponent() {
           </div>
         )}
 
-        {documents.map((doc, index) => {
+        {documents.map((doc) => {
           if (!doc.content) return <p>No Content found</p>
           const htmlContent = generateHTML(doc.content, extensions)
           return (
             <Link
-              key={index}
+              key={doc.id}
               to="/dashboard/view-document/$doc_id"
               params={{ doc_id: doc.id }}
             >

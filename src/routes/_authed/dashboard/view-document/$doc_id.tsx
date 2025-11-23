@@ -29,13 +29,12 @@ function RouteComponent() {
   const { doc_id } = Route.useParams()
   const { documents } = Route.useRouteContext()
   const document = documents.find((row) => row.id === doc_id)
-  const { id = 'Untitled Document' } = document || {}
   const router = useRouter()
-  if (!document?.content) return null
+  if (!document?.content || !document?.id) return <p>Document not found</p>
 
   const contentForm = useForm({
     defaultValues: {
-      id,
+      id: document.id,
       content: document.content ?? { type: 'doc', content: [] },
     },
   })
@@ -57,9 +56,8 @@ function RouteComponent() {
           validators={{
             onChangeAsync: async ({ value }) => {
               try {
-                if (!value) return
                 await updateContentFormFn({
-                  data: { id, content: value },
+                  data: { id: document.id, content: value },
                 })
                 router.invalidate({ sync: true })
               } catch (error) {
