@@ -139,7 +139,7 @@ const Tiptap = ({ value, className, onChange, children }: TiptapProps) => {
     },
     editorProps: {
       attributes: {
-        class: 'focus:outline-none outline-none prose min-h-[400px]',
+        class: 'focus:outline-none outline-none prose w-[1000px] h-[900px]',
       },
     },
   })
@@ -149,11 +149,12 @@ const Tiptap = ({ value, className, onChange, children }: TiptapProps) => {
   }
 
   return (
-    <div className="flex w-[80%] flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <MenuBar editor={editor}>{children}</MenuBar>
       <EditorContent
         editor={editor}
         className={`prose-editor rounded-md bg-black/20 p-5 focus:outline-none ${className}`}
+        autoFocus
       />
     </div>
   )

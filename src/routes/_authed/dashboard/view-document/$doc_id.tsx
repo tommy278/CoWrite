@@ -1,8 +1,8 @@
-import { createFileRoute, useLoaderData, Link } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
-import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
+import { useRouter } from '@tanstack/react-router'
 import Tiptap from '@/components/Tiptap'
 
 interface TiptapJSON {
@@ -14,38 +14,24 @@ export const Route = createFileRoute(
   '/_authed/dashboard/view-document/$doc_id'
 )({
   component: RouteComponent,
-  loader: async ({ params }) => {
+  beforeLoad: async ({ context, params }) => {
     const document = await getDocumentFn({ data: { id: params.doc_id } })
-    return document
+    return {
+      ...context,
+      headerType: 'doc',
+      document_id: document?.id,
+      document_title: document?.title,
+    }
   },
 })
 
 function RouteComponent() {
-  const document = useLoaderData({
-    from: '/_authed/dashboard/view-document/$doc_id',
-  })
-  const { id = '', title = 'Untitled Document' } = document || {}
+  const { doc_id } = Route.useParams()
+  const { documents } = Route.useRouteContext()
+  const document = documents.find((row) => row.id === doc_id)
+  const { id = 'Untitled Document' } = document || {}
+  const router = useRouter()
   if (!document?.content) return null
-
-  const titleForm = useForm({
-    defaultValues: {
-      id,
-      title,
-    },
-    onSubmit: async ({ value }) => {
-      try {
-        const title =
-          value.title.trim() === '' ? 'Untitled Document' : value.title
-        await updateTitleFn({
-          data: { id: value.id, title },
-        })
-        titleForm.setFieldValue('title', title)
-      } catch (error) {
-        console.error(error)
-        alert('Something went wrong')
-      }
-    },
-  })
 
   const contentForm = useForm({
     defaultValues: {
@@ -57,39 +43,6 @@ function RouteComponent() {
   return (
     <>
       <Link to="/dashboard">back</Link>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          titleForm.handleSubmit()
-        }}
-        className="w-full max-w-3xl"
-      >
-        <titleForm.Field
-          name="title"
-          children={(field) => (
-            <>
-              <input
-                value={field.state.value}
-                autoFocus
-                name="Title"
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                className={`my-4 mb-5 ml-10 rounded-md border px-3 py-2 ${
-                  field.state.meta.errors.length > 0
-                    ? 'border-red-500 focus:ring-red-500'
-                    : 'border-gray-300 focus:ring-blue-500'
-                }`}
-              />
-              {field.state.meta.errors.map((error, i) => (
-                <div key={i} className="text-red-500">
-                  {error}
-                </div>
-              ))}
-            </>
-          )}
-        />
-      </form>
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -108,6 +61,7 @@ function RouteComponent() {
                 await updateContentFormFn({
                   data: { id, content: value },
                 })
+                router.invalidate({ sync: true })
               } catch (error) {
                 console.error(error)
                 alert('Something went wrong')

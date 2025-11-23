@@ -1,26 +1,16 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
-import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
-import { getUserFn } from '@/lib/serverFunctions/getUserFn'
 import { useState } from 'react'
 import { generateHTML } from '@tiptap/html'
 import { extensions } from '@/lib/constants'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
-  loader: async () => {
-    const user = await getUserFn()
-    const user_id = user?.id
-    if (user_id === undefined) return
-    const data = await getAllDocumentsFn({ data: { user_id: user_id } })
-    return data
-  },
 })
 
 function RouteComponent() {
-  const { user } = Route.useRouteContext()
-  const data = Route.useLoaderData()
+  const { user, documents } = Route.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
@@ -60,7 +50,7 @@ function RouteComponent() {
           </div>
         )}
 
-        {data?.map((doc, index) => {
+        {documents.map((doc, index) => {
           if (!doc.content) return <p>No Content found</p>
           const htmlContent = generateHTML(doc.content, extensions)
           return (

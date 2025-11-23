@@ -3,12 +3,16 @@ import {
   Scripts,
   createRootRoute,
   Link,
+  Outlet,
+  useMatches,
+  redirect,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { getUserFn } from '@/lib/serverFunctions/getUserFn'
 import Header from '../components/Header'
 import appCss from '../styles.css?url'
+import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -33,7 +37,15 @@ export const Route = createRootRoute({
   }),
   beforeLoad: async () => {
     const user = await getUserFn()
-    return { user }
+    if (user?.id === undefined) throw redirect({ to: '/' })
+    const documents = await getAllDocumentsFn({ data: { user_id: user?.id } })
+    return {
+      user,
+      documents,
+      headerType: 'default' as 'default' | 'doc',
+      document_id: 'default' as string,
+      document_title: 'default' as string,
+    }
   },
   shellComponent: RootDocument,
   notFoundComponent: () => {
@@ -49,15 +61,28 @@ export const Route = createRootRoute({
   },
 })
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument() {
+  const matches = useMatches()
+  const deepestMatchWithHeaderType = [...matches]
+    .reverse()
+    .find((m) => m.context?.headerType)
+
+  const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
+  const id = deepestMatchWithHeaderType?.context.document_id
+  const title = deepestMatchWithHeaderType?.context.document_title
+
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        <Header />
-        {children}
+        <Header
+          type={headerType === 'doc' ? 'doc' : 'default'}
+          id={id}
+          title={title}
+        />
+        <Outlet />
         <TanStackDevtools
           config={{
             position: 'bottom-right',
