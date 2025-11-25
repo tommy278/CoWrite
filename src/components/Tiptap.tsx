@@ -3,7 +3,6 @@ import type { Editor } from '@tiptap/react'
 import Heading from '@tiptap/extension-heading'
 import StarterKit from '@tiptap/starter-kit'
 import ButtonCard from './ButtonCard'
-import { ReactNode } from 'react'
 import HeaderDropdown from '@/components/HeaderDropdown'
 import Highlight from '@tiptap/extension-highlight'
 import HighlightDropdown from '@/components/HighlightDropdown'
@@ -17,15 +16,8 @@ interface TiptapProps {
   onChange: (content: any) => void
   value: TiptapJSON
   className?: string
-  children: ReactNode
 }
-function MenuBar({
-  editor,
-  children,
-}: {
-  editor: Editor
-  children: ReactNode
-}) {
+function MenuBar({ editor }: { editor: Editor }) {
   const editorState = useEditorState({
     editor,
     selector: (ctx) => {
@@ -117,13 +109,11 @@ function MenuBar({
       </ButtonCard>
 
       <HighlightDropdown editor={editor} />
-
-      <div>{children}</div>
     </div>
   )
 }
 
-const Tiptap = ({ value, className, onChange, children }: TiptapProps) => {
+const Tiptap = ({ value, className, onChange }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -150,7 +140,7 @@ const Tiptap = ({ value, className, onChange, children }: TiptapProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <MenuBar editor={editor}>{children}</MenuBar>
+      <MenuBar editor={editor}></MenuBar>
       <EditorContent
         editor={editor}
         className={`prose-editor rounded-md bg-black/20 p-5 focus:outline-none ${className}`}

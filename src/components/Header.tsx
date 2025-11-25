@@ -7,20 +7,21 @@ import { Route as ParentRoute } from '@/routes/__root'
 import { useForm } from '@tanstack/react-form'
 import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
 import { useEffect } from 'react'
+import { useIsSaving } from '@/context/isLoading'
+import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 
 interface HeaderProps {
   type: 'doc' | 'default'
-  id?: string
-  title?: string
+  id: string
+  title: string
 }
 
 export default function Header({ type, id, title }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { user } = ParentRoute.useRouteContext()
+  const [hideSave, setHideSave] = useState(false)
+  const { isSaving, handleSave, doneSaving } = useIsSaving()
   const router = useRouter()
-
-  if (!id) throw new Error('Error getting id')
-  if (!title) throw new Error('Error getting title')
 
   const titleForm = useForm({
     defaultValues: {
@@ -28,9 +29,37 @@ export default function Header({ type, id, title }: HeaderProps) {
     },
   })
 
+  const debouncedUpdateTitle = useDebouncedCallback(
+    async (value: string, id: string) => {
+      try {
+        await updateTitleFn({ data: { id, title: value } })
+        router.invalidate({ sync: true })
+      } catch (error) {
+        console.error(error)
+        alert('Something went wrong')
+      } finally {
+        doneSaving()
+      }
+    },
+    { wait: 3000 }
+  )
+
   useEffect(() => {
-    titleForm.setFieldValue('title', title)
+    if (titleForm.getFieldValue('title') !== title) {
+      titleForm.setFieldValue('title', title)
+      setHideSave(true)
+    }
+    const timer = setTimeout(() => {
+      setHideSave(false)
+    }, 3000)
+
+    return () => {
+      clearTimeout(timer)
+    }
   }, [title])
+
+  const showSaving = !hideSave && isSaving
+
   return (
     <>
       <header className="flex items-center justify-between bg-blue-900 p-4 text-white shadow-lg">
@@ -50,18 +79,10 @@ export default function Header({ type, id, title }: HeaderProps) {
           >
             <titleForm.Field
               name="title"
-              asyncDebounceMs={3000}
               validators={{
-                onChangeAsync: async ({ value }) => {
-                  try {
-                    await updateTitleFn({
-                      data: { id, title: value },
-                    })
-                    router.invalidate({ sync: true })
-                  } catch (error) {
-                    console.error(error)
-                    alert('Something went wrong')
-                  }
+                onChange: async ({ value }) => {
+                  handleSave()
+                  debouncedUpdateTitle(value, id)
                 },
                 onBlur: ({ value }) => {
                   if (value.trim() === '') {
@@ -70,7 +91,6 @@ export default function Header({ type, id, title }: HeaderProps) {
                 },
               }}
               children={(field) => {
-                const isSaving = field.state.meta.isValidating
                 return (
                   <div className="flex items-center space-x-3">
                     <input
@@ -79,13 +99,9 @@ export default function Header({ type, id, title }: HeaderProps) {
                       name="Title"
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      className={`my-4 mb-5 ml-10 rounded-md border px-3 py-2 ${
-                        field.state.meta.errors.length > 0
-                          ? 'border-red-500 focus:ring-red-500'
-                          : 'border-gray-300 focus:ring-blue-500'
-                      }`}
+                      className="my-4 mb-5 ml-10 rounded-md border px-3 py-2"
                     />
-                    {isSaving && <p>Saving...</p>}
+                    {showSaving ? <p>Saving...</p> : <p>Saved</p>}
                   </div>
                 )
               }}

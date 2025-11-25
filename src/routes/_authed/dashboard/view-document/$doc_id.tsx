@@ -4,6 +4,8 @@ import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
 import { useRouter } from '@tanstack/react-router'
 import Tiptap from '@/components/Tiptap'
+import { useIsSaving } from '@/context/isLoading'
+import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 
 interface TiptapJSON {
   type: 'doc'
@@ -26,6 +28,7 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
+  const { handleSave, doneSaving } = useIsSaving()
   const { doc_id } = Route.useParams()
   const { documents } = Route.useRouteContext()
   const document = documents.find((row) => row.id === doc_id)
@@ -38,6 +41,21 @@ function RouteComponent() {
       content: document.content ?? { type: 'doc', content: [] },
     },
   })
+
+  const debouncedContentUpdate = useDebouncedCallback(
+    async (id: string, content: TiptapJSON) => {
+      try {
+        await updateContentFormFn({ data: { id, content } })
+        router.invalidate({ sync: true })
+      } catch (error) {
+        console.error(error)
+        alert('Something went wrong')
+      } finally {
+        doneSaving()
+      }
+    },
+    { wait: 3000 }
+  )
 
   return (
     <>
@@ -52,35 +70,19 @@ function RouteComponent() {
       >
         <contentForm.Field
           name="content"
-          asyncDebounceMs={3000}
           validators={{
-            onChangeAsync: async ({ value }) => {
-              try {
-                await updateContentFormFn({
-                  data: { id: document.id, content: value },
-                })
-                router.invalidate({ sync: true })
-              } catch (error) {
-                console.error(error)
-                alert('Something went wrong')
-              }
+            onChange: async ({ value }) => {
+              handleSave()
+              debouncedContentUpdate(document.id, value)
             },
           }}
           children={(field) => {
-            const isSaving = field.state.meta.isValidating
             return (
               <>
                 <Tiptap
                   value={field.state.value as TiptapJSON}
                   onChange={(json: TiptapJSON) => field.handleChange(json)}
-                >
-                  {isSaving ? <span>Saving...</span> : <span>Saved</span>}
-                </Tiptap>
-                {field.state.meta.errors.length > 0 && (
-                  <span style={{ color: 'red' }}>
-                    {field.state.meta.errors.join(', ')}
-                  </span>
-                )}
+                ></Tiptap>
               </>
             )
           }}

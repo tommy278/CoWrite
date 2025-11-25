@@ -5,7 +5,6 @@ import {
   Link,
   Outlet,
   useMatches,
-  redirect,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
@@ -13,6 +12,7 @@ import { getUserFn } from '@/lib/serverFunctions/getUserFn'
 import Header from '../components/Header'
 import appCss from '../styles.css?url'
 import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
+import { IsSavingProvider } from '@/context/isLoading'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -37,7 +37,7 @@ export const Route = createRootRoute({
   }),
   beforeLoad: async () => {
     const user = await getUserFn()
-    if (user?.id === undefined) throw redirect({ to: '/' })
+    if (!user?.id) return { user: null, documents: [] }
     const documents = await getAllDocumentsFn({ data: { user_id: user?.id } })
     return {
       user,
@@ -68,8 +68,8 @@ function RootDocument() {
     .find((m) => m.context?.headerType)
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
-  const id = deepestMatchWithHeaderType?.context.document_id
-  const title = deepestMatchWithHeaderType?.context.document_title
+  const id = deepestMatchWithHeaderType?.context.document_id ?? ''
+  const title = deepestMatchWithHeaderType?.context.document_title ?? ''
 
   return (
     <html lang="en">
@@ -77,23 +77,25 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body>
-        <Header
-          type={headerType === 'doc' ? 'doc' : 'default'}
-          id={id}
-          title={title}
-        />
-        <Outlet />
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        <IsSavingProvider>
+          <Header
+            type={headerType === 'doc' ? 'doc' : 'default'}
+            id={id}
+            title={title}
+          />
+          <Outlet />
+          <TanStackDevtools
+            config={{
+              position: 'bottom-right',
+            }}
+            plugins={[
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+        </IsSavingProvider>
         <Scripts />
       </body>
     </html>
