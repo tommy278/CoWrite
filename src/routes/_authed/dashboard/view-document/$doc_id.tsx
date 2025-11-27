@@ -22,7 +22,6 @@ export const Route = createFileRoute(
       ...context,
       headerType: 'doc',
       document_id: document?.id,
-      document_title: document?.title,
     }
   },
 })
@@ -33,7 +32,9 @@ function RouteComponent() {
   const { documents } = Route.useRouteContext()
   const document = documents.find((row) => row.id === doc_id)
   const router = useRouter()
-  if (!document?.content || !document?.id) return <p>Document not found</p>
+  if (!document) return <p>Document not found</p>
+
+  console.log('hello world')
 
   const contentForm = useForm({
     defaultValues: {

@@ -44,7 +44,6 @@ export const Route = createRootRoute({
       documents,
       headerType: 'default' as 'default' | 'doc',
       document_id: 'default' as string,
-      document_title: 'default' as string,
     }
   },
   shellComponent: RootDocument,
@@ -69,7 +68,6 @@ function RootDocument() {
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
   const id = deepestMatchWithHeaderType?.context.document_id ?? ''
-  const title = deepestMatchWithHeaderType?.context.document_title ?? ''
 
   return (
     <html lang="en">
@@ -78,11 +76,7 @@ function RootDocument() {
       </head>
       <body>
         <IsSavingProvider>
-          <Header
-            type={headerType === 'doc' ? 'doc' : 'default'}
-            id={id}
-            title={title}
-          />
+          <Header type={headerType === 'doc' ? 'doc' : 'default'} id={id} />
           <Outlet />
           <TanStackDevtools
             config={{

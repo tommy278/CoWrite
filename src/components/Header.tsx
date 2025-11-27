@@ -9,19 +9,23 @@ import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
 import { useEffect } from 'react'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
+import dayjs from 'dayjs'
 
 interface HeaderProps {
   type: 'doc' | 'default'
   id: string
-  title: string
 }
 
-export default function Header({ type, id, title }: HeaderProps) {
+export default function Header({ type, id }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const { user } = ParentRoute.useRouteContext()
+  const { user, documents } = ParentRoute.useRouteContext()
   const [hideSave, setHideSave] = useState(false)
   const { isSaving, handleSave, doneSaving } = useIsSaving()
   const router = useRouter()
+
+  const document = documents.find((document) => document.id === id)
+  const title = document?.title ?? 'Untitled Document'
+  const updated_at = document?.updated_at
 
   const titleForm = useForm({
     defaultValues: {
@@ -101,7 +105,13 @@ export default function Header({ type, id, title }: HeaderProps) {
                       onChange={(e) => field.handleChange(e.target.value)}
                       className="my-4 mb-5 ml-10 rounded-md border px-3 py-2"
                     />
-                    {showSaving ? <p>Saving...</p> : <p>Saved</p>}
+                    {showSaving ? (
+                      <p>Saving...</p>
+                    ) : (
+                      <p>
+                        Saved at {dayjs(updated_at).format('DD/MM/YYYY HH:mm')}
+                      </p>
+                    )}
                   </div>
                 )
               }}
