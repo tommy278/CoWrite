@@ -67,7 +67,7 @@ function RouteComponent() {
           e.stopPropagation()
           contentForm.handleSubmit()
         }}
-        className="flex justify-center"
+        className="flex w-full justify-center"
       >
         <contentForm.Field
           name="content"
@@ -79,12 +79,12 @@ function RouteComponent() {
           }}
           children={(field) => {
             return (
-              <>
+              <div className="w-full">
                 <Tiptap
                   value={field.state.value as TiptapJSON}
                   onChange={(json: TiptapJSON) => field.handleChange(json)}
                 />
-              </>
+              </div>
             )
           }}
         />

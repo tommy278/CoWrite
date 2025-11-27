@@ -19,26 +19,26 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
         {lastOpened ? (
           <button
             onClick={() => handleClick(lastOpened)}
-            className={
-              editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''
-            }
+            className={`mr-1 cursor-pointer ${editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''}`}
           >
             H{lastOpened}
           </button>
         ) : (
           <button className="flex items-center">H</button>
         )}
-        <MdArrowDropDownCircle onClick={() => toggleHeaderOpen(!headerOpen)} />
+        <MdArrowDropDownCircle
+          className="cursor-pointer"
+          size={20}
+          onClick={() => toggleHeaderOpen(!headerOpen)}
+        />
       </div>
       {headerOpen && (
-        <div className="inset fixed z-50">
+        <div className="inset fixed z-50 mt-1 rounded-md bg-gray-400 p-1 shadow-md">
           {levels.map((level, index) => (
             <div key={index}>
               <button
                 onClick={() => handleClick(level)}
-                className={
-                  editor.isActive('heading', { level }) ? 'font-bold' : ''
-                }
+                className={`cursor-pointer ${editor.isActive('heading', { level }) ? 'font-bold' : ''}`}
               >
                 {`Heading ${level}`}
               </button>

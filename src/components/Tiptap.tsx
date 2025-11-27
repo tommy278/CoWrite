@@ -6,6 +6,9 @@ import ButtonCard from './ButtonCard'
 import HeaderDropdown from '@/components/HeaderDropdown'
 import Highlight from '@tiptap/extension-highlight'
 import HighlightDropdown from '@/components/HighlightDropdown'
+import { IoArrowUndoCircleOutline } from 'react-icons/io5'
+import { IoArrowRedoCircleOutline } from 'react-icons/io5'
+import { RxDividerVertical } from 'react-icons/rx'
 
 interface TiptapJSON {
   type: 'doc'
@@ -51,13 +54,17 @@ function MenuBar({ editor }: { editor: Editor }) {
   return (
     <div className="flex items-center justify-between space-x-5">
       <button onClick={() => editor.chain().focus().undo().run()}>
-        <span>Undo</span>
+        <IoArrowUndoCircleOutline size={20} className="cursor-pointer" />
       </button>
       <button onClick={() => editor.chain().focus().undo().run()}>
-        <span>Redo</span>
+        <IoArrowRedoCircleOutline size={20} className="cursor-pointer" />
       </button>
 
+      <RxDividerVertical size={30} />
+
       <HeaderDropdown editor={editor} />
+
+      <HighlightDropdown editor={editor} />
 
       <ButtonCard editor={editor} state="code">
         <button
@@ -107,8 +114,6 @@ function MenuBar({ editor }: { editor: Editor }) {
           <span className="line-through">S</span>
         </button>
       </ButtonCard>
-
-      <HighlightDropdown editor={editor} />
     </div>
   )
 }
@@ -129,7 +134,7 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
     },
     editorProps: {
       attributes: {
-        class: 'focus:outline-none outline-none prose w-[1000px] h-[900px]',
+        class: 'focus:outline-none outline-none prose w-full',
       },
     },
   })
@@ -143,7 +148,7 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
       <MenuBar editor={editor}></MenuBar>
       <EditorContent
         editor={editor}
-        className={`prose-editor rounded-md bg-black/20 p-5 focus:outline-none ${className}`}
+        className={`prose-editor min-h-screen w-[80%] rounded-md bg-black/20 p-5 focus:outline-none ${className}`}
         autoFocus
       />
     </div>
