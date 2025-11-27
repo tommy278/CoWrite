@@ -52,7 +52,7 @@ function MenuBar({ editor }: { editor: Editor }) {
   })
 
   return (
-    <div className="flex items-center justify-between space-x-5">
+    <div className="flex w-[75%] items-center justify-between space-x-5">
       <button onClick={() => editor.chain().focus().undo().run()}>
         <IoArrowUndoCircleOutline size={20} className="cursor-pointer" />
       </button>
