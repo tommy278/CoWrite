@@ -82,7 +82,7 @@ function RouteComponent() {
                 <Tiptap
                   value={field.state.value as TiptapJSON}
                   onChange={(json: TiptapJSON) => field.handleChange(json)}
-                ></Tiptap>
+                />
               </>
             )
           }}
