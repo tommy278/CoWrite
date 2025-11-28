@@ -69,11 +69,12 @@ function MenuBar({ editor }: { editor: Editor }) {
       <button onClick={() => editor.chain().focus().undo().run()}>
         <Undo size={20} className="cursor-pointer" />
       </button>
+
       <button onClick={() => editor.chain().focus().undo().run()}>
         <Redo size={20} className="cursor-pointer" />
       </button>
 
-      <RxDividerVertical size={30} />
+      <RxDividerVertical className="h-10" size={40} />
 
       <HeaderDropdown editor={editor} />
 
@@ -83,64 +84,54 @@ function MenuBar({ editor }: { editor: Editor }) {
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={`cursor-pointer ${editorState.isBulletList ? 'is-active' : ''}`}
       >
-        Bullet
+        <List size={20} />
       </button>
 
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={`cursor-pointer ${editorState.isOrderedList ? 'is-active' : ''}`}
       >
-        Ordered
+        <ListOrdered size={20} />
       </button>
 
-      <ButtonCard editor={editor} state="code">
-        <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          disabled={!editorState.canCode}
-          className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
-        >
-          <Code size={20} />
-        </button>
-      </ButtonCard>
+      <button
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        disabled={!editorState.canCode}
+        className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
+      >
+        <Code size={20} />
+      </button>
 
-      <ButtonCard editor={editor} state="bold">
-        <button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editorState.canBold}
-          className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
-        >
-          <Bold size={20} />
-        </button>
-      </ButtonCard>
+      <button
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        disabled={!editorState.canBold}
+        className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
+      >
+        <Bold size={20} />
+      </button>
 
-      <ButtonCard editor={editor} state="italic">
-        <button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editorState.canItalic}
-          className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
-        >
-          <Italic size={20} />
-        </button>
-      </ButtonCard>
+      <button
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        disabled={!editorState.canItalic}
+        className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
+      >
+        <Italic size={20} />
+      </button>
 
-      <ButtonCard editor={editor} state="underline">
-        <button
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
-        >
-          <Underline size={20} />
-        </button>
-      </ButtonCard>
+      <button
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
+      >
+        <Underline size={20} />
+      </button>
 
-      <ButtonCard editor={editor} state="strike">
-        <button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          disabled={!editorState.canStrike}
-          className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
-        >
-          <Strikethrough size={20} />
-        </button>
-      </ButtonCard>
+      <button
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+        disabled={!editorState.canStrike}
+        className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
+      >
+        <Strikethrough size={20} />
+      </button>
     </div>
   )
 }
@@ -153,6 +144,9 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
       Highlight.configure({ multicolor: true }),
       BulletList.configure({
         HTMLAttributes: { class: 'list-disc ml-2' },
+      }),
+      OrderedList.configure({
+        HTMLAttributes: { class: 'list-decimal ml-2' },
       }),
     ],
     content: value,

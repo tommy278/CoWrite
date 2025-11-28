@@ -25,7 +25,9 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
             {lastOpened}
           </button>
         ) : (
-          <button className="flex items-center">H</button>
+          <button className="flex items-center">
+            <Heading className="cursor-pointer" size={20} />
+          </button>
         )}
         <ChevronDown
           className="cursor-pointer"

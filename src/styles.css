@@ -49,3 +49,20 @@ code {
 .prose-editor h6 {
   @apply text-lg font-semibold;
 }
+
+.prose-editor ul,
+.prose-editor ol {
+  @apply ml-4;
+}
+
+.prose-editor ul {
+  @apply list-disc;
+}
+
+.prose-editor ol {
+  @apply list-decimal;
+}
+
+.prose-editor li {
+  @apply my-1;
+}
