@@ -5,10 +5,22 @@ import ButtonCard from './ButtonCard'
 import HeaderDropdown from '@/components/HeaderDropdown'
 import Highlight from '@tiptap/extension-highlight'
 import HighlightDropdown from '@/components/HighlightDropdown'
-import { IoArrowUndoCircleOutline } from 'react-icons/io5'
-import { IoArrowRedoCircleOutline } from 'react-icons/io5'
 import { RxDividerVertical } from 'react-icons/rx'
 import { extensions } from '@/lib/constants'
+import { BulletList, OrderedList } from '@tiptap/extension-list'
+
+import {
+  Bold,
+  Strikethrough,
+  Italic,
+  List,
+  ListOrdered,
+  Underline,
+  Quote,
+  Undo,
+  Redo,
+  Code,
+} from 'lucide-react'
 
 interface TiptapJSON {
   type: 'doc'
@@ -55,10 +67,10 @@ function MenuBar({ editor }: { editor: Editor }) {
   return (
     <div className="mb-2 flex w-full items-center justify-center space-x-2 border-b py-2">
       <button onClick={() => editor.chain().focus().undo().run()}>
-        <IoArrowUndoCircleOutline size={20} className="cursor-pointer" />
+        <Undo size={20} className="cursor-pointer" />
       </button>
       <button onClick={() => editor.chain().focus().undo().run()}>
-        <IoArrowRedoCircleOutline size={20} className="cursor-pointer" />
+        <Redo size={20} className="cursor-pointer" />
       </button>
 
       <RxDividerVertical size={30} />
@@ -87,7 +99,7 @@ function MenuBar({ editor }: { editor: Editor }) {
           disabled={!editorState.canCode}
           className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
         >
-          C
+          <Code size={20} />
         </button>
       </ButtonCard>
 
@@ -97,7 +109,7 @@ function MenuBar({ editor }: { editor: Editor }) {
           disabled={!editorState.canBold}
           className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
         >
-          <span className="font-bold">B</span>
+          <Bold size={20} />
         </button>
       </ButtonCard>
 
@@ -107,7 +119,7 @@ function MenuBar({ editor }: { editor: Editor }) {
           disabled={!editorState.canItalic}
           className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
         >
-          <span className="italic">I</span>
+          <Italic size={20} />
         </button>
       </ButtonCard>
 
@@ -116,7 +128,7 @@ function MenuBar({ editor }: { editor: Editor }) {
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
         >
-          <span className="underline">U</span>
+          <Underline size={20} />
         </button>
       </ButtonCard>
 
@@ -126,7 +138,7 @@ function MenuBar({ editor }: { editor: Editor }) {
           disabled={!editorState.canStrike}
           className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
         >
-          <span className="line-through">S</span>
+          <Strikethrough size={20} />
         </button>
       </ButtonCard>
     </div>
@@ -139,6 +151,9 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
       ...extensions,
       Heading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
       Highlight.configure({ multicolor: true }),
+      BulletList.configure({
+        HTMLAttributes: { class: 'list-disc ml-2' },
+      }),
     ],
     content: value,
     immediatelyRender: false,

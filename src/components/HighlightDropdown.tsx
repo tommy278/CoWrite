@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
-import { FaHighlighter } from 'react-icons/fa6'
+import { Highlighter } from 'lucide-react'
 import { FaBan } from 'react-icons/fa'
 
 const colors = {
@@ -29,7 +29,7 @@ export default function ({ editor }: { editor: Editor }) {
   return (
     <div className="mb-1 items-center">
       <div className="flex items-center">
-        <FaHighlighter
+        <Highlighter
           size={20}
           className="cursor-pointer"
           onClick={() => toggleHighlightOpen(!highlightOpen)}

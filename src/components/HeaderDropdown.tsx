@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
-import { MdArrowDropDownCircle } from 'react-icons/md'
+import { ChevronDown, Heading } from 'lucide-react'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
 const levels: Level[] = [1, 2, 3, 4, 5, 6]
@@ -21,12 +21,13 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
             onClick={() => handleClick(lastOpened)}
             className={`mr-1 cursor-pointer ${editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''}`}
           >
-            H{lastOpened}
+            <Heading className="cursor-pointer" size={20} />
+            {lastOpened}
           </button>
         ) : (
           <button className="flex items-center">H</button>
         )}
-        <MdArrowDropDownCircle
+        <ChevronDown
           className="cursor-pointer"
           size={20}
           onClick={() => toggleHeaderOpen(!headerOpen)}
