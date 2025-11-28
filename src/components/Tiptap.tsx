@@ -66,72 +66,96 @@ function MenuBar({ editor }: { editor: Editor }) {
 
   return (
     <div className="mb-2 flex w-full items-center justify-center space-x-2 border-b py-2">
-      <button onClick={() => editor.chain().focus().undo().run()}>
-        <Undo size={20} className="cursor-pointer" />
-      </button>
+      <ButtonCard editor={editor} state="undo">
+        <button onClick={() => editor.chain().focus().undo().run()}>
+          <Undo size={20} className="cursor-pointer" />
+        </button>
+      </ButtonCard>
 
-      <button onClick={() => editor.chain().focus().undo().run()}>
-        <Redo size={20} className="cursor-pointer" />
-      </button>
+      <ButtonCard editor={editor} state="redo">
+        <button onClick={() => editor.chain().focus().undo().run()}>
+          <Redo size={20} className="cursor-pointer" />
+        </button>
+      </ButtonCard>
 
       <RxDividerVertical className="h-10" size={40} />
 
-      <HeaderDropdown editor={editor} />
+      <ButtonCard editor={editor} state={null}>
+        <HeaderDropdown editor={editor} />
+      </ButtonCard>
 
-      <HighlightDropdown editor={editor} />
+      <ButtonCard state="code" editor={editor}>
+        <button
+          onClick={() => editor.chain().focus().toggleCode().run()}
+          disabled={!editorState.canCode}
+          className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
+        >
+          <Code size={20} />
+        </button>
+      </ButtonCard>
 
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`cursor-pointer ${editorState.isBulletList ? 'is-active' : ''}`}
-      >
-        <List size={20} />
-      </button>
+      <ButtonCard state="bold" editor={editor}>
+        <button
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          disabled={!editorState.canBold}
+          className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
+        >
+          <Bold size={20} />
+        </button>
+      </ButtonCard>
 
-      <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`cursor-pointer ${editorState.isOrderedList ? 'is-active' : ''}`}
-      >
-        <ListOrdered size={20} />
-      </button>
+      <ButtonCard editor={editor} state="italic">
+        <button
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          disabled={!editorState.canItalic}
+          className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
+        >
+          <Italic size={20} />
+        </button>
+      </ButtonCard>
 
-      <button
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        disabled={!editorState.canCode}
-        className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
-      >
-        <Code size={20} />
-      </button>
+      <ButtonCard editor={editor} state="underline">
+        <button
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
+        >
+          <Underline size={20} />
+        </button>
+      </ButtonCard>
 
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        disabled={!editorState.canBold}
-        className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
-      >
-        <Bold size={20} />
-      </button>
+      <ButtonCard state="strike" editor={editor}>
+        <button
+          onClick={() => editor.chain().focus().toggleStrike().run()}
+          disabled={!editorState.canStrike}
+          className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
+        >
+          <Strikethrough size={20} />
+        </button>
+      </ButtonCard>
 
-      <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        disabled={!editorState.canItalic}
-        className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
-      >
-        <Italic size={20} />
-      </button>
+      <RxDividerVertical className="h-10" size={40} />
 
-      <button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
-      >
-        <Underline size={20} />
-      </button>
+      <ButtonCard editor={editor} state={null}>
+        <HighlightDropdown editor={editor} />
+      </ButtonCard>
 
-      <button
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        disabled={!editorState.canStrike}
-        className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
-      >
-        <Strikethrough size={20} />
-      </button>
+      <ButtonCard editor={editor} state="bulletList">
+        <button
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={`cursor-pointer ${editorState.isBulletList ? 'is-active' : ''}`}
+        >
+          <List size={20} />
+        </button>
+      </ButtonCard>
+
+      <ButtonCard editor={editor} state="orderedList">
+        <button
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={`cursor-pointer ${editorState.isOrderedList ? 'is-active' : ''}`}
+        >
+          <ListOrdered size={20} />
+        </button>
+      </ButtonCard>
     </div>
   )
 }
@@ -170,7 +194,7 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
       <MenuBar editor={editor} />
       <EditorContent
         editor={editor}
-        className={`prose-editor min-h-screen w-[80%] rounded-md p-5 focus:outline-none ${className}`}
+        className={`prose-editor min-h-screen w-[60%] rounded-md p-5 focus:outline-none ${className}`}
         autoFocus
       />
     </div>

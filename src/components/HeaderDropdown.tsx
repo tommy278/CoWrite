@@ -14,15 +14,17 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
     toggleHeaderOpen(false)
   }
   return (
-    <div>
+    <>
       <div className="flex items-center">
         {lastOpened ? (
           <button
             onClick={() => handleClick(lastOpened)}
             className={`mr-1 cursor-pointer ${editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''}`}
           >
-            <Heading className="cursor-pointer" size={20} />
-            {lastOpened}
+            <div className="flex">
+              <Heading className="cursor-pointer" size={20} />
+              {lastOpened}
+            </div>
           </button>
         ) : (
           <button className="flex items-center">
@@ -36,7 +38,7 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
         />
       </div>
       {headerOpen && (
-        <div className="inset fixed z-50 mt-1 rounded-md bg-gray-400 p-1 shadow-md">
+        <div className="inset fixed z-50 mt-45 rounded-md bg-gray-400 p-1 shadow-md">
           {levels.map((level, index) => (
             <div key={index}>
               <button
@@ -49,6 +51,6 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
           ))}
         </div>
       )}
-    </div>
+    </>
   )
 }

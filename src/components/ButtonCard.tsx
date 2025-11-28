@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Editor } from '@tiptap/react'
 
 interface ButtonCardProps {
-  state: string
+  state: string | null
   children: ReactNode
   editor: Editor | null
 }
@@ -13,10 +13,18 @@ export default function ButtonCard({
   children,
 }: ButtonCardProps) {
   return (
-    <div
-      className={`rounded-md ${editor?.isActive(state) ? 'bg-gray-200/100' : ''}`}
-    >
-      {children}
-    </div>
+    <>
+      {state ? (
+        <div
+          className={`inline-flex h-fit w-fit items-center rounded-md p-2 hover:bg-gray-300 ${editor?.isActive(state) ? 'bg-gray-200/100' : ''}`}
+        >
+          {children}
+        </div>
+      ) : (
+        <div className="inline-flex h-fit w-fit items-center rounded-md p-2 hover:bg-gray-300">
+          {children}
+        </div>
+      )}
+    </>
   )
 }
