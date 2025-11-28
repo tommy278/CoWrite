@@ -58,6 +58,14 @@ export const Route = createRootRoute({
       </div>
     )
   },
+  errorComponent: ({ error }) => {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center gap-y-10">
+        <h1>Something went wrong</h1>
+        {error instanceof Error && <p>{error.message}</p>}
+      </div>
+    )
+  },
 })
 
 function RootDocument() {

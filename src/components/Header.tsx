@@ -108,7 +108,7 @@ export default function Header({ type, id }: HeaderProps) {
                     {showSaving ? (
                       <p>Saving...</p>
                     ) : (
-                      <p>
+                      <p className="hidden md:block">
                         Saved at {dayjs(updated_at).format('DD/MM/YYYY HH:mm')}
                       </p>
                     )}

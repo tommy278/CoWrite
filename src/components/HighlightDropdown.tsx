@@ -9,6 +9,14 @@ const colors = {
   blue: '#74c0fc',
   purple: '#b197fc',
   red: '#ffa8a8',
+  yellow: '#ffec99',
+  teal: '#63e6be',
+  pink: '#faa2c1',
+  indigo: '#91a7ff',
+  lime: '#c0eb75',
+  cyan: '#99e9f2',
+  magenta: '#da77f2',
+  brown: '#eebfaa',
 }
 
 export default function ({ editor }: { editor: Editor }) {
@@ -29,7 +37,7 @@ export default function ({ editor }: { editor: Editor }) {
       </div>
 
       {highlightOpen && (
-        <div className="inset fixed z-50 mt-2 flex items-center space-x-2 rounded-md bg-gray-400 px-2 shadow-md">
+        <div className="inset fixed z-50 mt-2 flex flex-row flex-wrap items-center space-x-2 rounded-md bg-gray-400 p-2 shadow-md">
           {Object.entries(colors).map(([key, color]) => (
             <button
               key={key}

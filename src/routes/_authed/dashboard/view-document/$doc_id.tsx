@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
@@ -60,7 +60,6 @@ function RouteComponent() {
 
   return (
     <>
-      <Link to="/dashboard">back</Link>
       <form
         onSubmit={(e) => {
           e.preventDefault()

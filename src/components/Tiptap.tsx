@@ -1,7 +1,6 @@
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import type { Editor } from '@tiptap/react'
 import Heading from '@tiptap/extension-heading'
-import StarterKit from '@tiptap/starter-kit'
 import ButtonCard from './ButtonCard'
 import HeaderDropdown from '@/components/HeaderDropdown'
 import Highlight from '@tiptap/extension-highlight'
@@ -9,6 +8,7 @@ import HighlightDropdown from '@/components/HighlightDropdown'
 import { IoArrowUndoCircleOutline } from 'react-icons/io5'
 import { IoArrowRedoCircleOutline } from 'react-icons/io5'
 import { RxDividerVertical } from 'react-icons/rx'
+import { extensions } from '@/lib/constants'
 
 interface TiptapJSON {
   type: 'doc'
@@ -20,6 +20,7 @@ interface TiptapProps {
   value: TiptapJSON
   className?: string
 }
+
 function MenuBar({ editor }: { editor: Editor }) {
   const editorState = useEditorState({
     editor,
@@ -52,7 +53,7 @@ function MenuBar({ editor }: { editor: Editor }) {
   })
 
   return (
-    <div className="flex w-[75%] items-center justify-between space-x-5">
+    <div className="mb-2 flex w-full items-center justify-center space-x-2 border-b py-2">
       <button onClick={() => editor.chain().focus().undo().run()}>
         <IoArrowUndoCircleOutline size={20} className="cursor-pointer" />
       </button>
@@ -66,11 +67,25 @@ function MenuBar({ editor }: { editor: Editor }) {
 
       <HighlightDropdown editor={editor} />
 
+      <button
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={`cursor-pointer ${editorState.isBulletList ? 'is-active' : ''}`}
+      >
+        Bullet
+      </button>
+
+      <button
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={`cursor-pointer ${editorState.isOrderedList ? 'is-active' : ''}`}
+      >
+        Ordered
+      </button>
+
       <ButtonCard editor={editor} state="code">
         <button
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editorState.canCode}
-          className={editorState.isCode ? 'is-active' : ''}
+          className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
         >
           C
         </button>
@@ -80,7 +95,7 @@ function MenuBar({ editor }: { editor: Editor }) {
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editorState.canBold}
-          className={editorState.isBold ? 'is-active' : ''}
+          className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
         >
           <span className="font-bold">B</span>
         </button>
@@ -90,7 +105,7 @@ function MenuBar({ editor }: { editor: Editor }) {
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
           disabled={!editorState.canItalic}
-          className={editorState.isItalic ? 'is-active' : ''}
+          className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
         >
           <span className="italic">I</span>
         </button>
@@ -99,7 +114,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <ButtonCard editor={editor} state="underline">
         <button
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={editor.isActive('underline') ? 'underline' : ''}
+          className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
         >
           <span className="underline">U</span>
         </button>
@@ -109,7 +124,7 @@ function MenuBar({ editor }: { editor: Editor }) {
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editorState.canStrike}
-          className={editorState.isStrike ? 'is-active' : ''}
+          className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
         >
           <span className="line-through">S</span>
         </button>
@@ -121,9 +136,7 @@ function MenuBar({ editor }: { editor: Editor }) {
 const Tiptap = ({ value, className, onChange }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        heading: false,
-      }),
+      ...extensions,
       Heading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
       Highlight.configure({ multicolor: true }),
     ],
@@ -145,10 +158,10 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <MenuBar editor={editor}></MenuBar>
+      <MenuBar editor={editor} />
       <EditorContent
         editor={editor}
-        className={`prose-editor min-h-screen w-[80%] rounded-md bg-black/20 p-5 focus:outline-none ${className}`}
+        className={`prose-editor min-h-screen w-[80%] rounded-md p-5 focus:outline-none ${className}`}
         autoFocus
       />
     </div>
