@@ -30,41 +30,62 @@ code {
   @apply h-3 w-3 md:h-5 md:w-5;
 }
 
+#container h1,
 .prose-editor h1 {
-  @apply text-4xl font-bold;
+  font-size: 2em;
 }
 
+#container h2,
 .prose-editor h2 {
-  @apply text-3xl font-bold;
+  font-size: 1.8em;
 }
 
+#container h3,
 .prose-editor h3 {
-  @apply text-3xl font-semibold;
+  font-size: 1.6em;
 }
 
+#container h4,
 .prose-editor h4 {
-  @apply text-2xl font-semibold;
+  font-size: 1.4em;
 }
 
+#container h5,
 .prose-editor h5 {
-  @apply text-xl font-semibold;
+  font-size: 1.2em;
 }
 
+#container h6,
 .prose-editor h6 {
-  @apply text-lg font-semibold;
+  font-size: 1em;
 }
 
-#container ul {
+#container p,
+.prose-editor p {
+  font-size: 1em;
+}
+
+#container ul,
+.prose-editor ul {
   @apply list-disc pl-4;
 }
-#container ol {
+#container ol,
+.prose-editor ol {
   @apply list-decimal pl-4;
 }
 
 @layer base {
-  #container ul li::marker,
+  #container ol li::marker,
   #container ul li::marker {
     font-size: 0.5em;
+    color: currentColor;
+  }
+}
+
+@layer base {
+  .prose-editor ul li::marker,
+  .prose-editor ol li::marker {
+    font-size: 1em;
     color: currentColor;
   }
 }

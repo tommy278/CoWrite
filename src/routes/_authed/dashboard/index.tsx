@@ -17,6 +17,11 @@ function RouteComponent() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
+  // Sorting in descending order
+  documents.sort((a, b) => {
+    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+  })
+
   const form = useForm({
     defaultValues: { title: '' },
     onSubmit: async ({ value }) => {
@@ -80,23 +85,19 @@ function RouteComponent() {
           className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"
           onClick={() => setIsOpen(false)}
         >
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-[80%] md:w-[50%]"
+          >
             <form
               onSubmit={(e) => {
                 e.preventDefault()
                 form.handleSubmit()
               }}
-              className="form-content"
+              className="w-full space-y-5 rounded bg-white p-6 shadow-lg"
             >
               <form.Field
                 name="title"
-                validators={{
-                  onChange: ({ value }) => {
-                    if (value.length < 3) return 'Title not long enough'
-                    if (value.length > 100) return 'Title too long'
-                    return undefined
-                  },
-                }}
                 children={(field) => (
                   <>
                     <input
