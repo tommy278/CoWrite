@@ -3,7 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 import { useState } from 'react'
 import { generateHTML } from '@tiptap/html'
-import { extensions, extraExtensions } from '@/lib/constants'
+import { extensions, extraExtensions } from '@/lib/Constants/constants'
 import { CirclePlus } from 'lucide-react'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
@@ -56,12 +56,16 @@ function RouteComponent() {
         )}
 
         {documents.map((doc) => {
-          if (!doc.content) return <p key={doc.id}>No Content found</p>
+          if (!doc.content)
+            return (
+              <div key={doc.id}>
+                <p>No Content found</p>
+              </div>
+            )
           const htmlContent = generateHTML(doc.content, allExtensions)
           return (
-            <div className="flex justify-center">
+            <div className="flex justify-center" key={doc.id}>
               <Link
-                key={doc.id}
                 to="/dashboard/view-document/$doc_id"
                 params={{ doc_id: doc.id }}
               >

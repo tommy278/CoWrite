@@ -17,7 +17,7 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
 
   const ref = clickDetector(() => toggleHeaderOpen(false))
   return (
-    <span ref={ref} className="flex items-center">
+    <div ref={ref} className="flex items-center">
       {lastOpened ? (
         <button
           onClick={() => handleClick(lastOpened)}
@@ -51,6 +51,6 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
           ))}
         </div>
       )}
-    </span>
+    </div>
   )
 }

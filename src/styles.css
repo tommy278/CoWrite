@@ -30,54 +30,47 @@ code {
   @apply h-3 w-3 md:h-5 md:w-5;
 }
 
-#container h1,
 .prose-editor h1 {
   font-size: 2em;
 }
 
-#container h2,
 .prose-editor h2 {
   font-size: 1.8em;
 }
 
-#container h3,
 .prose-editor h3 {
   font-size: 1.6em;
 }
 
-#container h4,
 .prose-editor h4 {
   font-size: 1.4em;
 }
 
-#container h5,
 .prose-editor h5 {
   font-size: 1.2em;
 }
 
-#container h6,
 .prose-editor h6 {
   font-size: 1em;
 }
 
-#container p,
 .prose-editor p {
   font-size: 1em;
 }
 
 #container ul,
 .prose-editor ul {
-  @apply list-disc pl-4;
+  @apply list-disc pl-2 md:pl-4;
 }
 #container ol,
 .prose-editor ol {
-  @apply list-decimal pl-4;
+  @apply list-decimal pl-2 md:pl-4;
 }
 
 @layer base {
   #container ol li::marker,
   #container ul li::marker {
-    font-size: 0.5em;
+    @apply text-[clamp(3px,_1vw,_5px)];
     color: currentColor;
   }
 }
@@ -99,7 +92,7 @@ code {
 }
 
 .view-height {
-  @apply h-[clamp(150px,_20vw,_300px)] w-[clamp(70px,_20vw,_250px)];
+  @apply h-[clamp(150px,_20vw,_300px)] w-[clamp(100px,_20vw,_250px)];
 }
 
 #container h1,

@@ -15,7 +15,7 @@ export function ListDropdown({ editor, editorState }: ListDropdownProps) {
   const ref = clickDetector(() => toggleListOpen(false))
 
   return (
-    <span ref={ref} className="relative">
+    <div ref={ref} className="relative">
       <EllipsisVertical
         className="btn-format cursor-pointer"
         onClick={() => toggleListOpen(!listOpen)}
@@ -41,6 +41,6 @@ export function ListDropdown({ editor, editorState }: ListDropdownProps) {
           </ButtonCard>
         </div>
       )}
-    </span>
+    </div>
   )
 }
