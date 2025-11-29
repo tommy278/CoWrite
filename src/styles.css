@@ -30,37 +30,30 @@ code {
   @apply h-3 w-3 md:h-5 md:w-5;
 }
 
-#container h1,
 .prose-editor h1 {
   font-size: 2em;
 }
 
-#container h2,
 .prose-editor h2 {
   font-size: 1.8em;
 }
 
-#container h3,
 .prose-editor h3 {
   font-size: 1.6em;
 }
 
-#container h4,
 .prose-editor h4 {
   font-size: 1.4em;
 }
 
-#container h5,
 .prose-editor h5 {
   font-size: 1.2em;
 }
 
-#container h6,
 .prose-editor h6 {
   font-size: 1em;
 }
 
-#container p,
 .prose-editor p {
   font-size: 1em;
 }
@@ -85,7 +78,7 @@ code {
 @layer base {
   .prose-editor ul li::marker,
   .prose-editor ol li::marker {
-    font-size: 1em;
+    font-size: 0.5em;
     color: currentColor;
   }
 }

@@ -11,6 +11,7 @@ import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import { ArrowLeft } from 'lucide-react'
 import dayjs from 'dayjs'
+import SearchBar from '../SearchBar'
 
 interface HeaderProps {
   type: 'doc' | 'default'
@@ -69,8 +70,9 @@ export default function Header({ type, id }: HeaderProps) {
     <>
       <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 pr-4 text-white shadow-lg">
         {type === 'default' && (
-          <h1 className="my-5 ml-3 text-2xl font-semibold">
-            <Link to={user ? '/dashboard' : '/'}>My App</Link>
+          <h1 className="my-5 ml-3 flex items-center gap-4 text-2xl font-semibold">
+            <Link to={user ? '/dashboard' : '/'}>coWrite</Link>
+            {user && <SearchBar documents={documents} />}
           </h1>
         )}
         {type === 'doc' && (

@@ -1,7 +1,7 @@
 import { EditorContent, useEditor } from '@tiptap/react'
 import Heading from '@tiptap/extension-heading'
 import Highlight from '@tiptap/extension-highlight'
-import { extensions } from '@/lib/constants'
+import { extensions } from '@/lib/Constants/constants'
 import { BulletList, OrderedList } from '@tiptap/extension-list'
 import MenuBar from '@/components/Headers/Menubar'
 import type { JSONContent } from '@tiptap/core'
