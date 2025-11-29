@@ -4,13 +4,12 @@ import ButtonCard from '../ButtonCard'
 import HeaderDropdown from '@/components/Dropdowns/HeaderDropdown'
 import HighlightDropdown from '@/components/Dropdowns/HighlightDropdown'
 import { RxDividerVertical } from 'react-icons/rx'
+import { ListDropdown } from '@/components/Dropdowns/ListDropdown'
 
 import {
   Bold,
   Strikethrough,
   Italic,
-  List,
-  ListOrdered,
   Underline,
   Quote,
   Undo,
@@ -63,7 +62,7 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         </button>
       </ButtonCard>
 
-      <RxDividerVertical className="h-10" size={40} />
+      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
       <ButtonCard editor={editor} state={null}>
         <HeaderDropdown editor={editor} />
@@ -118,29 +117,15 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         </button>
       </ButtonCard>
 
-      <RxDividerVertical className="h-10" size={40} />
+      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
       <ButtonCard editor={editor} state={null}>
         <HighlightDropdown editor={editor} />
       </ButtonCard>
 
-      <ButtonCard editor={editor} state="bulletList">
-        <button
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`cursor-pointer ${editorState.isBulletList ? 'is-active' : ''}`}
-        >
-          <List className="btn-format" />
-        </button>
-      </ButtonCard>
-
       <span className="mr-5">
-        <ButtonCard editor={editor} state="orderedList">
-          <button
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`cursor-pointer ${editorState.isOrderedList ? 'is-active' : ''}`}
-          >
-            <ListOrdered className="btn-format" />
-          </button>
+        <ButtonCard editor={editor} state={null}>
+          <ListDropdown editor={editor} editorState={editorState} />
         </ButtonCard>
       </span>
     </div>

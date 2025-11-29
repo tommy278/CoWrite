@@ -18,12 +18,12 @@ export default function ButtonCard({
     <>
       {state ? (
         <div
-          className={`${className} inline-flex h-fit w-fit items-center rounded-md p-2 hover:bg-gray-300 ${editor?.isActive(state) ? 'bg-gray-200/100' : ''}`}
+          className={`${className} inline-flex h-fit w-fit items-center rounded-md p-2 hover:bg-blue-400 ${editor?.isActive(state) ? 'bg-blue-300' : ''}`}
         >
           {children}
         </div>
       ) : (
-        <div className="inline-flex h-fit w-fit items-center rounded-md p-2 hover:bg-gray-300">
+        <div className="inline-flex h-fit w-fit items-center rounded-md p-2 hover:bg-blue-400">
           {children}
         </div>
       )}

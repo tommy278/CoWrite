@@ -6,11 +6,7 @@ import { useRouter } from '@tanstack/react-router'
 import Tiptap from '@/components/Tiptap'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
-
-interface TiptapJSON {
-  type: 'doc'
-  content: Array<any>
-}
+import type { JSONContent } from '@tiptap/core'
 
 export const Route = createFileRoute(
   '/_authed/dashboard/view-document/$doc_id'
@@ -34,8 +30,6 @@ function RouteComponent() {
   const router = useRouter()
   if (!document) return <p>Document not found</p>
 
-  console.log('hello world')
-
   const contentForm = useForm({
     defaultValues: {
       id: document.id,
@@ -44,7 +38,7 @@ function RouteComponent() {
   })
 
   const debouncedContentUpdate = useDebouncedCallback(
-    async (id: string, content: TiptapJSON) => {
+    async (id: string, content: JSONContent) => {
       try {
         await updateContentFormFn({ data: { id, content } })
         router.invalidate({ sync: true })
@@ -80,8 +74,8 @@ function RouteComponent() {
             return (
               <div className="w-full">
                 <Tiptap
-                  value={field.state.value as TiptapJSON}
-                  onChange={(json: TiptapJSON) => field.handleChange(json)}
+                  value={field.state.value as JSONContent}
+                  onChange={(json: JSONContent) => field.handleChange(json)}
                 />
               </div>
             )
