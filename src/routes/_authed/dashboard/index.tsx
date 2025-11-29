@@ -4,6 +4,7 @@ import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 import { useState } from 'react'
 import { generateHTML } from '@tiptap/html'
 import { extensions, extraExtensions } from '@/lib/constants'
+import { CirclePlus } from 'lucide-react'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
@@ -35,32 +36,42 @@ function RouteComponent() {
   })
   return (
     <>
-      <div className="grid grid-cols-3 gap-4 p-4">
+      <div className="mt-5 grid w-full grid-cols-3 space-y-4 md:grid-cols-4">
         {!isOpen && (
-          <div className="rounded-md bg-cyan-200 p-10">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="h-full w-full cursor-pointer"
-            >
-              Expand
-            </button>
+          <div className="flex justify-center">
+            <div className="view-height rounded-md bg-cyan-300">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex h-full w-full cursor-pointer items-center justify-center"
+              >
+                <CirclePlus id="icon" />
+              </button>
+            </div>
           </div>
         )}
 
         {documents.map((doc) => {
-          if (!doc.content) return <p>No Content found</p>
+          if (!doc.content) return <p key={doc.id}>No Content found</p>
           const htmlContent = generateHTML(doc.content, allExtensions)
           return (
-            <Link
-              key={doc.id}
-              to="/dashboard/view-document/$doc_id"
-              params={{ doc_id: doc.id }}
-            >
-              <div className="rounded-md bg-blue-500 p-10">
-                <h1 className="font-semibold">{doc.title}</h1>
-                <p dangerouslySetInnerHTML={{ __html: htmlContent }}></p>
-              </div>
-            </Link>
+            <div className="flex justify-center">
+              <Link
+                key={doc.id}
+                to="/dashboard/view-document/$doc_id"
+                params={{ doc_id: doc.id }}
+              >
+                <div className="view-height overflow-hidden rounded-md bg-blue-500 p-1">
+                  <h1 id="doc-title" className="font-semibold">
+                    {doc.title}
+                  </h1>
+                  <div
+                    id="container"
+                    className="overflow-hidden text-ellipsis"
+                    dangerouslySetInnerHTML={{ __html: htmlContent }}
+                  />
+                </div>
+              </Link>
+            </div>
           )
         })}
       </div>
