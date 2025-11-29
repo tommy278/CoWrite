@@ -70,7 +70,7 @@ export default function Header({ type, id }: HeaderProps) {
     <>
       <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 pr-4 text-white shadow-lg">
         {type === 'default' && (
-          <h1 className="my-5 ml-10 flex w-[85%] items-center justify-between gap-4 text-2xl font-semibold">
+          <h1 className="my-5 ml-5 flex w-[80%] items-center justify-between gap-4 text-2xl font-semibold">
             <Link to={user ? '/dashboard' : '/'}>coWrite</Link>
             {user && <SearchBar documents={documents} className="text-base" />}
           </h1>

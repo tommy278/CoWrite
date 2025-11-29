@@ -30,9 +30,9 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
         toggleSearchIsOpen(false)
         return
       }
-      const filtered = documents.filter((doc) =>
-        doc.title.toLowerCase().includes(normalized)
-      )
+      const filtered = documents
+        .filter((doc) => doc.title.toLowerCase().includes(normalized))
+        .slice(0, 20)
       setSearchResults(filtered)
       toggleSearchIsOpen(true)
     },
@@ -71,13 +71,13 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
                 className="h-10 w-full rounded-md border px-10 transition-all duration-150 focus:ring-2 focus:outline-none"
               />
               {searchIsOpen && searchResults && searchResults.length > 0 && (
-                <div className="absolute top-full left-0 z-50 mt-1 w-full">
+                <div className="absolute top-full left-0 z-50 mt-3 w-full rounded-md bg-gray-200 dark:bg-gray-800">
                   {searchResults.map((entry) => (
                     <Link
                       key={entry.id}
                       to="/dashboard/view-document/$doc_id"
                       params={{ doc_id: entry.id }}
-                      className="block px-3 py-2"
+                      className="block rounded-md px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700"
                     >
                       {entry.title}
                     </Link>
