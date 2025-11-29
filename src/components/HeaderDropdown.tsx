@@ -1,6 +1,7 @@
 import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
 import { ChevronDown, Heading } from 'lucide-react'
+import { clickDetector } from '@/context/clickDetector'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
 const levels: Level[] = [1, 2, 3, 4, 5, 6]
@@ -13,30 +14,30 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
     setLastOpened(level)
     toggleHeaderOpen(false)
   }
+
+  const ref = clickDetector(() => toggleHeaderOpen(false))
   return (
-    <>
-      <div className="flex items-center">
-        {lastOpened ? (
-          <button
-            onClick={() => handleClick(lastOpened)}
-            className={`mr-1 cursor-pointer ${editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''}`}
-          >
-            <div className="flex">
-              <Heading className="cursor-pointer" size={20} />
-              {lastOpened}
-            </div>
-          </button>
-        ) : (
-          <button className="flex items-center">
+    <span ref={ref} className="flex items-center">
+      {lastOpened ? (
+        <button
+          onClick={() => handleClick(lastOpened)}
+          className={`mr-1 cursor-pointer ${editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''}`}
+        >
+          <div className="flex">
             <Heading className="cursor-pointer" size={20} />
-          </button>
-        )}
-        <ChevronDown
-          className="cursor-pointer"
-          size={20}
-          onClick={() => toggleHeaderOpen(!headerOpen)}
-        />
-      </div>
+            {lastOpened}
+          </div>
+        </button>
+      ) : (
+        <button className="flex items-center">
+          <Heading className="cursor-pointer" size={20} />
+        </button>
+      )}
+      <ChevronDown
+        className="cursor-pointer"
+        size={20}
+        onClick={() => toggleHeaderOpen(!headerOpen)}
+      />
       {headerOpen && (
         <div className="inset fixed z-50 mt-45 rounded-md bg-gray-400 p-1 shadow-md">
           {levels.map((level, index) => (
@@ -51,6 +52,6 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
           ))}
         </div>
       )}
-    </>
+    </span>
   )
 }

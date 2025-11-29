@@ -2,6 +2,7 @@ import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
 import { Highlighter } from 'lucide-react'
 import { FaBan } from 'react-icons/fa'
+import { clickDetector } from '@/context/clickDetector'
 
 const colors = {
   orange: '#ffc078',
@@ -26,44 +27,49 @@ export default function ({ editor }: { editor: Editor }) {
     editor.chain().focus().toggleHighlight({ color }).run()
     toggleHighlightOpen(false)
   }
+
+  const ref = clickDetector(() => toggleHighlightOpen(false))
+
   return (
-    <div className="mb-1 items-center">
-      <div className="flex items-center">
-        <Highlighter
-          size={20}
-          className="cursor-pointer"
-          onClick={() => toggleHighlightOpen(!highlightOpen)}
-        />
-      </div>
-
-      {highlightOpen && (
-        <div className="inset fixed z-50 mt-2 items-center space-x-2 rounded-md bg-gray-400 p-2 shadow-md">
-          <div className="grid grid-cols-4 gap-2">
-            {Object.entries(colors).map(([key, color]) => (
-              <button
-                key={key}
-                onClick={() => handleClick(color)}
-                className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-full ${
-                  editor.isActive('highlight', { color }) ? 'is-active' : ''
-                }`}
-              >
-                <div
-                  className="h-5 w-5 rounded-full"
-                  style={{ backgroundColor: color }}
-                ></div>
-              </button>
-            ))}
-
-            <button
-              onClick={() => editor.chain().focus().unsetHighlight().run()}
-              disabled={!editor.isActive('highlight')}
-              className="flex h-7 w-7 cursor-pointer items-center justify-center"
-            >
-              <FaBan size={20} />
-            </button>
-          </div>
+    <span ref={ref} className="mb-1 items-center">
+      <div className="mb-1 items-center">
+        <div className="flex items-center">
+          <Highlighter
+            size={20}
+            className="cursor-pointer"
+            onClick={() => toggleHighlightOpen(!highlightOpen)}
+          />
         </div>
-      )}
-    </div>
+
+        {highlightOpen && (
+          <div className="inset fixed z-50 mt-2 items-center space-x-2 rounded-md bg-gray-400 p-2 shadow-md">
+            <div className="grid grid-cols-4 gap-2">
+              {Object.entries(colors).map(([key, color]) => (
+                <button
+                  key={key}
+                  onClick={() => handleClick(color)}
+                  className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-full ${
+                    editor.isActive('highlight', { color }) ? 'is-active' : ''
+                  }`}
+                >
+                  <div
+                    className="h-5 w-5 rounded-full"
+                    style={{ backgroundColor: color }}
+                  ></div>
+                </button>
+              ))}
+
+              <button
+                onClick={() => editor.chain().focus().unsetHighlight().run()}
+                disabled={!editor.isActive('highlight')}
+                className="flex h-7 w-7 cursor-pointer items-center justify-center"
+              >
+                <FaBan size={20} />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </span>
   )
 }
