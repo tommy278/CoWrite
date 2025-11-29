@@ -60,17 +60,17 @@ code {
 
 #container ul,
 .prose-editor ul {
-  @apply list-disc pl-4;
+  @apply list-disc pl-2 md:pl-4;
 }
 #container ol,
 .prose-editor ol {
-  @apply list-decimal pl-4;
+  @apply list-decimal pl-2 md:pl-4;
 }
 
 @layer base {
   #container ol li::marker,
   #container ul li::marker {
-    font-size: 0.5em;
+    @apply text-[clamp(3px,_1vw,_5px)];
     color: currentColor;
   }
 }
@@ -78,7 +78,7 @@ code {
 @layer base {
   .prose-editor ul li::marker,
   .prose-editor ol li::marker {
-    font-size: 0.5em;
+    font-size: 1em;
     color: currentColor;
   }
 }
@@ -92,7 +92,7 @@ code {
 }
 
 .view-height {
-  @apply h-[clamp(150px,_20vw,_300px)] w-[clamp(70px,_20vw,_250px)];
+  @apply h-[clamp(150px,_20vw,_300px)] w-[clamp(100px,_20vw,_250px)];
 }
 
 #container h1,

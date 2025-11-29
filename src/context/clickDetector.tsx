@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 export function clickDetector(onClose: () => void) {
-  const ref = useRef<HTMLElement | null>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {

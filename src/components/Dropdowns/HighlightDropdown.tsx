@@ -31,7 +31,7 @@ export default function ({ editor }: { editor: Editor }) {
   const ref = clickDetector(() => toggleHighlightOpen(false))
 
   return (
-    <span ref={ref} className="relative inline-block">
+    <div ref={ref} className="relative inline-block">
       <div className="flex items-center">
         <Highlighter
           className="btn-format cursor-pointer"
@@ -67,6 +67,6 @@ export default function ({ editor }: { editor: Editor }) {
           </div>
         </div>
       )}
-    </span>
+    </div>
   )
 }
