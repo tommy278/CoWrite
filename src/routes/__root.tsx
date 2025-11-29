@@ -9,7 +9,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { getUserFn } from '@/lib/serverFunctions/getUserFn'
-import Header from '../components/Header'
+import Header from '../components/Headers/Header'
 import appCss from '../styles.css?url'
 import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
 import { IsSavingProvider } from '@/context/isLoading'
@@ -44,7 +44,6 @@ export const Route = createRootRoute({
       documents,
       headerType: 'default' as 'default' | 'doc',
       document_id: 'default' as string,
-      document_title: 'default' as string,
     }
   },
   shellComponent: RootDocument,
@@ -59,6 +58,14 @@ export const Route = createRootRoute({
       </div>
     )
   },
+  errorComponent: ({ error }) => {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center gap-y-10">
+        <h1>Something went wrong</h1>
+        {error instanceof Error && <p>{error.message}</p>}
+      </div>
+    )
+  },
 })
 
 function RootDocument() {
@@ -69,7 +76,6 @@ function RootDocument() {
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
   const id = deepestMatchWithHeaderType?.context.document_id ?? ''
-  const title = deepestMatchWithHeaderType?.context.document_title ?? ''
 
   return (
     <html lang="en">
@@ -78,11 +84,7 @@ function RootDocument() {
       </head>
       <body>
         <IsSavingProvider>
-          <Header
-            type={headerType === 'doc' ? 'doc' : 'default'}
-            id={id}
-            title={title}
-          />
+          <Header type={headerType === 'doc' ? 'doc' : 'default'} id={id} />
           <Outlet />
           <TanStackDevtools
             config={{

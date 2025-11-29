@@ -3,11 +3,13 @@ import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 import { useState } from 'react'
 import { generateHTML } from '@tiptap/html'
-import { extensions } from '@/lib/constants'
+import { extensions, extraExtensions } from '@/lib/constants'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
 })
+
+const allExtensions = [...extensions, ...extraExtensions]
 
 function RouteComponent() {
   const { documents } = Route.useRouteContext()
@@ -47,7 +49,7 @@ function RouteComponent() {
 
         {documents.map((doc) => {
           if (!doc.content) return <p>No Content found</p>
-          const htmlContent = generateHTML(doc.content, extensions)
+          const htmlContent = generateHTML(doc.content, allExtensions)
           return (
             <Link
               key={doc.id}

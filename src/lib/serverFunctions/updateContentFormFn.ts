@@ -1,20 +1,16 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getSupabaseServerClient } from '@/lib/supabase/clientSupabase'
-
-interface TiptapJSON {
-  type: 'doc'
-  content: Array<any>
-}
+import { JSONContent } from '@tiptap/react'
 
 export const updateContentFormFn = createServerFn({ method: 'POST' })
-  .inputValidator((data: { id: string; content: TiptapJSON }) => data)
+  .inputValidator((data: { id: string; content: JSONContent }) => data)
   .handler(async ({ data }) => {
     const { id, content } = data
     const supabase = getSupabaseServerClient()
 
     const { data: updatedData, error } = await supabase
       .from('documents')
-      .update([{ content }])
+      .update({ content, updated_at: new Date() })
       .eq('id', id)
       .select()
 

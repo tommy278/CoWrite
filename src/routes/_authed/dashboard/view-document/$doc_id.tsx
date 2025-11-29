@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
@@ -6,11 +6,7 @@ import { useRouter } from '@tanstack/react-router'
 import Tiptap from '@/components/Tiptap'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
-
-interface TiptapJSON {
-  type: 'doc'
-  content: Array<any>
-}
+import type { JSONContent } from '@tiptap/core'
 
 export const Route = createFileRoute(
   '/_authed/dashboard/view-document/$doc_id'
@@ -22,7 +18,6 @@ export const Route = createFileRoute(
       ...context,
       headerType: 'doc',
       document_id: document?.id,
-      document_title: document?.title,
     }
   },
 })
@@ -33,7 +28,7 @@ function RouteComponent() {
   const { documents } = Route.useRouteContext()
   const document = documents.find((row) => row.id === doc_id)
   const router = useRouter()
-  if (!document?.content || !document?.id) return <p>Document not found</p>
+  if (!document) return <p>Document not found</p>
 
   const contentForm = useForm({
     defaultValues: {
@@ -43,7 +38,7 @@ function RouteComponent() {
   })
 
   const debouncedContentUpdate = useDebouncedCallback(
-    async (id: string, content: TiptapJSON) => {
+    async (id: string, content: JSONContent) => {
       try {
         await updateContentFormFn({ data: { id, content } })
         router.invalidate({ sync: true })
@@ -59,14 +54,13 @@ function RouteComponent() {
 
   return (
     <>
-      <Link to="/dashboard">back</Link>
       <form
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
           contentForm.handleSubmit()
         }}
-        className="flex justify-center"
+        className="flex w-full justify-center"
       >
         <contentForm.Field
           name="content"
@@ -78,12 +72,12 @@ function RouteComponent() {
           }}
           children={(field) => {
             return (
-              <>
+              <div className="w-full">
                 <Tiptap
-                  value={field.state.value as TiptapJSON}
-                  onChange={(json: TiptapJSON) => field.handleChange(json)}
+                  value={field.state.value as JSONContent}
+                  onChange={(json: JSONContent) => field.handleChange(json)}
                 />
-              </>
+              </div>
             )
           }}
         />
