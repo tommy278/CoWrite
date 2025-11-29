@@ -9,6 +9,7 @@ import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
 import { useEffect } from 'react'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
+import { ArrowLeft } from 'lucide-react'
 import dayjs from 'dayjs'
 
 interface HeaderProps {
@@ -66,9 +67,9 @@ export default function Header({ type, id }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 p-4 text-white shadow-lg">
+      <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 pr-4 text-white shadow-lg">
         {type === 'default' && (
-          <h1 className="ml-3 text-2xl font-semibold">
+          <h1 className="my-5 ml-3 text-2xl font-semibold">
             <Link to={user ? '/dashboard' : '/'}>My App</Link>
           </h1>
         )}
@@ -79,8 +80,11 @@ export default function Header({ type, id }: HeaderProps) {
               e.stopPropagation()
               titleForm.handleSubmit()
             }}
-            className="w-full max-w-3xl"
+            className="ml-4 flex w-full max-w-3xl items-center"
           >
+            <Link to="/dashboard">
+              <ArrowLeft className="btn-format mr-3" />
+            </Link>
             <titleForm.Field
               name="title"
               validators={{
@@ -103,7 +107,7 @@ export default function Header({ type, id }: HeaderProps) {
                       name="Title"
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      className="my-4 mb-5 ml-10 rounded-md border px-3 py-2"
+                      className="my-4 mb-5 rounded-md border px-3 py-2"
                     />
                     {showSaving ? (
                       <p>Saving...</p>

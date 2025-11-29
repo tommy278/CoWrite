@@ -4,6 +4,7 @@ import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
 import { useState } from 'react'
 import { generateHTML } from '@tiptap/html'
 import { extensions, extraExtensions } from '@/lib/constants'
+import { CirclePlus } from 'lucide-react'
 
 export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
@@ -15,6 +16,11 @@ function RouteComponent() {
   const { documents } = Route.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+
+  // Sorting in descending order
+  documents.sort((a, b) => {
+    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+  })
 
   const form = useForm({
     defaultValues: { title: '' },
@@ -35,32 +41,42 @@ function RouteComponent() {
   })
   return (
     <>
-      <div className="grid grid-cols-3 gap-4 p-4">
+      <div className="mt-5 grid w-full grid-cols-3 space-y-4 md:grid-cols-4">
         {!isOpen && (
-          <div className="rounded-md bg-cyan-200 p-10">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="h-full w-full cursor-pointer"
-            >
-              Expand
-            </button>
+          <div className="flex justify-center">
+            <div className="view-height rounded-md bg-cyan-300">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex h-full w-full cursor-pointer items-center justify-center"
+              >
+                <CirclePlus id="icon" />
+              </button>
+            </div>
           </div>
         )}
 
         {documents.map((doc) => {
-          if (!doc.content) return <p>No Content found</p>
+          if (!doc.content) return <p key={doc.id}>No Content found</p>
           const htmlContent = generateHTML(doc.content, allExtensions)
           return (
-            <Link
-              key={doc.id}
-              to="/dashboard/view-document/$doc_id"
-              params={{ doc_id: doc.id }}
-            >
-              <div className="rounded-md bg-blue-500 p-10">
-                <h1 className="font-semibold">{doc.title}</h1>
-                <p dangerouslySetInnerHTML={{ __html: htmlContent }}></p>
-              </div>
-            </Link>
+            <div className="flex justify-center">
+              <Link
+                key={doc.id}
+                to="/dashboard/view-document/$doc_id"
+                params={{ doc_id: doc.id }}
+              >
+                <div className="view-height overflow-hidden rounded-md bg-blue-500 p-1">
+                  <h1 id="doc-title" className="font-semibold">
+                    {doc.title}
+                  </h1>
+                  <div
+                    id="container"
+                    className="overflow-hidden text-ellipsis"
+                    dangerouslySetInnerHTML={{ __html: htmlContent }}
+                  />
+                </div>
+              </Link>
+            </div>
           )
         })}
       </div>
@@ -69,23 +85,19 @@ function RouteComponent() {
           className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"
           onClick={() => setIsOpen(false)}
         >
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-[80%] md:w-[50%]"
+          >
             <form
               onSubmit={(e) => {
                 e.preventDefault()
                 form.handleSubmit()
               }}
-              className="form-content"
+              className="w-full space-y-5 rounded bg-white p-6 shadow-lg"
             >
               <form.Field
                 name="title"
-                validators={{
-                  onChange: ({ value }) => {
-                    if (value.length < 3) return 'Title not long enough'
-                    if (value.length > 100) return 'Title too long'
-                    return undefined
-                  },
-                }}
                 children={(field) => (
                   <>
                     <input

@@ -30,43 +30,84 @@ code {
   @apply h-3 w-3 md:h-5 md:w-5;
 }
 
+#container h1,
 .prose-editor h1 {
-  @apply text-4xl font-bold;
+  font-size: 2em;
 }
 
+#container h2,
 .prose-editor h2 {
-  @apply text-3xl font-bold;
+  font-size: 1.8em;
 }
 
+#container h3,
 .prose-editor h3 {
-  @apply text-3xl font-semibold;
+  font-size: 1.6em;
 }
 
+#container h4,
 .prose-editor h4 {
-  @apply text-2xl font-semibold;
+  font-size: 1.4em;
 }
 
+#container h5,
 .prose-editor h5 {
-  @apply text-xl font-semibold;
+  font-size: 1.2em;
 }
 
+#container h6,
 .prose-editor h6 {
-  @apply text-lg font-semibold;
+  font-size: 1em;
 }
 
-.prose-editor ul,
-.prose-editor ol {
-  @apply ml-4;
+#container p,
+.prose-editor p {
+  font-size: 1em;
 }
 
+#container ul,
 .prose-editor ul {
-  @apply list-disc;
+  @apply list-disc pl-4;
 }
-
+#container ol,
 .prose-editor ol {
-  @apply list-decimal;
+  @apply list-decimal pl-4;
 }
 
-.prose-editor li {
-  @apply my-1;
+@layer base {
+  #container ol li::marker,
+  #container ul li::marker {
+    font-size: 0.5em;
+    color: currentColor;
+  }
+}
+
+@layer base {
+  .prose-editor ul li::marker,
+  .prose-editor ol li::marker {
+    font-size: 1em;
+    color: currentColor;
+  }
+}
+
+#icon {
+  @apply h-10 w-10 md:h-20 md:w-20;
+}
+
+#doc-title {
+  @apply text-[7px];
+}
+
+.view-height {
+  @apply h-[clamp(150px,_20vw,_300px)] w-[clamp(70px,_20vw,_250px)];
+}
+
+#container h1,
+#container h2,
+#container h3,
+#container h4,
+#container h5,
+#container h6,
+#container p {
+  @apply text-[clamp(3px,_1vw,_5px)];
 }
