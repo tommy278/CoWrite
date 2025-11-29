@@ -9,7 +9,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { getUserFn } from '@/lib/serverFunctions/getUserFn'
-import Header from '../components/Header'
+import Header from '../components/Headers/Header'
 import appCss from '../styles.css?url'
 import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
 import { IsSavingProvider } from '@/context/isLoading'

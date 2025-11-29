@@ -31,12 +31,11 @@ export default function ({ editor }: { editor: Editor }) {
   const ref = clickDetector(() => toggleHighlightOpen(false))
 
   return (
-    <span ref={ref} className="mb-1 items-center">
-      <div className="mb-1 items-center">
+    <span ref={ref}>
+      <div className="items-center">
         <div className="flex items-center">
           <Highlighter
-            size={20}
-            className="cursor-pointer"
+            className="btn-format cursor-pointer"
             onClick={() => toggleHighlightOpen(!highlightOpen)}
           />
         </div>

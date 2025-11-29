@@ -26,6 +26,10 @@ code {
   @apply h-10 w-full rounded-md bg-blue-600 text-white transition-colors duration-150 hover:bg-blue-700;
 }
 
+.btn-format {
+  @apply h-3 w-3 md:h-5 md:w-5;
+}
+
 .prose-editor h1 {
   @apply text-4xl font-bold;
 }

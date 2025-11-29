@@ -24,18 +24,17 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
           className={`mr-1 cursor-pointer ${editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''}`}
         >
           <div className="flex">
-            <Heading className="cursor-pointer" size={20} />
-            {lastOpened}
+            <Heading className="btn-format cursor-pointer" />
+            <span className="text-xs md:text-base">{lastOpened}</span>
           </div>
         </button>
       ) : (
         <button className="flex items-center">
-          <Heading className="cursor-pointer" size={20} />
+          <Heading className="btn-format cursor-pointer" />
         </button>
       )}
       <ChevronDown
-        className="cursor-pointer"
-        size={20}
+        className="btn-format cursor-pointer"
         onClick={() => toggleHeaderOpen(!headerOpen)}
       />
       {headerOpen && (

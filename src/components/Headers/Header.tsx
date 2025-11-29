@@ -66,7 +66,7 @@ export default function Header({ type, id }: HeaderProps) {
 
   return (
     <>
-      <header className="flex items-center justify-between bg-blue-900 p-4 text-white shadow-lg">
+      <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 p-4 text-white shadow-lg">
         {type === 'default' && (
           <h1 className="ml-3 text-2xl font-semibold">
             <Link to={user ? '/dashboard' : '/'}>My App</Link>
