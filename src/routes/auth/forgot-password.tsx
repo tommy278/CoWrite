@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { resetPasswordFn } from '@/lib/serverFunctions/resetPasswordFn'
+import { resetPasswordFn } from '@/lib/serverFunctions/AUTH/resetPasswordFn'
 import { emailSchema } from '@/lib/helpers/validators'
 
 export const Route = createFileRoute('/auth/forgot-password')({

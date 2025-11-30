@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
-import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
+import { getDocumentFn } from '@/lib/serverFunctions/GET/getDocumentFn'
+import { updateContentFormFn } from '@/lib/serverFunctions/UPDATE/updateContentFormFn'
 import { useRouter } from '@tanstack/react-router'
 import Tiptap from '@/components/Tiptap'
 import { useIsSaving } from '@/context/isLoading'
@@ -74,6 +74,7 @@ function RouteComponent() {
             return (
               <div className="w-full">
                 <Tiptap
+                  categories={document.categories}
                   value={field.state.value as JSONContent}
                   onChange={(json: JSONContent) => field.handleChange(json)}
                 />

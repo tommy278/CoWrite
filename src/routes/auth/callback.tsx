@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { exchangeCodeFn } from '@/lib/serverFunctions/exchangeCodeFn'
+import { exchangeCodeFn } from '@/lib/serverFunctions/AUTH/exchangeCodeFn'
 
 export const Route = createFileRoute('/auth/callback')({
   loader: async ({ location }) => {

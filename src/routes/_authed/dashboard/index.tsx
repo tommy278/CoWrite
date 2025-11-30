@@ -1,6 +1,6 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
+import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
 import { useState } from 'react'
 import { generateHTML } from '@tiptap/html'
 import { extensions, extraExtensions } from '@/lib/Constants/constants'

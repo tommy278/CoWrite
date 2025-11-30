@@ -1,18 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { getSupabaseServerClient } from '@/lib/supabase/clientSupabase'
 import { z } from 'zod'
-import { JSONContent } from '@tiptap/react'
-
-interface Document {
-  id: string
-  user_id: string
-  title: string
-  content: JSONContent
-  created_at: Date
-  updated_at: Date
-  deleted_at: Date | null
-  deleted: boolean
-}
+import { Document } from '@/lib/Constants/dataTypes'
 
 export const getDocumentFn = createServerFn({ method: 'GET' })
   .inputValidator(z.object({ id: z.string() }))
@@ -41,6 +30,7 @@ export const getDocumentFn = createServerFn({ method: 'GET' })
         updated_at: data.updated_at,
         deleted_at: data.deleted_at,
         deleted: data.deleted,
+        categories: data.categories,
       }
       return document
     } else {

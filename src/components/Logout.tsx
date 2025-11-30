@@ -1,5 +1,5 @@
 import { useRouter } from '@tanstack/react-router'
-import { logoutFn } from '@/lib/serverFunctions/logoutFn'
+import { logoutFn } from '@/lib/serverFunctions/AUTH/logoutFn'
 import { LogOut } from 'lucide-react'
 
 interface LogoutProps {
