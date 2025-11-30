@@ -24,8 +24,7 @@ export const getAllDocumentsFn = createServerFn({ method: 'GET' })
       .from('documents')
       .select('*')
       .eq('user_id', user_id)
-      .eq('deleted', false)
-      .range(0, 9)
+      .range(0, 49)
 
     if (error) {
       console.error('Error fetching single record', error.message)
