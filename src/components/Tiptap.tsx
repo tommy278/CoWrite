@@ -10,10 +10,9 @@ interface TiptapProps {
   onChange: (content: JSONContent) => void
   value: JSONContent
   className?: string
-  categories: string[]
 }
 
-const Tiptap = ({ value, className, onChange, categories }: TiptapProps) => {
+const Tiptap = ({ value, className, onChange }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       ...extensions,
@@ -45,10 +44,6 @@ const Tiptap = ({ value, className, onChange, categories }: TiptapProps) => {
   return (
     <div className="flex flex-col items-center justify-center">
       <MenuBar editor={editor} />
-      <div className="w-[70%]">
-        <div className="flex self-start">Categories: {categories}</div>
-      </div>
-
       <EditorContent
         editor={editor}
         className={`prose-editor min-h-screen w-[70%] rounded-md bg-gray-200 p-5 focus:outline-none ${className}`}

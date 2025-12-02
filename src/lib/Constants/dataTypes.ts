@@ -9,5 +9,4 @@ export interface Document {
   updated_at: Date
   deleted_at: Date | null
   deleted: boolean
-  categories: string[]
 }

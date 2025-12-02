@@ -74,7 +74,6 @@ function RouteComponent() {
             return (
               <div className="w-full">
                 <Tiptap
-                  categories={document.categories}
                   value={field.state.value as JSONContent}
                   onChange={(json: JSONContent) => field.handleChange(json)}
                 />

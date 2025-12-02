@@ -23,7 +23,6 @@ function RouteComponent() {
   const form = useForm({
     defaultValues: loggedInUser,
     onSubmit: async ({ value }) => {
-      console.log(value)
       const { error, message } = await loginFn({
         data: {
           email: value.email,
