@@ -9,7 +9,7 @@ import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import type { JSONContent } from '@tiptap/core'
 
 export const Route = createFileRoute(
-  '/_authed/dashboard/view-document/$doc_id'
+  '/_authed/dashboard/document/$doc_id'
 )({
   component: RouteComponent,
   beforeLoad: async ({ context, params }) => {

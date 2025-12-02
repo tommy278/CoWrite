@@ -87,10 +87,6 @@ code {
   @apply h-10 w-10 md:h-20 md:w-20;
 }
 
-#doc-title {
-  @apply text-[7px];
-}
-
 .view-height {
   @apply h-[clamp(150px,_20vw,_300px)] w-[clamp(100px,_20vw,_250px)];
 }
@@ -103,4 +99,12 @@ code {
 #container h6,
 #container p {
   @apply text-[clamp(3px,_1vw,_5px)];
+}
+
+.header-size {
+  @apply text-[clamp(5px,_1vw,_10px)];
+}
+
+.time-size {
+  @apply text-[clamp(4px,_1vw,_8px)];
 }

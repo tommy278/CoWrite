@@ -1,13 +1,11 @@
-import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
 import { useState } from 'react'
-import { generateHTML } from '@tiptap/html'
-import { extensions, extraExtensions } from '@/lib/Constants/constants'
-import { CirclePlus } from 'lucide-react'
 import { Document } from '@/lib/Constants/dataTypes'
 import { clickDetector } from '@/context/clickDetector'
 import { ArrowDown } from 'lucide-react'
+import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import {
   sortAscending,
   sortAlphabetically,
@@ -18,18 +16,18 @@ export const Route = createFileRoute('/_authed/dashboard/')({
   component: RouteComponent,
 })
 
-const allExtensions = [...extensions, ...extraExtensions]
-
 function RouteComponent() {
   const { documents } = Route.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const [dropdown, toggleDropdown] = useState(false)
   const [orderedDocuments, setOrderedDocuments] = useState<Document[]>(() => [
-    ...documents.sort(
-      (a, b) =>
-        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-    ),
+    ...documents
+      .sort(
+        (a, b) =>
+          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      )
+      .filter((document) => document.deleted === false),
   ])
 
   const ref = clickDetector(() => toggleDropdown(false))
@@ -60,15 +58,18 @@ function RouteComponent() {
   return (
     <>
       <span ref={ref} className="relative">
-        <button
-          onClick={() => toggleDropdown((prev) => !prev)}
-          className="relative m-5 flex cursor-pointer justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300"
-        >
-          Sort By
-          <ArrowDown />
-        </button>
+        <div className="m-5 flex items-center justify-between">
+          <h3 className="text-base font-semibold">All Documents</h3>
+          <button
+            onClick={() => toggleDropdown((prev) => !prev)}
+            className="relative flex cursor-pointer justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300"
+          >
+            Sort By
+            <ArrowDown />
+          </button>
+        </div>
         {dropdown && (
-          <div className="absolute top-full left-5 mt-2 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">
+          <div className="absolute top-full right-5 mt-2 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">
             {Object.entries(sortFunctions).map(([key, sortFunction]) => (
               <button
                 key={key}
@@ -82,48 +83,13 @@ function RouteComponent() {
         )}
       </span>
 
-      <div className="mt-5 grid w-full grid-cols-3 space-y-4 md:grid-cols-4">
-        {!isOpen && (
-          <div className="flex justify-center">
-            <div className="view-height rounded-md bg-cyan-300">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex h-full w-full cursor-pointer items-center justify-center"
-              >
-                <CirclePlus id="icon" />
-              </button>
-            </div>
-          </div>
-        )}
-        {orderedDocuments.map((doc) => {
-          if (!doc.content)
-            return (
-              <div key={doc.id}>
-                <p>No Content found</p>
-              </div>
-            )
-          const htmlContent = generateHTML(doc.content, allExtensions)
-          return (
-            <div className="flex justify-center" key={doc.id}>
-              <Link
-                to="/dashboard/view-document/$doc_id"
-                params={{ doc_id: doc.id }}
-              >
-                <div className="view-height overflow-hidden rounded-md bg-blue-500 p-1">
-                  <h1 id="doc-title" className="font-semibold">
-                    {doc.title}
-                  </h1>
-                  <div
-                    id="container"
-                    className="overflow-hidden text-ellipsis"
-                    dangerouslySetInnerHTML={{ __html: htmlContent }}
-                  />
-                </div>
-              </Link>
-            </div>
-          )
-        })}
-      </div>
+      <DocumentDisplay
+        isOpen={isOpen}
+        documents={orderedDocuments}
+        setIsOpen={setIsOpen}
+        documentPage={true}
+      />
+
       {isOpen && (
         <div
           className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"
