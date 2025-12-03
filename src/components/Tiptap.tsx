@@ -6,6 +6,9 @@ import { BulletList, OrderedList } from '@tiptap/extension-list'
 import MenuBar from '@/components/Headers/Menubar'
 import type { JSONContent } from '@tiptap/core'
 import { softDeleteFn } from '@/lib/serverFunctions/DELETE/softDeleteFn'
+import { useState } from 'react'
+import { hardDeleteFn } from '@/lib/serverFunctions/DELETE/hardDeleteFn'
+import { restoreDocumentFn } from '@/lib/serverFunctions/UPDATE/restoreDocument'
 
 interface TiptapProps {
   onChange: (content: JSONContent) => void
@@ -40,6 +43,41 @@ const Tiptap = ({ value, className, onChange, id, editable }: TiptapProps) => {
       },
     },
   })
+  interface ConfirmModalProps {
+    type: 'delete' | 'confirmDelete' | 'restore' | ''
+    serverFn: () => Promise<void>
+  }
+  const [isOpen, setIsOpen] = useState(false)
+  const [type, setType] = useState<
+    'delete' | 'confirmDelete' | 'restore' | null
+  >(null)
+
+  function ConfirmModal({ type, serverFn }: ConfirmModalProps) {
+    return (
+      <div>
+        {type === 'delete' && (
+          <p>
+            This document will be deleted from all documents. It will be in
+            recently deleted for 30 days
+          </p>
+        )}
+        {type === 'confirmDelete' && <p>This document will deleted forever</p>}
+        {type === 'restore' && <p>Recover document</p>}
+        <button
+          onClick={async () => await serverFn()}
+          className="cursor-pointer"
+        >
+          {type}
+        </button>
+      </div>
+    )
+  }
+
+  const serverFunctions = {
+    delete: async () => softDeleteFn({ data: { id } }),
+    confirmDelete: async () => hardDeleteFn({ data: { id } }),
+    restore: async () => restoreDocumentFn({ data: { id } }),
+  }
 
   if (!editor) {
     return <div>Something went wrong</div>
@@ -51,17 +89,25 @@ const Tiptap = ({ value, className, onChange, id, editable }: TiptapProps) => {
       <div className="mx-[15%] flex self-end">
         {!editable ? (
           <>
-            <button className="cursor-pointer">Delete</button>
-            <button className="cursor-pointer">Restore</button>
+            <button
+              className="mr-5 cursor-pointer"
+              onClick={() => setType('confirmDelete')}
+            >
+              Delete
+            </button>
+            <button
+              className="cursor-pointer"
+              onClick={() => setType('restore')}
+            >
+              Restore
+            </button>
           </>
         ) : (
-          <button
-            onClick={async () => softDeleteFn({ data: { id } })}
-            className="cursor-pointer"
-          >
+          <button onClick={() => setType('delete')} className="cursor-pointer">
             Delete
           </button>
         )}
+        {type && <ConfirmModal type={type} serverFn={serverFunctions[type]} />}
       </div>
       <EditorContent
         editor={editor}

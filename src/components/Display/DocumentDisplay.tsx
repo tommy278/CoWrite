@@ -27,7 +27,7 @@ export default function DocumentDisplay({
     <div className="mt-5 grid w-full grid-cols-3 gap-4 md:grid-cols-4">
       {!isOpen && documentPage && setIsOpen && (
         <div className="flex justify-center">
-          <div className="view-height rounded-md bg-cyan-300">
+          <div className="view-height rounded-sm bg-cyan-300">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="flex h-full w-full cursor-pointer items-center justify-center"
