@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_authed/dashboard/document/deleted/')({
 function RouteComponent() {
   const { documents } = Route.useRouteContext()
   const [deletedDocuments, setDeletedDocuments] = useState<Document[]>(() => [
-    ...documents.filter((document) => document.deleted === true),
+    ...documents.filter((document) => document.deleted),
   ])
   return <DocumentDisplay documents={deletedDocuments} documentPage={false} />
 }

@@ -84,7 +84,7 @@ export default function Header({ type, id }: HeaderProps) {
               e.stopPropagation()
               titleForm.handleSubmit()
             }}
-            className="ml-4 flex w-full max-w-3xl items-center"
+            className="ml-4 flex w-[70%] max-w-3xl items-center"
           >
             <Link to="/dashboard">
               <ArrowLeft className="btn-format mr-3" />
@@ -117,7 +117,10 @@ export default function Header({ type, id }: HeaderProps) {
                       <p>Saving...</p>
                     ) : (
                       <p className="hidden md:block">
-                        Saved at {dayjs(updated_at).format('DD/MM/YYYY HH:mm')}
+                        {!document?.deleted ? 'Saved at' : 'Deleted at'}{' '}
+                        {dayjs(
+                          !document?.deleted ? updated_at : document?.deleted_at
+                        ).format('DD/MM/YYYY HH:mm')}
                       </p>
                     )}
                   </div>

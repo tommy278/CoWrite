@@ -22,6 +22,28 @@ export const sortDescending = (
   )
 }
 
+export const sortAscendingDeleted = (
+  setOrderedDocuments: React.Dispatch<React.SetStateAction<Document[]>>
+) => {
+  setOrderedDocuments((prev) =>
+    [...prev].sort(
+      (a, b) =>
+        new Date(a.deleted_at).getTime() - new Date(b.deleted_at).getTime()
+    )
+  )
+}
+
+export const sortDescendingDeleted = (
+  setOrderedDocuments: React.Dispatch<React.SetStateAction<Document[]>>
+) => {
+  setOrderedDocuments((prev) =>
+    [...prev].sort(
+      (a, b) =>
+        new Date(b.deleted_at).getTime() - new Date(a.deleted_at).getTime()
+    )
+  )
+}
+
 export const sortAlphabetically = (
   setOrderedDocuments: React.Dispatch<React.SetStateAction<Document[]>>
 ) => {

@@ -7,6 +7,6 @@ export interface Document {
   content: JSONContent
   created_at: Date
   updated_at: Date
-  deleted_at: Date | null
+  deleted_at: Date
   deleted: boolean
 }

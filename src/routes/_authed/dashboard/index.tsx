@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
 import { useState } from 'react'
@@ -27,7 +27,7 @@ function RouteComponent() {
         (a, b) =>
           new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
       )
-      .filter((document) => document.deleted === false),
+      .filter((document) => !document.deleted),
   ])
 
   const ref = clickDetector(() => toggleDropdown(false))
@@ -60,13 +60,16 @@ function RouteComponent() {
       <span ref={ref} className="relative">
         <div className="m-5 flex items-center justify-between">
           <h3 className="text-base font-semibold">All Documents</h3>
-          <button
-            onClick={() => toggleDropdown((prev) => !prev)}
-            className="relative flex cursor-pointer justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300"
-          >
-            Sort By
-            <ArrowDown />
-          </button>
+          <div className="flex flex-row items-center space-x-10">
+            <button
+              onClick={() => toggleDropdown((prev) => !prev)}
+              className="relative flex cursor-pointer justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300"
+            >
+              Sort By
+              <ArrowDown />
+            </button>
+            <Link to="/dashboard/document/deleted">Deleted</Link>
+          </div>
         </div>
         {dropdown && (
           <div className="absolute top-full right-5 mt-2 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">

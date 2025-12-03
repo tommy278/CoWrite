@@ -8,9 +8,7 @@ import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import type { JSONContent } from '@tiptap/core'
 
-export const Route = createFileRoute(
-  '/_authed/dashboard/document/$doc_id'
-)({
+export const Route = createFileRoute('/_authed/dashboard/document/$doc_id')({
   component: RouteComponent,
   beforeLoad: async ({ context, params }) => {
     const document = await getDocumentFn({ data: { id: params.doc_id } })
@@ -32,7 +30,7 @@ function RouteComponent() {
 
   const contentForm = useForm({
     defaultValues: {
-      id: document.id,
+      id: doc_id,
       content: document.content ?? { type: 'doc', content: [] },
     },
   })
@@ -74,8 +72,10 @@ function RouteComponent() {
             return (
               <div className="w-full">
                 <Tiptap
+                  id={doc_id}
                   value={field.state.value as JSONContent}
                   onChange={(json: JSONContent) => field.handleChange(json)}
+                  editable={!document.deleted}
                 />
               </div>
             )

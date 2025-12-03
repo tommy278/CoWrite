@@ -29,6 +29,5 @@ export const getAllDocumentsFn = createServerFn({ method: 'GET' })
       updated_at: d.updated_at,
       deleted_at: d.deleted_at,
       deleted: d.deleted,
-      categories: d.categories,
     }))
   })
