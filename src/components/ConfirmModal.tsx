@@ -23,7 +23,10 @@ export default function ConfirmModal({ type, serverFn }: ConfirmModalProps) {
       )}
       {type === 'confirmDelete' && <p>This document will deleted forever</p>}
       {type === 'restore' && <p>Recover document</p>}
-      <button onClick={serverFn} className="w-full cursor-pointer">
+      <button
+        onClick={serverFn}
+        className={`mt-1 w-full cursor-pointer rounded-md ${type === 'delete' || type === 'confirmDelete' ? 'bg-red-500' : 'bg-blue-500'}`}
+      >
         {displayText[type]}
       </button>
     </div>

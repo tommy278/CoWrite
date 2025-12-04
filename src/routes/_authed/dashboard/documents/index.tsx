@@ -4,13 +4,8 @@ import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
 import { useState } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
 import { clickDetector } from '@/context/clickDetector'
-import { ArrowDown } from 'lucide-react'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
-import {
-  sortAscending,
-  sortAlphabetically,
-  sortDescending,
-} from '@/lib/helpers/sort'
+import SortDropdown from '@/components/Dropdowns/SortDropdown'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
@@ -32,12 +27,6 @@ function RouteComponent() {
 
   const ref = clickDetector(() => toggleDropdown(false))
 
-  const sortFunctions = {
-    Ascending: () => sortAscending(setOrderedDocuments),
-    Descending: () => sortDescending(setOrderedDocuments),
-    Alphabetically: () => sortAlphabetically(setOrderedDocuments),
-  }
-
   const form = useForm({
     defaultValues: { title: '' },
     onSubmit: async ({ value }) => {
@@ -55,36 +44,25 @@ function RouteComponent() {
       }
     },
   })
+
   return (
     <>
-      <span ref={ref} className="relative">
-        <div className="m-5 flex items-center justify-between">
-          <h3 className="text-base font-semibold">All Documents</h3>
-          <div className="flex flex-row items-center space-x-10">
-            <button
-              onClick={() => toggleDropdown((prev) => !prev)}
-              className="relative flex cursor-pointer justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300"
-            >
-              Sort By
-              <ArrowDown />
-            </button>
-            <Link to="/dashboard/documents/deleted">Deleted</Link>
-          </div>
+      <div className="mx-10 flex items-center justify-between">
+        <h3 className="text-base font-semibold">All Documents</h3>
+        <div className="flex items-center">
+          <span ref={ref} className="relative">
+            <SortDropdown
+              dropdown={dropdown}
+              toggleDropdown={toggleDropdown}
+              setOrderedDocuments={setOrderedDocuments}
+              documentPage={true}
+            />
+          </span>
+          <Link to="/dashboard/documents/deleted" className="hidden md:block">
+            Deleted
+          </Link>
         </div>
-        {dropdown && (
-          <div className="absolute top-full right-20 mt-2 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">
-            {Object.entries(sortFunctions).map(([key, sortFunction]) => (
-              <button
-                key={key}
-                onClick={sortFunction}
-                className="cursor-pointer space-y-2"
-              >
-                {key}
-              </button>
-            ))}
-          </div>
-        )}
-      </span>
+      </div>
 
       <DocumentDisplay
         isOpen={isOpen}
