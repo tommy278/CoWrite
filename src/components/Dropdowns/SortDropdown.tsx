@@ -39,7 +39,7 @@ export default function SortDropdown({
         </div>
       </div>
       {dropdown && (
-        <div className="absolute top-full right-20 mt-2 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">
+        <div className="absolute top-full left-5 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">
           {Object.entries(sortFunctions).map(([key, sortFunction]) => (
             <button
               key={key}

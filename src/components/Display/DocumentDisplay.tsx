@@ -4,6 +4,8 @@ import { generateHTML } from '@tiptap/html'
 import { extensions, extraExtensions } from '@/lib/Constants/constants'
 import { Link } from '@tanstack/react-router'
 import dayjs from 'dayjs'
+import { EllipsisVertical } from 'lucide-react'
+import ConfirmModal from '@/components/Dropdowns/ConfirmModal'
 
 interface DocumentProps {
   isOpen?: boolean
@@ -46,7 +48,7 @@ export default function DocumentDisplay({
           )
         const htmlContent = generateHTML(doc.content, allExtensions)
         return (
-          <div className="flex justify-center" key={doc.id}>
+          <div className="relative flex justify-center" key={doc.id}>
             <Link
               to={`${documentPage ? '/dashboard/document/$doc_id' : '/dashboard/document/deleted/$doc_id'}`}
               params={{ doc_id: doc.id }}
@@ -60,15 +62,29 @@ export default function DocumentDisplay({
                 />
               </div>
               <div className="h-full border-t border-gray-200 px-2 py-4">
-                <h1 className="header-size text-sm font-semibold">
-                  {limitTextLength(doc.title)}
-                </h1>
-                <p className="time-size">
-                  Last Updated:{' '}
-                  {dayjs(documentPage ? doc.updated_at : doc.deleted_at).format(
-                    'DD/MM/YYYY HH:mm'
-                  )}
-                </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <h1 className="header-size text-sm font-semibold">
+                      {limitTextLength(doc.title)}
+                    </h1>
+                    <p className="time-size">
+                      Last Updated:{' '}
+                      {dayjs(
+                        documentPage ? doc.updated_at : doc.deleted_at
+                      ).format('DD/MM/YYYY HH:mm')}
+                    </p>
+                  </div>
+                  <button
+                    aria-label="Open Menu"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                    }}
+                    className="z-50 cursor-pointer rounded-full bg-gray-300 p-2 transition duration-200 hover:bg-gray-200"
+                  >
+                    <EllipsisVertical size={20} />
+                  </button>
+                </div>
               </div>
             </Link>
           </div>

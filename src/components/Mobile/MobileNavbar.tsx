@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Home, X, LogIn, Plus } from 'lucide-react'
 import Logout from '@/components/Logout'
 import { Route as ParentRoute } from '@/routes/__root'
+import { Trash } from 'lucide-react'
 
 interface MobileNavbarProps {
   isOpen: boolean | null
@@ -31,20 +32,35 @@ export default function MobileNavbar(props: MobileNavbarProps) {
 
         <nav className="flex flex-1 flex-col gap-2 overflow-y-auto p-4">
           <Link
-            to="/"
+            to={user ? '/dashboard/documents' : '/'}
             onClick={() => setIsOpen?.(false)}
             className="flex items-center gap-3 rounded-lg p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
             activeProps={{
               className:
                 'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors',
             }}
+            activeOptions={{ exact: true }}
           >
             <Home size={20} />
             <span className="font-medium">Home</span>
           </Link>
 
           {user ? (
-            <Logout onLogout={() => setIsOpen?.(false)} />
+            <>
+              <Link
+                to="/dashboard/documents/deleted"
+                onClick={() => setIsOpen?.(false)}
+                className="flex items-center gap-3 rounded-lg p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
+                activeProps={{
+                  className:
+                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors',
+                }}
+              >
+                <Trash size={20} />
+                <span className="font-medium">Deleted</span>
+              </Link>
+              <Logout onLogout={() => setIsOpen?.(false)} />
+            </>
           ) : (
             <>
               <Link

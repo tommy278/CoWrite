@@ -9,7 +9,7 @@ import { softDeleteFn } from '@/lib/serverFunctions/DELETE/softDeleteFn'
 import { useState } from 'react'
 import { hardDeleteFn } from '@/lib/serverFunctions/DELETE/hardDeleteFn'
 import { restoreDocumentFn } from '@/lib/serverFunctions/UPDATE/restoreDocument'
-import ConfirmModal from './ConfirmModal'
+import ConfirmModal from './Dropdowns/ConfirmModal'
 import { clickDetector } from '@/context/clickDetector'
 import { useNavigate } from '@tanstack/react-router'
 
