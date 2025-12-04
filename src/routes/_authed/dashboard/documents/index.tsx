@@ -12,7 +12,7 @@ import {
   sortDescending,
 } from '@/lib/helpers/sort'
 
-export const Route = createFileRoute('/_authed/dashboard/')({
+export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
 })
 
@@ -68,7 +68,7 @@ function RouteComponent() {
               Sort By
               <ArrowDown />
             </button>
-            <Link to="/dashboard/document/deleted">Deleted</Link>
+            <Link to="/dashboard/documents/deleted">Deleted</Link>
           </div>
         </div>
         {dropdown && (

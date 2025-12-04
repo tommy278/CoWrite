@@ -11,7 +11,6 @@ export const restoreDocumentFn = createServerFn()
       .from('documents')
       .update({ deleted: false, deleted_at: null })
       .eq('id', id)
-      .select()
 
     if (error) throw new Error(error.message)
   })

@@ -17,7 +17,13 @@ import {
   Code,
 } from 'lucide-react'
 
-export default function MenuBar({ editor }: { editor: Editor }) {
+export default function MenuBar({
+  editor,
+  editable,
+}: {
+  editor: Editor
+  editable: boolean
+}) {
   const editorState = useEditorState({
     editor,
     selector: (ctx) => {
@@ -50,7 +56,9 @@ export default function MenuBar({ editor }: { editor: Editor }) {
   // 78 px is approx the space directly under my header
 
   return (
-    <div className="sticky top-[78px] z-40 mb-2 flex w-full items-center justify-between space-x-1 border-b bg-gray-300 py-2">
+    <div
+      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 mb-2 flex w-full items-center justify-between space-x-1 border-b bg-gray-300 py-2`}
+    >
       <ButtonCard editor={editor} state="undo" className="ml-5">
         <button onClick={() => editor.chain().focus().undo().run()}>
           <Undo className="btn-format cursor-pointer" />

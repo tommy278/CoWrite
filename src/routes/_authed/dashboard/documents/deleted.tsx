@@ -3,7 +3,7 @@ import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import { useState } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
 
-export const Route = createFileRoute('/_authed/dashboard/document/deleted/')({
+export const Route = createFileRoute('/_authed/dashboard/documents/deleted')({
   component: RouteComponent,
 })
 

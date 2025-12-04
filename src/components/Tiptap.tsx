@@ -9,9 +9,12 @@ import { softDeleteFn } from '@/lib/serverFunctions/DELETE/softDeleteFn'
 import { useState } from 'react'
 import { hardDeleteFn } from '@/lib/serverFunctions/DELETE/hardDeleteFn'
 import { restoreDocumentFn } from '@/lib/serverFunctions/UPDATE/restoreDocument'
+import ConfirmModal from './ConfirmModal'
+import { clickDetector } from '@/context/clickDetector'
+import { useNavigate } from '@tanstack/react-router'
 
 interface TiptapProps {
-  onChange: (content: JSONContent) => void
+  onChange?: (content: JSONContent) => void
   value: JSONContent
   className?: string
   id: string
@@ -34,8 +37,9 @@ const Tiptap = ({ value, className, onChange, id, editable }: TiptapProps) => {
     editable,
     content: value,
     immediatelyRender: false,
+    autofocus: true,
     onUpdate: ({ editor }) => {
-      onChange(editor.getJSON())
+      if (onChange) onChange(editor.getJSON())
     },
     editorProps: {
       attributes: {
@@ -43,67 +47,65 @@ const Tiptap = ({ value, className, onChange, id, editable }: TiptapProps) => {
       },
     },
   })
-  interface ConfirmModalProps {
-    type: 'delete' | 'confirmDelete' | 'restore' | ''
-    serverFn: () => Promise<void>
-  }
-  const [isOpen, setIsOpen] = useState(false)
-  const [type, setType] = useState<
-    'delete' | 'confirmDelete' | 'restore' | null
-  >(null)
-
-  function ConfirmModal({ type, serverFn }: ConfirmModalProps) {
-    return (
-      <div>
-        {type === 'delete' && (
-          <p>
-            This document will be deleted from all documents. It will be in
-            recently deleted for 30 days
-          </p>
-        )}
-        {type === 'confirmDelete' && <p>This document will deleted forever</p>}
-        {type === 'restore' && <p>Recover document</p>}
-        <button
-          onClick={async () => await serverFn()}
-          className="cursor-pointer"
-        >
-          {type}
-        </button>
-      </div>
-    )
-  }
+  const navigate = useNavigate()
+  const [type, setType] = useState<'delete' | 'confirmDelete' | 'restore' | ''>(
+    ''
+  )
+  const ref = clickDetector(() => setType(''))
 
   const serverFunctions = {
-    delete: async () => softDeleteFn({ data: { id } }),
-    confirmDelete: async () => hardDeleteFn({ data: { id } }),
-    restore: async () => restoreDocumentFn({ data: { id } }),
+    delete: async () => {
+      await softDeleteFn({ data: { id } })
+      setType('')
+      navigate({ to: '/dashboard/documents' })
+    },
+    confirmDelete: async () => {
+      await hardDeleteFn({ data: { id } })
+      setType('')
+      navigate({ to: '/dashboard/documents' })
+    },
+    restore: async () => {
+      await restoreDocumentFn({ data: { id } })
+      setType('')
+      navigate({
+        to: '/dashboard/document/$doc_id',
+        params: { doc_id: id },
+      })
+    },
   }
 
   if (!editor) {
     return <div>Something went wrong</div>
   }
 
+  const toggleType = (type: 'delete' | 'confirmDelete' | 'restore' | '') => {
+    setType((prev) => (prev === type ? '' : type))
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center">
-      <MenuBar editor={editor} />
-      <div className="mx-[15%] flex self-end">
+    <div className="relative flex flex-col items-center justify-center">
+      <MenuBar editor={editor} editable={editable} />
+      <div className="relative mx-[15%] flex self-end" ref={ref}>
         {!editable ? (
           <>
             <button
               className="mr-5 cursor-pointer"
-              onClick={() => setType('confirmDelete')}
+              onClick={() => toggleType('confirmDelete')}
             >
               Delete
             </button>
             <button
               className="cursor-pointer"
-              onClick={() => setType('restore')}
+              onClick={() => toggleType('restore')}
             >
               Restore
             </button>
           </>
         ) : (
-          <button onClick={() => setType('delete')} className="cursor-pointer">
+          <button
+            onClick={() => toggleType('delete')}
+            className="cursor-pointer"
+          >
             Delete
           </button>
         )}

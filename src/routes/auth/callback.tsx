@@ -9,7 +9,7 @@ export const Route = createFileRoute('/auth/callback')({
       throw redirect({ to: '/' })
     }
     await exchangeCodeFn({ data: { code } })
-    throw redirect({ to: '/dashboard' })
+    throw redirect({ to: '/dashboard/documents' })
   },
   component: () => <p>Redirecting...</p>,
 })

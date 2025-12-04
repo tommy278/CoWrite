@@ -41,7 +41,7 @@ function RouteComponent() {
       } else {
         alert(message)
         router.invalidate({ sync: true })
-        router.navigate({ to: '/dashboard' })
+        router.navigate({ to: '/dashboard/documents' })
       }
     },
   })

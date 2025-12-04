@@ -26,7 +26,7 @@ export default function DocumentDisplay({
   return (
     <div className="mt-5 grid w-full grid-cols-3 gap-4 md:grid-cols-4">
       {!isOpen && documentPage && setIsOpen && (
-        <div className="flex justify-center">
+        <div className="flex hidden justify-center">
           <div className="view-height rounded-sm bg-cyan-300">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -48,7 +48,7 @@ export default function DocumentDisplay({
         return (
           <div className="flex justify-center" key={doc.id}>
             <Link
-              to="/dashboard/document/$doc_id"
+              to={`${documentPage ? '/dashboard/document/$doc_id' : '/dashboard/document/deleted/$doc_id'}`}
               params={{ doc_id: doc.id }}
               className="rounded-sm border border-gray-200 shadow-sm"
             >

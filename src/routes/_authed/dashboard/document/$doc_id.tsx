@@ -47,7 +47,7 @@ function RouteComponent() {
         doneSaving()
       }
     },
-    { wait: 3000 }
+    { wait: 1000 }
   )
 
   return (
@@ -75,7 +75,7 @@ function RouteComponent() {
                   id={doc_id}
                   value={field.state.value as JSONContent}
                   onChange={(json: JSONContent) => field.handleChange(json)}
-                  editable={!document.deleted}
+                  editable={true}
                 />
               </div>
             )

@@ -6,7 +6,7 @@ export const Route = createFileRoute('/')({
   beforeLoad: async () => {
     const user = await getUserFn()
     if (user) {
-      throw redirect({ to: '/dashboard' })
+      throw redirect({ to: '/dashboard/documents' })
     }
     return { user }
   },
