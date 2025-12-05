@@ -87,8 +87,12 @@ code {
   @apply h-10 w-10 md:h-20 md:w-20;
 }
 
+.icon {
+  @apply h-[clamp(6px,1.2vw,14px)] w-[clamp(6px,1.2vw,14px)];
+}
+
 .view-height {
-  @apply h-[clamp(150px,_20vw,_300px)] w-[clamp(100px,_20vw,_250px)];
+  @apply h-[clamp(120px,_25vw,_300px)] w-[clamp(90px,_20vw,_250px)];
 }
 
 #container h1,
@@ -106,5 +110,5 @@ code {
 }
 
 .time-size {
-  @apply text-[clamp(4px,_1vw,_8px)];
+  @apply text-[clamp(3px,_1vw,_8px)];
 }

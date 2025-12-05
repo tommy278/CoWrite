@@ -1,11 +1,12 @@
 import { Document } from '@/lib/Constants/dataTypes'
-import { CirclePlus } from 'lucide-react'
+import { CirclePlus, Trash } from 'lucide-react'
 import { generateHTML } from '@tiptap/html'
 import { extensions, extraExtensions } from '@/lib/Constants/constants'
 import { Link } from '@tanstack/react-router'
 import dayjs from 'dayjs'
-import { EllipsisVertical } from 'lucide-react'
+import { EllipsisVertical, X } from 'lucide-react'
 import ConfirmModal from '@/components/Dropdowns/ConfirmModal'
+import { useState } from 'react'
 
 interface DocumentProps {
   isOpen?: boolean
@@ -25,8 +26,10 @@ export default function DocumentDisplay({
   const limitTextLength = (text: string) => {
     return text.length > 30 ? text.slice(0, 30) + '...' : text
   }
+
+  const [activeDocId, setActiveDocId] = useState<string | null>(null)
   return (
-    <div className="mt-5 grid w-full grid-cols-3 gap-4 md:grid-cols-4">
+    <div className="mt-5 grid w-full grid-cols-3 md:grid-cols-4">
       {!isOpen && documentPage && setIsOpen && (
         <div className="flex hidden justify-center">
           <div className="view-height rounded-sm bg-cyan-300">
@@ -48,7 +51,10 @@ export default function DocumentDisplay({
           )
         const htmlContent = generateHTML(doc.content, allExtensions)
         return (
-          <div className="relative flex justify-center" key={doc.id}>
+          <div
+            className="relative flex min-w-0 flex-col px-5 py-2"
+            key={doc.id}
+          >
             <Link
               to={`${documentPage ? '/dashboard/document/$doc_id' : '/dashboard/document/deleted/$doc_id'}`}
               params={{ doc_id: doc.id }}
@@ -61,7 +67,7 @@ export default function DocumentDisplay({
                   dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />
               </div>
-              <div className="h-full border-t border-gray-200 px-2 py-4">
+              <div className="w-full border-t border-gray-200 px-1 py-2 md:px-2 md:py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col">
                     <h1 className="header-size text-sm font-semibold">
@@ -79,14 +85,34 @@ export default function DocumentDisplay({
                     onClick={(e) => {
                       e.preventDefault()
                       e.stopPropagation()
+                      setActiveDocId((prev) =>
+                        prev === doc.id ? null : doc.id
+                      )
                     }}
                     className="z-50 cursor-pointer rounded-full bg-gray-300 p-2 transition duration-200 hover:bg-gray-200"
                   >
-                    <EllipsisVertical size={20} />
+                    {doc.deleted ? (
+                      activeDocId === doc.id ? (
+                        <X className="icon" />
+                      ) : (
+                        <EllipsisVertical className="icon" />
+                      )
+                    ) : activeDocId === doc.id ? (
+                      <X className="icon" />
+                    ) : (
+                      <Trash className="icon" />
+                    )}
                   </button>
                 </div>
               </div>
             </Link>
+            {activeDocId === doc.id && (
+              <ConfirmModal
+                documentPage={!doc.deleted}
+                id={doc.id}
+                onClose={() => setActiveDocId(null)}
+              />
+            )}
           </div>
         )
       })}
