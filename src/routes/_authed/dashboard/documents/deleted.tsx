@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import { useState } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
 import SortDropdown from '@/components/Dropdowns/SortDropdown'
 import { clickDetector } from '@/context/clickDetector'
+import { Home } from 'lucide-react'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/deleted')({
   component: RouteComponent,
@@ -29,6 +30,12 @@ function RouteComponent() {
               documentPage={true}
             />
           </span>
+          <Link to="/dashboard/documents" className="hidden md:block">
+            <span className="flex items-center rounded-md bg-blue-400/50 p-2 hover:bg-blue-400">
+              <Home size={20} className="mr-1" />
+              Home
+            </span>
+          </Link>
         </div>
       </div>
       <DocumentDisplay documents={deletedDocuments} documentPage={false} />

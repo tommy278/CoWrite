@@ -6,6 +6,7 @@ import { Document } from '@/lib/Constants/dataTypes'
 import { clickDetector } from '@/context/clickDetector'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import SortDropdown from '@/components/Dropdowns/SortDropdown'
+import { Trash } from 'lucide-react'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
@@ -70,7 +71,10 @@ function RouteComponent() {
             />
           </span>
           <Link to="/dashboard/documents/deleted" className="hidden md:block">
-            Deleted
+            <span className="flex items-center rounded-md bg-red-400/50 p-2 hover:bg-red-400">
+              <Trash size={20} className="mr-1" />
+              Trash
+            </span>
           </Link>
         </div>
       </div>
