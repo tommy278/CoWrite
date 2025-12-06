@@ -29,7 +29,7 @@ export default function DocumentDisplay({
 
   const [activeDocId, setActiveDocId] = useState<string | null>(null)
   return (
-    <div className="mt-5 grid w-full grid-cols-3 md:grid-cols-4">
+    <div className="grid w-full grid-cols-3 md:grid-cols-4">
       {!isOpen && documentPage && setIsOpen && (
         <div className="flex hidden justify-center">
           <div className="view-height rounded-sm bg-cyan-300">
@@ -52,7 +52,7 @@ export default function DocumentDisplay({
         const htmlContent = generateHTML(doc.content, allExtensions)
         return (
           <div
-            className="relative flex min-w-0 flex-col px-5 py-2"
+            className="relative mx-5 my-2 flex min-w-0 flex-col"
             key={doc.id}
           >
             <Link

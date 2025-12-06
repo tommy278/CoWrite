@@ -1,7 +1,7 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
 import { clickDetector } from '@/context/clickDetector'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
@@ -25,6 +25,17 @@ function RouteComponent() {
       .filter((document) => !document.deleted),
   ])
 
+  useEffect(() => {
+    setOrderedDocuments(
+      [...documents]
+        .sort(
+          (a, b) =>
+            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+        )
+        .filter((document) => !document.deleted)
+    )
+  }, [documents])
+
   const ref = clickDetector(() => toggleDropdown(false))
 
   const form = useForm({
@@ -47,7 +58,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="mx-10 flex items-center justify-between">
+      <div className="mx-5 flex items-center justify-between">
         <h3 className="text-base font-semibold">All Documents</h3>
         <div className="flex items-center">
           <span ref={ref} className="relative">
