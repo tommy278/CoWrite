@@ -7,12 +7,13 @@ import MenuBar from '@/components/Headers/Menubar'
 import type { JSONContent } from '@tiptap/core'
 
 interface TiptapProps {
-  onChange: (content: JSONContent) => void
+  onChange?: (content: JSONContent) => void
   value: JSONContent
   className?: string
+  editable: boolean
 }
 
-const Tiptap = ({ value, className, onChange }: TiptapProps) => {
+const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       ...extensions,
@@ -25,10 +26,12 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
         HTMLAttributes: { class: 'list-decimal ml-2' },
       }),
     ],
+    editable,
     content: value,
     immediatelyRender: false,
+    autofocus: true,
     onUpdate: ({ editor }) => {
-      onChange(editor.getJSON())
+      if (onChange) onChange(editor.getJSON())
     },
     editorProps: {
       attributes: {
@@ -42,8 +45,8 @@ const Tiptap = ({ value, className, onChange }: TiptapProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <MenuBar editor={editor} />
+    <div className="relative flex flex-col items-center justify-center">
+      <MenuBar editor={editor} editable={editable} />
       <EditorContent
         editor={editor}
         className={`prose-editor min-h-screen w-[70%] rounded-md bg-gray-200 p-5 focus:outline-none ${className}`}

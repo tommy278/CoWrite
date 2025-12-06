@@ -8,10 +8,10 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { getUserFn } from '@/lib/serverFunctions/getUserFn'
+import { getUserFn } from '@/lib/serverFunctions/GET/getUserFn'
 import Header from '../components/Headers/Header'
 import appCss from '../styles.css?url'
-import { getAllDocumentsFn } from '@/lib/serverFunctions/getAllDocuments'
+import { getAllDocumentsFn } from '@/lib/serverFunctions/GET/getAllDocuments'
 import { IsSavingProvider } from '@/context/isLoading'
 
 export const Route = createRootRoute({

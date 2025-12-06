@@ -5,7 +5,7 @@ import MobileNavbar from '@/components/Mobile/MobileNavbar'
 import DesktopNavbar from '@/components/Desktop/DesktopNavbar'
 import { Route as ParentRoute } from '@/routes/__root'
 import { useForm } from '@tanstack/react-form'
-import { updateTitleFn } from '@/lib/serverFunctions/updateTitleFn'
+import { updateTitleFn } from '@/lib/serverFunctions/UPDATE/updateTitleFn'
 import { useEffect } from 'react'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
@@ -20,23 +20,25 @@ interface HeaderProps {
 
 export default function Header({ type, id }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const { user, documents } = ParentRoute.useRouteContext()
+  const { user, documents = [] } = ParentRoute.useRouteContext()
   const [hideSave, setHideSave] = useState(false)
   const { isSaving, handleSave, doneSaving } = useIsSaving()
   const router = useRouter()
 
-  const document = documents.find((document) => document.id === id)
+  const document = documents?.find((document) => document.id === id)
   const title = document?.title ?? 'Untitled Document'
   const updated_at = document?.updated_at
+  const deleted_at = document?.deleted_at
 
   const titleForm = useForm({
     defaultValues: {
-      title,
+      title: title,
     },
   })
 
   const debouncedUpdateTitle = useDebouncedCallback(
     async (value: string, id: string) => {
+      if (document?.deleted) return
       try {
         await updateTitleFn({ data: { id, title: value } })
         router.invalidate({ sync: true })
@@ -47,17 +49,18 @@ export default function Header({ type, id }: HeaderProps) {
         doneSaving()
       }
     },
-    { wait: 3000 }
+    { wait: 1000 }
   )
 
   useEffect(() => {
+    if (isSaving) return
     if (titleForm.getFieldValue('title') !== title) {
       titleForm.setFieldValue('title', title)
       setHideSave(true)
     }
     const timer = setTimeout(() => {
       setHideSave(false)
-    }, 3000)
+    }, 2000)
 
     return () => {
       clearTimeout(timer)
@@ -73,7 +76,7 @@ export default function Header({ type, id }: HeaderProps) {
           <h1
             className={`${user ? 'w-[80%]' : 'w-[50%]'} my-5 ml-5 flex items-center justify-between gap-4 text-2xl font-semibold`}
           >
-            <Link to={user ? '/dashboard' : '/'}>coWrite</Link>
+            <Link to={user ? '/dashboard/documents' : '/'}>coWrite</Link>
             {user && <SearchBar documents={documents} className="text-base" />}
           </h1>
         )}
@@ -84,9 +87,9 @@ export default function Header({ type, id }: HeaderProps) {
               e.stopPropagation()
               titleForm.handleSubmit()
             }}
-            className="ml-4 flex w-full max-w-3xl items-center"
+            className="ml-4 flex w-[70%] max-w-3xl items-center"
           >
-            <Link to="/dashboard">
+            <Link to="/dashboard/documents">
               <ArrowLeft className="btn-format mr-3" />
             </Link>
             <titleForm.Field
@@ -107,17 +110,28 @@ export default function Header({ type, id }: HeaderProps) {
                   <div className="flex items-center space-x-3">
                     <input
                       value={field.state.value}
-                      autoFocus
                       name="Title"
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       className="my-4 mb-5 rounded-md border px-3 py-2"
+                      disabled={document?.deleted}
                     />
-                    {showSaving ? (
+                    {showSaving && !document?.deleted ? (
                       <p>Saving...</p>
                     ) : (
-                      <p className="hidden md:block">
-                        Saved at {dayjs(updated_at).format('DD/MM/YYYY HH:mm')}
+                      <span className="hidden md:block">
+                        {!document?.deleted && (
+                          <p className="text-base">
+                            Saved at{' '}
+                            {dayjs(updated_at).format('DD/MM/YYYY HH:mm')}
+                          </p>
+                        )}
+                      </span>
+                    )}
+                    {document?.deleted && (
+                      <p className="text-base">
+                        Deleted at{' '}
+                        {dayjs(deleted_at).format('DD/MM/YYYY HH:mm')}
                       </p>
                     )}
                   </div>

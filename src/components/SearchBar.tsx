@@ -75,7 +75,7 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
                   {searchResults.map((entry) => (
                     <Link
                       key={entry.id}
-                      to="/dashboard/view-document/$doc_id"
+                      to="/dashboard/document/$doc_id"
                       params={{ doc_id: entry.id }}
                       className="block rounded-md px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700"
                     >

@@ -1,16 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { getDocumentFn } from '@/lib/serverFunctions/getDocumentFn'
-import { updateContentFormFn } from '@/lib/serverFunctions/updateContentFormFn'
+import { getDocumentFn } from '@/lib/serverFunctions/GET/getDocumentFn'
+import { updateContentFormFn } from '@/lib/serverFunctions/UPDATE/updateContentFormFn'
 import { useRouter } from '@tanstack/react-router'
 import Tiptap from '@/components/Tiptap'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import type { JSONContent } from '@tiptap/core'
 
-export const Route = createFileRoute(
-  '/_authed/dashboard/view-document/$doc_id'
-)({
+export const Route = createFileRoute('/_authed/dashboard/document/$doc_id')({
   component: RouteComponent,
   beforeLoad: async ({ context, params }) => {
     const document = await getDocumentFn({ data: { id: params.doc_id } })
@@ -32,7 +30,7 @@ function RouteComponent() {
 
   const contentForm = useForm({
     defaultValues: {
-      id: document.id,
+      id: doc_id,
       content: document.content ?? { type: 'doc', content: [] },
     },
   })
@@ -49,7 +47,7 @@ function RouteComponent() {
         doneSaving()
       }
     },
-    { wait: 3000 }
+    { wait: 1000 }
   )
 
   return (
@@ -74,8 +72,10 @@ function RouteComponent() {
             return (
               <div className="w-full">
                 <Tiptap
+                  id={doc_id}
                   value={field.state.value as JSONContent}
                   onChange={(json: JSONContent) => field.handleChange(json)}
+                  editable={true}
                 />
               </div>
             )

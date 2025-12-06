@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { getUserFn } from '@/lib/serverFunctions/getUserFn'
+import { getUserFn } from '@/lib/serverFunctions/GET/getUserFn'
 
 export const Route = createFileRoute('/_authed')({
   beforeLoad: async () => {

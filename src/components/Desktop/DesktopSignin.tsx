@@ -1,4 +1,4 @@
-import { oauthSigninFn } from '@/lib/serverFunctions/oauthSigninFn'
+import { oauthSigninFn } from '@/lib/serverFunctions/AUTH/oauthSigninFn'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 

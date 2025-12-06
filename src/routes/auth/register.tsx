@@ -3,7 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { emailSchema, passwordSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
-import { registerFn } from '@/lib/serverFunctions/registerFn'
+import { registerFn } from '@/lib/serverFunctions/AUTH/registerFn'
 
 export const Route = createFileRoute('/auth/register')({
   component: RouteComponent,
@@ -41,7 +41,7 @@ function RouteComponent() {
       } else {
         alert(message)
         router.invalidate({ sync: true })
-        router.navigate({ to: '/dashboard' })
+        router.navigate({ to: '/dashboard/documents' })
       }
     },
   })

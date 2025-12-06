@@ -1,6 +1,6 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { loginFn } from '@/lib/serverFunctions/loginFn'
+import { loginFn } from '@/lib/serverFunctions/AUTH/loginFn'
 import { Link } from '@tanstack/react-router'
 import { emailSchema, passwordSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
@@ -23,7 +23,6 @@ function RouteComponent() {
   const form = useForm({
     defaultValues: loggedInUser,
     onSubmit: async ({ value }) => {
-      console.log(value)
       const { error, message } = await loginFn({
         data: {
           email: value.email,
@@ -36,7 +35,7 @@ function RouteComponent() {
       } else {
         alert(message)
         router.invalidate({ sync: true })
-        router.navigate({ to: '/dashboard' })
+        router.navigate({ to: '/dashboard/documents' })
       }
     },
   })

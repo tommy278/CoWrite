@@ -1,26 +1,42 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
-import { createDocumentFn } from '@/lib/serverFunctions/createDocument'
-import { useState } from 'react'
-import { generateHTML } from '@tiptap/html'
-import { extensions, extraExtensions } from '@/lib/Constants/constants'
-import { CirclePlus } from 'lucide-react'
+import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
+import { useState, useEffect } from 'react'
+import { Document } from '@/lib/Constants/dataTypes'
+import { clickDetector } from '@/context/clickDetector'
+import DocumentDisplay from '@/components/Display/DocumentDisplay'
+import SortDropdown from '@/components/Dropdowns/SortDropdown'
 
-export const Route = createFileRoute('/_authed/dashboard/')({
+export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
 })
-
-const allExtensions = [...extensions, ...extraExtensions]
 
 function RouteComponent() {
   const { documents } = Route.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+  const [dropdown, toggleDropdown] = useState(false)
+  const [orderedDocuments, setOrderedDocuments] = useState<Document[]>(() => [
+    ...documents
+      .sort(
+        (a, b) =>
+          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      )
+      .filter((document) => !document.deleted),
+  ])
 
-  // Sorting in descending order
-  documents.sort((a, b) => {
-    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-  })
+  useEffect(() => {
+    setOrderedDocuments(
+      [...documents]
+        .sort(
+          (a, b) =>
+            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+        )
+        .filter((document) => !document.deleted)
+    )
+  }, [documents])
+
+  const ref = clickDetector(() => toggleDropdown(false))
 
   const form = useForm({
     defaultValues: { title: '' },
@@ -39,51 +55,33 @@ function RouteComponent() {
       }
     },
   })
+
   return (
     <>
-      <div className="mt-5 grid w-full grid-cols-3 space-y-4 md:grid-cols-4">
-        {!isOpen && (
-          <div className="flex justify-center">
-            <div className="view-height rounded-md bg-cyan-300">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex h-full w-full cursor-pointer items-center justify-center"
-              >
-                <CirclePlus id="icon" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {documents.map((doc) => {
-          if (!doc.content)
-            return (
-              <div key={doc.id}>
-                <p>No Content found</p>
-              </div>
-            )
-          const htmlContent = generateHTML(doc.content, allExtensions)
-          return (
-            <div className="flex justify-center" key={doc.id}>
-              <Link
-                to="/dashboard/view-document/$doc_id"
-                params={{ doc_id: doc.id }}
-              >
-                <div className="view-height overflow-hidden rounded-md bg-blue-500 p-1">
-                  <h1 id="doc-title" className="font-semibold">
-                    {doc.title}
-                  </h1>
-                  <div
-                    id="container"
-                    className="overflow-hidden text-ellipsis"
-                    dangerouslySetInnerHTML={{ __html: htmlContent }}
-                  />
-                </div>
-              </Link>
-            </div>
-          )
-        })}
+      <div className="mx-5 flex items-center justify-between">
+        <h3 className="text-base font-semibold">All Documents</h3>
+        <div className="flex items-center">
+          <span ref={ref} className="relative">
+            <SortDropdown
+              dropdown={dropdown}
+              toggleDropdown={toggleDropdown}
+              setOrderedDocuments={setOrderedDocuments}
+              documentPage={true}
+            />
+          </span>
+          <Link to="/dashboard/documents/deleted" className="hidden md:block">
+            Deleted
+          </Link>
+        </div>
       </div>
+
+      <DocumentDisplay
+        isOpen={isOpen}
+        documents={orderedDocuments}
+        setIsOpen={setIsOpen}
+        documentPage={true}
+      />
+
       {isOpen && (
         <div
           className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"

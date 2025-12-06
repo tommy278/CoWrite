@@ -1,7 +1,7 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { passwordSchema } from '@/lib/helpers/validators'
-import { updateUserFn } from '@/lib/serverFunctions/updateUserFn'
+import { updateUserFn } from '@/lib/serverFunctions/UPDATE/updateUserFn'
 
 export const Route = createFileRoute('/auth/reset-password')({
   component: RouteComponent,

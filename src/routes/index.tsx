@@ -1,12 +1,12 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
-import { getUserFn } from '@/lib/serverFunctions/getUserFn'
+import { getUserFn } from '@/lib/serverFunctions/GET/getUserFn'
 
 export const Route = createFileRoute('/')({
   component: App,
   beforeLoad: async () => {
     const user = await getUserFn()
     if (user) {
-      throw redirect({ to: '/dashboard' })
+      throw redirect({ to: '/dashboard/documents' })
     }
     return { user }
   },
