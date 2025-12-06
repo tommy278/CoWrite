@@ -89,7 +89,7 @@ export default function DocumentDisplay({
                         prev === doc.id ? null : doc.id
                       )
                     }}
-                    className="z-50 cursor-pointer rounded-full bg-gray-300 p-2 transition duration-200 hover:bg-gray-200"
+                    className="z-50 cursor-pointer rounded-full p-2 transition duration-200 hover:bg-gray-200"
                   >
                     {doc.deleted ? (
                       activeDocId === doc.id ? (

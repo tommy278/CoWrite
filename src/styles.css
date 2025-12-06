@@ -83,6 +83,10 @@ code {
   }
 }
 
+.confirm-modal {
+  @apply absolute top-full right-0 z-50 mt-2 flex w-[80%] flex-col space-y-2 bg-gray-100 px-2 py-2 text-[clamp(7px,_1vw,_15px)] shadow-md;
+}
+
 #icon {
   @apply h-10 w-10 md:h-20 md:w-20;
 }
