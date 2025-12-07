@@ -107,7 +107,7 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
                         key={entry.id}
                         to="/dashboard/document/$doc_id"
                         params={{ doc_id: entry.id }}
-                        className="block rounded-md border-b border-gray-300/40 px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700"
+                        className="block border-b border-gray-300/40 px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700"
                       >
                         {entry.title}
                       </Link>

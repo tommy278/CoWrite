@@ -1,22 +1,27 @@
 import { softDeleteFn } from '@/lib/serverFunctions/DELETE/softDeleteFn'
 import { hardDeleteFn } from '@/lib/serverFunctions/DELETE/hardDeleteFn'
 import { restoreDocumentFn } from '@/lib/serverFunctions/UPDATE/restoreDocument'
+import { pinDocumentFn } from '@/lib/serverFunctions/UPDATE/pinDocumentFn'
 import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import { clickDetector } from '@/context/clickDetector'
+import { Pin, Trash } from 'lucide-react'
 
 interface ConfirmModalProps {
   documentPage: boolean
   id: string
   onClose: () => void
+  pinned: boolean
 }
 
 export default function ConfirmModal({
   documentPage,
   id,
   onClose,
+  pinned,
 }: ConfirmModalProps) {
   const [type, setType] = useState<'confirmDelete' | 'restore' | ''>('')
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const router = useRouter()
 
   const serverFunctions = {
@@ -35,6 +40,11 @@ export default function ConfirmModal({
       onClose()
       router.invalidate({ sync: true })
     },
+    pinDocument: async () => {
+      await pinDocumentFn({ data: { id, pinned } })
+      onClose()
+      router.invalidate({ sync: true })
+    },
   }
 
   const displayText = {
@@ -45,7 +55,7 @@ export default function ConfirmModal({
 
   const ref = clickDetector(() => onClose())
 
-  if (documentPage) {
+  if (documentPage && isDeleteOpen) {
     return (
       <div className="confirm-modal" ref={ref}>
         <div className="flex flex-col space-y-1 md:space-y-2">
@@ -59,11 +69,31 @@ export default function ConfirmModal({
         </div>
       </div>
     )
+  } else if (documentPage && !isDeleteOpen) {
+    return (
+      <div className="confirm-modal" ref={ref}>
+        <div className="flex flex-col space-y-1 md:space-y-2">
+          <button
+            onClick={serverFunctions.pinDocument}
+            className="flex cursor-pointer items-center justify-center rounded-md bg-blue-400 py-1"
+          >
+            <Pin className="mr-1 h-4 w-4" />
+            {!pinned ? 'Pin' : 'Unpin'}
+          </button>
+          <button
+            onClick={() => setIsDeleteOpen(true)}
+            className="flex cursor-pointer items-center justify-center rounded-md bg-red-400 py-1"
+          >
+            <Trash className="mr-1 h-4 w-4" />
+            Delete
+          </button>
+        </div>
+      </div>
+    )
   }
   return (
     <>
       {!type && (
-        // recent change
         <div className="confirm-modal" ref={ref}>
           <button
             onClick={() => setType('confirmDelete')}

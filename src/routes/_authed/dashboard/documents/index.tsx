@@ -19,21 +19,27 @@ function RouteComponent() {
   const [dropdown, toggleDropdown] = useState(false)
   const [orderedDocuments, setOrderedDocuments] = useState<Document[]>(() => [
     ...documents
-      .sort(
-        (a, b) =>
+      .filter((doc) => !doc.deleted)
+      .sort((a, b) => {
+        if (a.pinned && !b.pinned) return -1
+        if (!a.pinned && b.pinned) return 1
+        return (
           new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      )
-      .filter((document) => !document.deleted),
+        )
+      }),
   ])
 
   useEffect(() => {
     setOrderedDocuments(
       [...documents]
-        .sort(
-          (a, b) =>
+        .filter((doc) => !doc.deleted)
+        .sort((a, b) => {
+          if (a.pinned && !b.pinned) return -1
+          if (!a.pinned && b.pinned) return 1
+          return (
             new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-        )
-        .filter((document) => !document.deleted)
+          )
+        })
     )
   }, [documents])
 

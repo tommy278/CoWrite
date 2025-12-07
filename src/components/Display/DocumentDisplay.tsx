@@ -1,5 +1,5 @@
 import { Document } from '@/lib/Constants/dataTypes'
-import { CirclePlus, Trash } from 'lucide-react'
+import { CirclePlus, Pin } from 'lucide-react'
 import { generateHTML } from '@tiptap/html'
 import { extensions, extraExtensions } from '@/lib/Constants/constants'
 import { Link } from '@tanstack/react-router'
@@ -58,8 +58,13 @@ export default function DocumentDisplay({
             <Link
               to={`${documentPage ? '/dashboard/document/$doc_id' : '/dashboard/document/deleted/$doc_id'}`}
               params={{ doc_id: doc.id }}
-              className="rounded-sm border border-gray-200 shadow-sm"
+              className="rounded-sm border border-gray-200 shadow-sm hover:border-blue-300"
             >
+              {doc.pinned && (
+                <div className="absolute top-0 right-0 m-1">
+                  <Pin color="blue" className="icon" />
+                </div>
+              )}
               <div className="view-height overflow-hidden p-3">
                 <div
                   id="container"
@@ -91,16 +96,10 @@ export default function DocumentDisplay({
                     }}
                     className="z-50 cursor-pointer rounded-full p-2 transition duration-200 hover:bg-gray-200"
                   >
-                    {doc.deleted ? (
-                      activeDocId === doc.id ? (
-                        <X className="icon" />
-                      ) : (
-                        <EllipsisVertical className="icon" />
-                      )
-                    ) : activeDocId === doc.id ? (
+                    {activeDocId === doc.id ? (
                       <X className="icon" />
                     ) : (
-                      <Trash className="icon" />
+                      <EllipsisVertical className="icon" />
                     )}
                   </button>
                 </div>
@@ -111,6 +110,7 @@ export default function DocumentDisplay({
                 documentPage={!doc.deleted}
                 id={doc.id}
                 onClose={() => setActiveDocId(null)}
+                pinned={doc.pinned}
               />
             )}
           </div>

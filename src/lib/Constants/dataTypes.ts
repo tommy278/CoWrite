@@ -9,4 +9,5 @@ export interface Document {
   updated_at: Date
   deleted_at: Date
   deleted: boolean
+  pinned: boolean
 }
