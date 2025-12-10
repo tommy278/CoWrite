@@ -49,7 +49,7 @@ const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
       <MenuBar editor={editor} editable={editable} />
       <EditorContent
         editor={editor}
-        className={`prose-editor min-h-screen w-[70%] rounded-md bg-gray-200 p-5 focus:outline-none ${className}`}
+        className={`prose-editor h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10 focus:outline-none ${className}`}
         autoFocus
       />
     </div>

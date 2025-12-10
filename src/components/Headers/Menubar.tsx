@@ -54,12 +54,11 @@ export default function MenuBar({
     },
   })
   // 78 px is approx the space directly under my header
-
   return (
     <div
-      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 mb-2 flex w-full items-center justify-between space-x-1 border-b bg-gray-300 py-2`}
+      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 py-2`}
     >
-      <ButtonCard editor={editor} state="undo" className="ml-5">
+      <ButtonCard editor={editor} state="undo" className="ml-3 md:ml-5">
         <button onClick={() => editor.chain().focus().undo().run()}>
           <Undo className="btn-format cursor-pointer" />
         </button>
@@ -71,7 +70,7 @@ export default function MenuBar({
         </button>
       </ButtonCard>
 
-      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
+      {/* <RxDividerVertical className="hidden md:block md:h-10 md:w-10" /> */}
 
       <ButtonCard editor={editor} state={null}>
         <HeaderDropdown editor={editor} />
@@ -126,7 +125,7 @@ export default function MenuBar({
         </button>
       </ButtonCard>
 
-      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
+      {/* <RxDividerVertical className="hidden md:block md:h-10 md:w-10" /> */}
 
       <ButtonCard editor={editor} state={null}>
         <HighlightDropdown editor={editor} />

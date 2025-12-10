@@ -40,18 +40,18 @@ export default function ({ editor }: { editor: Editor }) {
       </div>
 
       {highlightOpen && (
-        <div className="absolute top-full right-0 z-50 mt-2 min-w-[200px] rounded-md bg-gray-400 p-2 shadow-md">
-          <div className="grid grid-cols-4 gap-2">
+        <div className="absolute top-full left-0 z-50 mt-4 w-auto rounded-md bg-gray-400 p-1 shadow-md md:mt-2 md:min-w-[150px]">
+          <div className="flex items-center space-x-2 md:grid md:grid-cols-4 md:space-x-0">
             {Object.entries(colors).map(([key, color]) => (
               <button
                 key={key}
                 onClick={() => handleClick(color)}
-                className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-full ${
+                className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-full md:h-7 md:w-7 ${
                   editor.isActive('highlight', { color }) ? 'is-active' : ''
                 }`}
               >
                 <div
-                  className="h-5 w-5 rounded-full"
+                  className="h-3 w-3 rounded-full md:h-5 md:w-5"
                   style={{ backgroundColor: color }}
                 />
               </button>
@@ -62,7 +62,7 @@ export default function ({ editor }: { editor: Editor }) {
               disabled={!editor.isActive('highlight')}
               className="flex h-7 w-7 cursor-pointer items-center justify-center"
             >
-              <FaBan size={20} />
+              <FaBan className="h-3 w-3 md:h-5 md:w-5" />
             </button>
           </div>
         </div>

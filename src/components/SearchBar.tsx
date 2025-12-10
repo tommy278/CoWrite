@@ -50,10 +50,10 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
 
       const activeSorted = active
         .sort((a, b) => a.title.localeCompare(b.title))
-        .slice(0, 20)
+        .slice(0, 10)
       const deletedSorted = deleted
         .sort((a, b) => a.title.localeCompare(b.title))
-        .slice(0, 20)
+        .slice(0, 10)
 
       setSearchResults({
         active: [...activeSorted],

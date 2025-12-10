@@ -60,7 +60,7 @@ export default function DocumentDisplay({
               params={{ doc_id: doc.id }}
               className="rounded-sm border border-gray-200 shadow-sm hover:border-blue-300"
             >
-              {doc.pinned && (
+              {doc.pinned && !doc.deleted && (
                 <div className="absolute top-0 right-0 m-1">
                   <Pin color="blue" className="icon" />
                 </div>
