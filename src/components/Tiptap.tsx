@@ -6,6 +6,7 @@ import { BulletList, OrderedList } from '@tiptap/extension-list'
 import MenuBar from '@/components/Headers/Menubar'
 import type { JSONContent } from '@tiptap/core'
 import Link from '@tiptap/extension-link'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 
 interface TiptapProps {
   onChange?: (content: JSONContent) => void
@@ -33,6 +34,7 @@ const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
         defaultProtocol: 'https',
         protocols: ['http', 'https'],
       }),
+      HorizontalRule,
     ],
     editable,
     content: value,

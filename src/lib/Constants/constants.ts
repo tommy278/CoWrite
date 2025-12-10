@@ -12,6 +12,7 @@ import Highlight from '@tiptap/extension-highlight'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { UndoRedo } from '@tiptap/extensions/undo-redo'
 import Link from '@tiptap/extension-link'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 
 export const extensions = [
   Document,
@@ -33,6 +34,7 @@ export const extraExtensions = [
   Heading,
   BulletList,
   Link,
+  HorizontalRule,
 ]
 
 export const callbackUrl: string =

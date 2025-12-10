@@ -159,6 +159,14 @@ export default function MenuBar({
         Unset link
       </button>
 
+      <ButtonCard editor={editor} state={null}>
+        <button
+          onClick={() => editor.chain().focus().setHorizontalRule().run()}
+        >
+          Hr
+        </button>
+      </ButtonCard>
+
       <span className="mr-5">
         <ButtonCard editor={editor} state={null}>
           <ListDropdown editor={editor} editorState={editorState} />

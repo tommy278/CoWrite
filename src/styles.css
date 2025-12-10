@@ -72,6 +72,11 @@ code {
   @apply list-decimal pl-2 md:pl-4;
 }
 
+#container hr,
+.prose-editor hr {
+  @apply my-[1em];
+}
+
 @layer base {
   #container ol li::marker,
   #container ul li::marker {
