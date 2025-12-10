@@ -11,7 +11,6 @@ import {
   Strikethrough,
   Italic,
   Underline,
-  // Quote, Will be added later
   Undo,
   Redo,
   Code,
@@ -47,6 +46,7 @@ export default function MenuBar({
         isBulletList: ctx.editor.isActive('bulletList') ?? false,
         isOrderedList: ctx.editor.isActive('orderedList') ?? false,
         isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
+        canCodeBlock: ctx.editor.can().chain().toggleCodeBlock().run() ?? false,
         isBlockquote: ctx.editor.isActive('blockquote') ?? false,
         isLink: ctx.editor.isActive('link') ?? false,
         canUndo: ctx.editor.can().chain().undo().run() ?? false,
@@ -139,6 +139,16 @@ export default function MenuBar({
       </ButtonCard>
 
       {/* <RxDividerVertical className="hidden md:block md:h-10 md:w-10" /> */}
+
+      <ButtonCard editor={editor} state={'codeBlock'}>
+        <button
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          disabled={!editorState.canCodeBlock}
+          className={`cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
+        >
+          CB
+        </button>
+      </ButtonCard>
 
       <ButtonCard editor={editor} state={null}>
         <HighlightDropdown editor={editor} />

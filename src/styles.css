@@ -77,6 +77,20 @@ code {
   @apply my-[1em];
 }
 
+.prose-editor pre {
+  background: #0d0d0f;
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  border: 1px solid #1f1f22;
+}
+
+.prose-editor pre code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: #d1d1d6;
+}
+
 @layer base {
   #container ol li::marker,
   #container ul li::marker {

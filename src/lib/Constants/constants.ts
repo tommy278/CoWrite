@@ -13,6 +13,8 @@ import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { UndoRedo } from '@tiptap/extensions/undo-redo'
 import Link from '@tiptap/extension-link'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import CodeBlock from '@tiptap/extension-code-block'
+import QuoteBlock from '@tiptap/extension-blockquote'
 
 export const extensions = [
   Document,
@@ -26,6 +28,8 @@ export const extensions = [
   Code,
   UndoRedo,
   ListItem,
+  CodeBlock,
+  QuoteBlock,
 ]
 
 export const extraExtensions = [
