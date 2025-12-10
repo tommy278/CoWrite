@@ -48,12 +48,25 @@ export default function MenuBar({
         isOrderedList: ctx.editor.isActive('orderedList') ?? false,
         isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
         isBlockquote: ctx.editor.isActive('blockquote') ?? false,
+        isLink: ctx.editor.isActive('link') ?? false,
         canUndo: ctx.editor.can().chain().undo().run() ?? false,
         canRedo: ctx.editor.can().chain().redo().run() ?? false,
       }
     },
   })
-  // 78 px is approx the space directly under my header
+  const setLink = () => {
+    const previousUrl = editor.getAttributes('link').href
+    const url = window.prompt('URL', previousUrl)
+
+    // If user cleared the link
+    if (url === null) return
+    if (url === '') {
+      editor.chain().focus().unsetLink().run()
+      return
+    }
+
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+  }
   return (
     <div
       className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 py-2`}
@@ -65,7 +78,7 @@ export default function MenuBar({
       </ButtonCard>
 
       <ButtonCard editor={editor} state="redo">
-        <button onClick={() => editor.chain().focus().undo().run()}>
+        <button onClick={() => editor.chain().focus().redo().run()}>
           <Redo className="btn-format cursor-pointer" />
         </button>
       </ButtonCard>
@@ -130,6 +143,21 @@ export default function MenuBar({
       <ButtonCard editor={editor} state={null}>
         <HighlightDropdown editor={editor} />
       </ButtonCard>
+
+      <ButtonCard editor={editor} state={'link'}>
+        <button
+          onClick={setLink}
+          className={editorState.isLink ? 'is-active' : ''}
+        >
+          Set link
+        </button>
+      </ButtonCard>
+      <button
+        onClick={() => editor.chain().focus().unsetLink().run()}
+        disabled={!editorState.isLink}
+      >
+        Unset link
+      </button>
 
       <span className="mr-5">
         <ButtonCard editor={editor} state={null}>

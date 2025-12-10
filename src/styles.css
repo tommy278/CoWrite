@@ -58,6 +58,11 @@ code {
   font-size: 1em;
 }
 
+.prose-editor a,
+#container a {
+  @apply cursor-pointer text-blue-500 underline;
+}
+
 #container ul,
 .prose-editor ul {
   @apply list-disc pl-2 md:pl-4;

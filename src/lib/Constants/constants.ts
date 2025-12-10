@@ -11,6 +11,7 @@ import Code from '@tiptap/extension-code'
 import Highlight from '@tiptap/extension-highlight'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { UndoRedo } from '@tiptap/extensions/undo-redo'
+import Link from '@tiptap/extension-link'
 
 export const extensions = [
   Document,
@@ -26,7 +27,13 @@ export const extensions = [
   ListItem,
 ]
 
-export const extraExtensions = [Highlight, OrderedList, Heading, BulletList]
+export const extraExtensions = [
+  Highlight,
+  OrderedList,
+  Heading,
+  BulletList,
+  Link,
+]
 
 export const callbackUrl: string =
   import.meta.env.VITE_APP_CALLBACK_URL || 'http://localhost:3000/auth/callback'

@@ -5,6 +5,7 @@ import { extensions } from '@/lib/Constants/constants'
 import { BulletList, OrderedList } from '@tiptap/extension-list'
 import MenuBar from '@/components/Headers/Menubar'
 import type { JSONContent } from '@tiptap/core'
+import Link from '@tiptap/extension-link'
 
 interface TiptapProps {
   onChange?: (content: JSONContent) => void
@@ -24,6 +25,13 @@ const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
       }),
       OrderedList.configure({
         HTMLAttributes: { class: 'list-decimal ml-2' },
+      }),
+      Link.configure({
+        openOnClick: true,
+        autolink: true,
+        enableClickSelection: true,
+        defaultProtocol: 'https',
+        protocols: ['http', 'https'],
       }),
     ],
     editable,
