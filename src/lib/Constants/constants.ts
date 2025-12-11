@@ -15,6 +15,8 @@ import Link from '@tiptap/extension-link'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import QuoteBlock from '@tiptap/extension-blockquote'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { Dropcursor } from '@tiptap/extensions'
+import Image from '@tiptap/extension-image'
 
 export const extensions = [
   Document,
@@ -39,6 +41,8 @@ export const extraExtensions = [
   Link,
   HorizontalRule,
   CodeBlockLowlight,
+  Dropcursor,
+  Image,
 ]
 
 export const callbackUrl: string =

@@ -1,7 +1,7 @@
 import { EditorContent, useEditor } from '@tiptap/react'
 import Heading from '@tiptap/extension-heading'
 import Highlight from '@tiptap/extension-highlight'
-import { extensions } from '@/lib/Constants/constants'
+import { extensions as baseExtensions } from '@/lib/Constants/constants'
 import { BulletList, OrderedList } from '@tiptap/extension-list'
 import MenuBar from '@/components/Headers/Menubar'
 import type { JSONContent } from '@tiptap/core'
@@ -11,6 +11,17 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { createLowlight } from 'lowlight'
 import javascript from 'highlight.js/lib/languages/javascript'
 import python from 'highlight.js/lib/languages/python'
+import typescript from 'highlight.js/lib/languages/typescript'
+import { Dropcursor } from '@tiptap/extensions'
+import Image from '@tiptap/extension-image'
+import { useMemo } from 'react'
+
+const lowlight = createLowlight()
+lowlight.register('javascript', javascript)
+lowlight.registerAlias('javascript', ['js'])
+lowlight.register('typescript', typescript)
+lowlight.registerAlias('typescript', ['ts'])
+lowlight.register('python', python)
 
 interface TiptapProps {
   onChange?: (content: JSONContent) => void
@@ -19,22 +30,26 @@ interface TiptapProps {
   editable: boolean
 }
 
-const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
-  const lowlight = createLowlight()
-  lowlight.register('js', javascript)
-  lowlight.register('python', python)
-
-  const editor = useEditor({
-    extensions: [
-      ...extensions,
+export default function Tiptap({
+  value,
+  className,
+  onChange,
+  editable,
+}: TiptapProps) {
+  const extensions = useMemo(() => {
+    return [
+      ...baseExtensions,
       Heading.configure({ levels: [1, 2, 3, 4, 5, 6] }),
       Highlight.configure({ multicolor: true }),
+
       BulletList.configure({
         HTMLAttributes: { class: 'list-disc ml-2' },
       }),
+
       OrderedList.configure({
         HTMLAttributes: { class: 'list-decimal ml-2' },
       }),
+
       Link.configure({
         openOnClick: true,
         autolink: true,
@@ -42,20 +57,28 @@ const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
         defaultProtocol: 'https',
         protocols: ['http', 'https'],
       }),
+
       HorizontalRule,
+      Image,
+      Dropcursor,
+
       CodeBlockLowlight.configure({
         lowlight,
         languageClassPrefix: 'language-',
         defaultLanguage: 'plaintext',
       }),
-    ],
+    ]
+  }, [])
+  const editor = useEditor({
+    extensions,
     editable,
     content: value,
-    immediatelyRender: false,
     autofocus: true,
+
     onUpdate: ({ editor }) => {
-      if (onChange) onChange(editor.getJSON())
+      onChange?.(editor.getJSON())
     },
+
     editorProps: {
       attributes: {
         class: 'focus:outline-none outline-none prose w-full',
@@ -63,21 +86,23 @@ const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
     },
   })
 
-  if (!editor) {
-    console.log()
-    return <div>Something went wrong</div>
+  if (!editor) return <div>Loading...</div>
+
+  const addImage = () => {
+    const url = window.prompt('URL')
+    if (url) editor.chain().focus().setImage({ src: url }).run()
   }
 
   return (
     <div className="relative flex flex-col items-center justify-center">
       <MenuBar editor={editor} editable={editable} />
+
+      <button onClick={addImage}>Add Image</button>
+
       <EditorContent
         editor={editor}
-        className={`prose-editor h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10 focus:outline-none ${className}`}
-        autoFocus
+        className={`prose-editor h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10 ${className}`}
       />
     </div>
   )
 }
-
-export default Tiptap
