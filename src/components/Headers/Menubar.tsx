@@ -5,6 +5,7 @@ import HeaderDropdown from '@/components/Dropdowns/HeaderDropdown'
 import HighlightDropdown from '@/components/Dropdowns/HighlightDropdown'
 import { RxDividerVertical } from 'react-icons/rx'
 import { ListDropdown } from '@/components/Dropdowns/ListDropdown'
+import ImageDropdown from '@/components/Dropdowns/ImageDropdown'
 
 import {
   Bold,
@@ -17,7 +18,6 @@ import {
   CodeXml,
   Link,
   Link2Off,
-  ImagePlus,
   SquareMinus,
 } from 'lucide-react'
 
@@ -70,10 +70,6 @@ export default function MenuBar({
     }
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
-  }
-  const addImage = () => {
-    const url = window.prompt('URL')
-    if (url) editor.chain().focus().setImage({ src: url }).run()
   }
   return (
     <div
@@ -162,6 +158,10 @@ export default function MenuBar({
         <HighlightDropdown editor={editor} />
       </ButtonCard>
 
+      <ButtonCard editor={editor} state={null}>
+        <ImageDropdown editor={editor} />
+      </ButtonCard>
+
       <ButtonCard editor={editor} state={'link'}>
         <>
           {!editorState.isLink ? (
@@ -186,12 +186,6 @@ export default function MenuBar({
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
           <SquareMinus className="btn-format" />
-        </button>
-      </ButtonCard>
-
-      <ButtonCard editor={editor} state={null}>
-        <button onClick={addImage}>
-          <ImagePlus className="btn-format" />
         </button>
       </ButtonCard>
 

@@ -80,6 +80,7 @@ export default function Tiptap({
     editable,
     content: value,
     autofocus: true,
+    immediatelyRender: false,
 
     onUpdate: ({ editor }) => {
       onChange?.(editor.getJSON())
