@@ -7,6 +7,10 @@ import MenuBar from '@/components/Headers/Menubar'
 import type { JSONContent } from '@tiptap/core'
 import Link from '@tiptap/extension-link'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { createLowlight } from 'lowlight'
+import javascript from 'highlight.js/lib/languages/javascript'
+import python from 'highlight.js/lib/languages/python'
 
 interface TiptapProps {
   onChange?: (content: JSONContent) => void
@@ -16,6 +20,10 @@ interface TiptapProps {
 }
 
 const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
+  const lowlight = createLowlight()
+  lowlight.register('js', javascript)
+  lowlight.register('python', python)
+
   const editor = useEditor({
     extensions: [
       ...extensions,
@@ -35,6 +43,11 @@ const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
         protocols: ['http', 'https'],
       }),
       HorizontalRule,
+      CodeBlockLowlight.configure({
+        lowlight,
+        languageClassPrefix: 'language-',
+        defaultLanguage: 'plaintext',
+      }),
     ],
     editable,
     content: value,
@@ -51,6 +64,7 @@ const Tiptap = ({ value, className, onChange, editable }: TiptapProps) => {
   })
 
   if (!editor) {
+    console.log()
     return <div>Something went wrong</div>
   }
 

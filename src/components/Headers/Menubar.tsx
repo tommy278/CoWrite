@@ -128,7 +128,7 @@ export default function MenuBar({
         </button>
       </ButtonCard>
 
-      <ButtonCard state="strike" editor={editor}>
+      <ButtonCard state="strike" editor={null}>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editorState.canStrike}

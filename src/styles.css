@@ -78,17 +78,15 @@ code {
 }
 
 .prose-editor pre {
-  background: #0d0d0f;
-  padding: 12px 14px;
+  background: #0a0a0a;
+  padding: 1rem;
   border-radius: 8px;
-  overflow-x: auto;
-  border: 1px solid #1f1f22;
 }
 
-.prose-editor pre code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  color: #d1d1d6;
+.prose-editor code {
+  font-size: 0.8rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: white;
 }
 
 @layer base {
@@ -139,4 +137,55 @@ code {
 
 .time-size {
   @apply text-[clamp(3px,_1vw,_8px)];
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #616161;
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: rgb(229, 192, 127);
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: rgb(204, 151, 103);
+}
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: rgb(138, 177, 115);
+}
+
+.hljs-title,
+.hljs-section {
+  color: rgb(97, 175, 236);
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: rgb(198, 120, 218);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
 }
