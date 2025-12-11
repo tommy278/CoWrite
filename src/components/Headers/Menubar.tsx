@@ -67,6 +67,10 @@ export default function MenuBar({
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
   }
+  const addImage = () => {
+    const url = window.prompt('URL')
+    if (url) editor.chain().focus().setImage({ src: url }).run()
+  }
   return (
     <div
       className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 py-2`}
@@ -175,6 +179,10 @@ export default function MenuBar({
         >
           Hr
         </button>
+      </ButtonCard>
+
+      <ButtonCard editor={editor} state={null}>
+        <button onClick={addImage}>Add Image</button>
       </ButtonCard>
 
       <span className="mr-5">

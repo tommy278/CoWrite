@@ -59,7 +59,15 @@ export default function Tiptap({
       }),
 
       HorizontalRule,
-      Image,
+      Image.configure({
+        resize: {
+          enabled: true,
+          directions: ['top', 'bottom', 'left', 'right'],
+          minWidth: 50,
+          minHeight: 50,
+          alwaysPreserveAspectRatio: true,
+        },
+      }),
       Dropcursor,
 
       CodeBlockLowlight.configure({
@@ -88,17 +96,9 @@ export default function Tiptap({
 
   if (!editor) return <div>Loading...</div>
 
-  const addImage = () => {
-    const url = window.prompt('URL')
-    if (url) editor.chain().focus().setImage({ src: url }).run()
-  }
-
   return (
     <div className="relative flex flex-col items-center justify-center">
       <MenuBar editor={editor} editable={editable} />
-
-      <button onClick={addImage}>Add Image</button>
-
       <EditorContent
         editor={editor}
         className={`prose-editor h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10 ${className}`}
