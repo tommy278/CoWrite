@@ -55,7 +55,6 @@ export default function Tiptap({
         autolink: true,
         enableClickSelection: true,
         defaultProtocol: 'https',
-        protocols: ['http', 'https'],
       }),
 
       HorizontalRule,
@@ -69,7 +68,6 @@ export default function Tiptap({
         },
       }),
       Dropcursor,
-
       CodeBlockLowlight.configure({
         lowlight,
         languageClassPrefix: 'language-',

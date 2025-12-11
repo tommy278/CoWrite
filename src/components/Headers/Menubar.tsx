@@ -14,6 +14,11 @@ import {
   Undo,
   Redo,
   Code,
+  CodeXml,
+  Link,
+  Link2Off,
+  ImagePlus,
+  SquareMinus,
 } from 'lucide-react'
 
 export default function MenuBar({
@@ -47,7 +52,6 @@ export default function MenuBar({
         isOrderedList: ctx.editor.isActive('orderedList') ?? false,
         isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
         canCodeBlock: ctx.editor.can().chain().toggleCodeBlock().run() ?? false,
-        isBlockquote: ctx.editor.isActive('blockquote') ?? false,
         isLink: ctx.editor.isActive('link') ?? false,
         canUndo: ctx.editor.can().chain().undo().run() ?? false,
         canRedo: ctx.editor.can().chain().redo().run() ?? false,
@@ -87,7 +91,7 @@ export default function MenuBar({
         </button>
       </ButtonCard>
 
-      {/* <RxDividerVertical className="hidden md:block md:h-10 md:w-10" /> */}
+      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
       <ButtonCard editor={editor} state={null}>
         <HeaderDropdown editor={editor} />
@@ -132,7 +136,7 @@ export default function MenuBar({
         </button>
       </ButtonCard>
 
-      <ButtonCard state="strike" editor={null}>
+      <ButtonCard state="strike" editor={editor}>
         <button
           onClick={() => editor.chain().focus().toggleStrike().run()}
           disabled={!editorState.canStrike}
@@ -142,7 +146,7 @@ export default function MenuBar({
         </button>
       </ButtonCard>
 
-      {/* <RxDividerVertical className="hidden md:block md:h-10 md:w-10" /> */}
+      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
       <ButtonCard editor={editor} state={'codeBlock'}>
         <button
@@ -150,7 +154,7 @@ export default function MenuBar({
           disabled={!editorState.canCodeBlock}
           className={`cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
         >
-          CB
+          <CodeXml className="btn-format" />
         </button>
       </ButtonCard>
 
@@ -159,30 +163,36 @@ export default function MenuBar({
       </ButtonCard>
 
       <ButtonCard editor={editor} state={'link'}>
-        <button
-          onClick={setLink}
-          className={editorState.isLink ? 'is-active' : ''}
-        >
-          Set link
-        </button>
+        <>
+          {!editorState.isLink ? (
+            <button
+              onClick={setLink}
+              className={editorState.isLink ? 'is-active' : ''}
+            >
+              <Link className="btn-format" />
+            </button>
+          ) : (
+            <button
+              onClick={() => editor.chain().focus().unsetLink().run()}
+              disabled={!editorState.isLink}
+            >
+              <Link2Off className="btn-format" />
+            </button>
+          )}
+        </>
       </ButtonCard>
-      <button
-        onClick={() => editor.chain().focus().unsetLink().run()}
-        disabled={!editorState.isLink}
-      >
-        Unset link
-      </button>
-
       <ButtonCard editor={editor} state={null}>
         <button
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
-          Hr
+          <SquareMinus className="btn-format" />
         </button>
       </ButtonCard>
 
       <ButtonCard editor={editor} state={null}>
-        <button onClick={addImage}>Add Image</button>
+        <button onClick={addImage}>
+          <ImagePlus className="btn-format" />
+        </button>
       </ButtonCard>
 
       <span className="mr-5">
