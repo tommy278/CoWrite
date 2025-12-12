@@ -3,6 +3,7 @@ import { Home, X, LogIn, Plus } from 'lucide-react'
 import Logout from '@/components/Logout'
 import { Route as ParentRoute } from '@/routes/__root'
 import { Trash } from 'lucide-react'
+import { clickDetector } from '@/context/clickDetector'
 
 interface MobileNavbarProps {
   isOpen: boolean | null
@@ -12,12 +13,14 @@ interface MobileNavbarProps {
 export default function MobileNavbar(props: MobileNavbarProps) {
   const { isOpen, setIsOpen } = props ?? {}
   const { user } = ParentRoute.useRouteContext()
+  const ref = clickDetector(() => setIsOpen?.(false))
   return (
     <>
       <aside
         className={`fixed top-0 right-0 z-50 flex h-full w-80 transform flex-col bg-blue-800 text-white shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        ref={ref}
       >
         <div className="flex items-center justify-between border-b border-gray-200 p-4">
           <h2 className="text-xl font-bold">Navigation</h2>

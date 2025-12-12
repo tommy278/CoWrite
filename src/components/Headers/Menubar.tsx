@@ -5,7 +5,7 @@ import HeaderDropdown from '@/components/Dropdowns/HeaderDropdown'
 import HighlightDropdown from '@/components/Dropdowns/HighlightDropdown'
 import { RxDividerVertical } from 'react-icons/rx'
 import { ListDropdown } from '@/components/Dropdowns/ListDropdown'
-import ImageDropdown from '@/components/Dropdowns/ImageDropdown'
+import LinkPopover from '@/components/Dropdowns/LinkPopover'
 
 import {
   Bold,
@@ -16,7 +16,6 @@ import {
   Redo,
   Code,
   CodeXml,
-  Link,
   Link2Off,
   SquareMinus,
 } from 'lucide-react'
@@ -58,19 +57,6 @@ export default function MenuBar({
       }
     },
   })
-  const setLink = () => {
-    const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
-
-    // If user cleared the link
-    if (url === null) return
-    if (url === '') {
-      editor.chain().focus().unsetLink().run()
-      return
-    }
-
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
-  }
   return (
     <div
       className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 py-2`}
@@ -159,18 +145,13 @@ export default function MenuBar({
       </ButtonCard>
 
       <ButtonCard editor={editor} state={null}>
-        <ImageDropdown editor={editor} />
+        <LinkPopover editor={editor} type="image" />
       </ButtonCard>
 
       <ButtonCard editor={editor} state={'link'}>
         <>
           {!editorState.isLink ? (
-            <button
-              onClick={setLink}
-              className={editorState.isLink ? 'is-active' : ''}
-            >
-              <Link className="btn-format" />
-            </button>
+            <LinkPopover type="link" editor={editor} />
           ) : (
             <button
               onClick={() => editor.chain().focus().unsetLink().run()}
@@ -185,7 +166,7 @@ export default function MenuBar({
         <button
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
-          <SquareMinus className="btn-format" />
+          <SquareMinus className="btn-format cursor-pointer" />
         </button>
       </ButtonCard>
 
