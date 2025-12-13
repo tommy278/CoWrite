@@ -51,6 +51,9 @@ export default function MenuBar({
         isOrderedList: ctx.editor.isActive('orderedList') ?? false,
         isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
         canCodeBlock: ctx.editor.can().chain().toggleCodeBlock().run() ?? false,
+        isBlockQuote: ctx.editor.isActive('blockQuote') ?? false,
+        canBlockQuote:
+          ctx.editor.can().chain().toggleBlockquote().run() ?? false,
         isLink: ctx.editor.isActive('link') ?? false,
         canUndo: ctx.editor.can().chain().undo().run() ?? false,
         canRedo: ctx.editor.can().chain().redo().run() ?? false,
@@ -130,13 +133,23 @@ export default function MenuBar({
 
       <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
-      <ButtonCard editor={editor} state={'codeBlock'}>
+      <ButtonCard editor={editor} state="codeBlock">
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           disabled={!editorState.canCodeBlock}
           className={`cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
         >
           <CodeXml className="btn-format" />
+        </button>
+      </ButtonCard>
+
+      <ButtonCard editor={editor} state="blockQuote">
+        <button
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          disabled={!editorState.canBlockQuote}
+          className={`cursor-pointer ${editorState.isBlockQuote ? 'is-active' : ''}`}
+        >
+          BQ
         </button>
       </ButtonCard>
 

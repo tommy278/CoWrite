@@ -72,6 +72,8 @@ export default function Tiptap({
         lowlight,
         languageClassPrefix: 'language-',
         defaultLanguage: 'plaintext',
+        enableTabIndentation: true,
+        tabSize: 2,
       }),
     ]
   }, [])
