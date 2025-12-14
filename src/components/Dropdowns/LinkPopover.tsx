@@ -86,8 +86,8 @@ export default function LinkPopover({
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
-                      setWidth('560')
-                      setHeight('315')
+                      setWidth(PRESETS.small.width)
+                      setHeight(PRESETS.small.height)
                     }}
                     className={`cursor-pointer p-1 ${
                       width === PRESETS.small.width &&
@@ -100,8 +100,8 @@ export default function LinkPopover({
                   </button>
                   <button
                     onClick={() => {
-                      setWidth('640')
-                      setHeight('360')
+                      setWidth(PRESETS.medium.width)
+                      setHeight(PRESETS.medium.height)
                     }}
                     className={`cursor-pointer p-1 ${
                       width === PRESETS.medium.width &&
@@ -114,8 +114,8 @@ export default function LinkPopover({
                   </button>
                   <button
                     onClick={() => {
-                      setWidth('960')
-                      setHeight('540')
+                      setWidth(PRESETS.large.width)
+                      setHeight(PRESETS.large.height)
                     }}
                     className={`cursor-pointer p-1 ${
                       width === PRESETS.large.width &&

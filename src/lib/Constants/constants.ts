@@ -19,6 +19,8 @@ import Image from '@tiptap/extension-image'
 import Blockquote from '@tiptap/extension-blockquote'
 import Youtube from '@tiptap/extension-youtube'
 import TabIndent from '@/lib/CustomExtensions/TabIndent'
+import { Gapcursor } from '@tiptap/extensions'
+import { TableKit } from '@tiptap/extension-table'
 
 export const extensions = [
   Document,
@@ -35,6 +37,7 @@ export const extensions = [
   Blockquote,
   Youtube,
   TabIndent,
+  Gapcursor,
 ]
 
 export const extraExtensions = [
@@ -47,6 +50,7 @@ export const extraExtensions = [
   CodeBlockLowlight,
   Dropcursor,
   Image,
+  TableKit,
 ]
 
 export const callbackUrl: string =

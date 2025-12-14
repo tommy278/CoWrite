@@ -15,6 +15,7 @@ import typescript from 'highlight.js/lib/languages/typescript'
 import { Dropcursor } from '@tiptap/extensions'
 import Image from '@tiptap/extension-image'
 import { useMemo } from 'react'
+import { TableKit } from '@tiptap/extension-table'
 
 const lowlight = createLowlight()
 lowlight.register('javascript', javascript)
@@ -73,6 +74,9 @@ export default function Tiptap({
         languageClassPrefix: 'language-',
         defaultLanguage: 'plaintext',
       }),
+      TableKit.configure({
+        table: { resizable: true },
+      }),
     ]
   }, [])
   const editor = useEditor({
@@ -85,7 +89,6 @@ export default function Tiptap({
     onUpdate: ({ editor }) => {
       onChange?.(editor.getJSON())
     },
-
     editorProps: {
       attributes: {
         class: 'focus:outline-none outline-none prose w-full',

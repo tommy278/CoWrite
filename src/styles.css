@@ -279,3 +279,10 @@ code {
   margin: 1.5rem 0;
   padding-left: 1rem;
 }
+
+tr,
+td,
+table,
+th {
+  @apply border border-gray-400;
+}

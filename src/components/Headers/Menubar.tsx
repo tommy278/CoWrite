@@ -20,6 +20,7 @@ import {
   SquareMinus,
   TextQuote,
 } from 'lucide-react'
+import TableDropdown from '../Dropdowns/TableDropdown'
 
 export default function MenuBar({
   editor,
@@ -165,6 +166,10 @@ export default function MenuBar({
 
       <ButtonCard editor={editor}>
         <LinkPopover editor={editor} type="youtube" />
+      </ButtonCard>
+
+      <ButtonCard editor={editor}>
+        <TableDropdown editor={editor} />
       </ButtonCard>
 
       <ButtonCard editor={editor} state={'link'}>
