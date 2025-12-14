@@ -38,7 +38,7 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
         onClick={() => toggleHeaderOpen(!headerOpen)}
       />
       {headerOpen && (
-        <div className="inset fixed z-50 mt-45 rounded-md bg-gray-400 p-1 text-sm shadow-md md:text-base">
+        <div className="dropdown flex-col">
           {levels.map((level, index) => (
             <div key={index}>
               <button

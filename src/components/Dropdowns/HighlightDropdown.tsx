@@ -31,7 +31,7 @@ export default function ({ editor }: { editor: Editor }) {
   const ref = clickDetector(() => toggleHighlightOpen(false))
 
   return (
-    <div ref={ref} className="relative inline-block">
+    <div ref={ref}>
       <div className="flex items-center">
         <Highlighter
           className="btn-format cursor-pointer"
@@ -40,7 +40,7 @@ export default function ({ editor }: { editor: Editor }) {
       </div>
 
       {highlightOpen && (
-        <div className="absolute top-full left-0 z-50 mt-4 w-auto rounded-md bg-gray-400 p-1 shadow-md md:mt-2 md:min-w-[150px]">
+        <div className="dropdown shadow-md md:min-w-[150px]">
           <div className="flex items-center space-x-2 md:grid md:grid-cols-4 md:space-x-0">
             {Object.entries(colors).map(([key, color]) => (
               <button

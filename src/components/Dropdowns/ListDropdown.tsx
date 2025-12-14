@@ -15,13 +15,13 @@ export function ListDropdown({ editor, editorState }: ListDropdownProps) {
   const ref = clickDetector(() => toggleListOpen(false))
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref}>
       <EllipsisVertical
         className="btn-format cursor-pointer"
         onClick={() => toggleListOpen(!listOpen)}
       />
       {listOpen && (
-        <div className="absolute top-full right-0 mt-2 flex rounded-md bg-gray-400 p-1 shadow-md">
+        <div className="dropdown">
           <ButtonCard editor={editor} state="bulletList">
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}

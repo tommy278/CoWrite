@@ -17,6 +17,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { Dropcursor } from '@tiptap/extensions'
 import Image from '@tiptap/extension-image'
 import Blockquote from '@tiptap/extension-blockquote'
+import Youtube from '@tiptap/extension-youtube'
 
 export const extensions = [
   Document,
@@ -31,6 +32,7 @@ export const extensions = [
   UndoRedo,
   ListItem,
   Blockquote,
+  Youtube,
 ]
 
 export const extraExtensions = [

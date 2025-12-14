@@ -18,6 +18,7 @@ import {
   CodeXml,
   Link2Off,
   SquareMinus,
+  TextQuote,
 } from 'lucide-react'
 
 export default function MenuBar({
@@ -61,10 +62,11 @@ export default function MenuBar({
     },
   })
   return (
-    <div
-      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 py-2`}
+    <menu
+      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 px-3 py-2 md:px-5`}
+      aria-label="Editor toolbar"
     >
-      <ButtonCard editor={editor} state="undo" className="ml-3 md:ml-5">
+      <ButtonCard editor={editor} state="undo">
         <button onClick={() => editor.chain().focus().undo().run()}>
           <Undo className="btn-format cursor-pointer" />
         </button>
@@ -78,7 +80,7 @@ export default function MenuBar({
 
       <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
-      <ButtonCard editor={editor} state={null}>
+      <ButtonCard editor={editor}>
         <HeaderDropdown editor={editor} />
       </ButtonCard>
 
@@ -149,16 +151,20 @@ export default function MenuBar({
           disabled={!editorState.canBlockQuote}
           className={`cursor-pointer ${editorState.isBlockQuote ? 'is-active' : ''}`}
         >
-          BQ
+          <TextQuote className="btn-format" />
         </button>
       </ButtonCard>
 
-      <ButtonCard editor={editor} state={null}>
+      <ButtonCard editor={editor}>
         <HighlightDropdown editor={editor} />
       </ButtonCard>
 
-      <ButtonCard editor={editor} state={null}>
+      <ButtonCard editor={editor}>
         <LinkPopover editor={editor} type="image" />
+      </ButtonCard>
+
+      <ButtonCard editor={editor}>
+        <LinkPopover editor={editor} type="youtube" />
       </ButtonCard>
 
       <ButtonCard editor={editor} state={'link'}>
@@ -175,7 +181,7 @@ export default function MenuBar({
           )}
         </>
       </ButtonCard>
-      <ButtonCard editor={editor} state={null}>
+      <ButtonCard editor={editor}>
         <button
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
@@ -183,11 +189,9 @@ export default function MenuBar({
         </button>
       </ButtonCard>
 
-      <span className="mr-5">
-        <ButtonCard editor={editor} state={null}>
-          <ListDropdown editor={editor} editorState={editorState} />
-        </ButtonCard>
-      </span>
-    </div>
+      <ButtonCard editor={editor}>
+        <ListDropdown editor={editor} editorState={editorState} />
+      </ButtonCard>
+    </menu>
   )
 }
