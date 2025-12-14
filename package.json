@@ -9,6 +9,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/ssr": "^0.7.0",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",
@@ -27,7 +28,10 @@
     "@tiptap/extension-highlight": "^3.11.0",
     "@tiptap/extension-image": "^3.13.0",
     "@tiptap/extension-paragraph": "^3.10.8",
+    "@tiptap/extension-table": "^3.13.0",
     "@tiptap/extension-text": "^3.10.8",
+    "@tiptap/extension-text-align": "^3.13.0",
+    "@tiptap/extension-typography": "^3.13.0",
     "@tiptap/extension-youtube": "^3.13.0",
     "@tiptap/html": "^3.10.8",
     "@tiptap/pm": "^3.10.7",

@@ -16,6 +16,7 @@ import { Dropcursor } from '@tiptap/extensions'
 import Image from '@tiptap/extension-image'
 import { useMemo } from 'react'
 import { TableKit } from '@tiptap/extension-table'
+import TextAlign from '@tiptap/extension-text-align'
 
 const lowlight = createLowlight()
 lowlight.register('javascript', javascript)
@@ -77,6 +78,7 @@ export default function Tiptap({
       TableKit.configure({
         table: { resizable: true },
       }),
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ]
   }, [])
   const editor = useEditor({

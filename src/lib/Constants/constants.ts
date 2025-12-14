@@ -21,6 +21,9 @@ import Youtube from '@tiptap/extension-youtube'
 import TabIndent from '@/lib/CustomExtensions/TabIndent'
 import { Gapcursor } from '@tiptap/extensions'
 import { TableKit } from '@tiptap/extension-table'
+import Typography from '@tiptap/extension-typography'
+import { TrailingNode } from '@tiptap/extensions'
+import TextAlign from '@tiptap/extension-text-align'
 
 export const extensions = [
   Document,
@@ -38,6 +41,8 @@ export const extensions = [
   Youtube,
   TabIndent,
   Gapcursor,
+  Typography,
+  TrailingNode,
 ]
 
 export const extraExtensions = [
@@ -51,6 +56,7 @@ export const extraExtensions = [
   Dropcursor,
   Image,
   TableKit,
+  TextAlign,
 ]
 
 export const callbackUrl: string =

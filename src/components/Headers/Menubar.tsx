@@ -6,6 +6,7 @@ import HighlightDropdown from '@/components/Dropdowns/HighlightDropdown'
 import { RxDividerVertical } from 'react-icons/rx'
 import { ListDropdown } from '@/components/Dropdowns/ListDropdown'
 import LinkPopover from '@/components/Dropdowns/LinkPopover'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 import {
   Bold,
@@ -21,6 +22,7 @@ import {
   TextQuote,
 } from 'lucide-react'
 import TableDropdown from '../Dropdowns/TableDropdown'
+import { AlignDropdown } from '../Dropdowns/AlignDropdown'
 
 export default function MenuBar({
   editor,
@@ -67,136 +69,142 @@ export default function MenuBar({
       className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 px-3 py-2 md:px-5`}
       aria-label="Editor toolbar"
     >
-      <ButtonCard editor={editor} state="undo">
-        <button onClick={() => editor.chain().focus().undo().run()}>
-          <Undo className="btn-format cursor-pointer" />
-        </button>
-      </ButtonCard>
+      <Tooltip.Provider delayDuration={200}>
+        <ButtonCard editor={editor} state="undo">
+          <button onClick={() => editor.chain().focus().undo().run()}>
+            <Undo className="btn-format cursor-pointer" />
+          </button>
+        </ButtonCard>
 
-      <ButtonCard editor={editor} state="redo">
-        <button onClick={() => editor.chain().focus().redo().run()}>
-          <Redo className="btn-format cursor-pointer" />
-        </button>
-      </ButtonCard>
+        <ButtonCard editor={editor} state="redo">
+          <button onClick={() => editor.chain().focus().redo().run()}>
+            <Redo className="btn-format cursor-pointer" />
+          </button>
+        </ButtonCard>
 
-      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
+        <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
-      <ButtonCard editor={editor}>
-        <HeaderDropdown editor={editor} />
-      </ButtonCard>
+        <ButtonCard editor={editor}>
+          <HeaderDropdown editor={editor} />
+        </ButtonCard>
 
-      <ButtonCard state="code" editor={editor}>
-        <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          disabled={!editorState.canCode}
-          className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
-        >
-          <Code className="btn-format" />
-        </button>
-      </ButtonCard>
+        <ButtonCard state="code" editor={editor}>
+          <button
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            disabled={!editorState.canCode}
+            className={`cursor-pointer ${editorState.isCode ? 'is-active' : ''}`}
+          >
+            <Code className="btn-format" />
+          </button>
+        </ButtonCard>
 
-      <ButtonCard state="bold" editor={editor}>
-        <button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editorState.canBold}
-          className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
-        >
-          <Bold className="btn-format" />
-        </button>
-      </ButtonCard>
+        <ButtonCard state="bold" editor={editor}>
+          <button
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            disabled={!editorState.canBold}
+            className={`cursor-pointer ${editorState.isBold ? 'is-active' : ''}`}
+          >
+            <Bold className="btn-format" />
+          </button>
+        </ButtonCard>
 
-      <ButtonCard editor={editor} state="italic">
-        <button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editorState.canItalic}
-          className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
-        >
-          <Italic className="btn-format" />
-        </button>
-      </ButtonCard>
+        <ButtonCard editor={editor} state="italic">
+          <button
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            disabled={!editorState.canItalic}
+            className={`cursor-pointer ${editorState.isItalic ? 'is-active' : ''}`}
+          >
+            <Italic className="btn-format" />
+          </button>
+        </ButtonCard>
 
-      <ButtonCard editor={editor} state="underline">
-        <button
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
-        >
-          <Underline className="btn-format" />
-        </button>
-      </ButtonCard>
+        <ButtonCard editor={editor} state="underline">
+          <button
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
+          >
+            <Underline className="btn-format" />
+          </button>
+        </ButtonCard>
 
-      <ButtonCard state="strike" editor={editor}>
-        <button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          disabled={!editorState.canStrike}
-          className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
-        >
-          <Strikethrough className="btn-format" />
-        </button>
-      </ButtonCard>
+        <ButtonCard state="strike" editor={editor}>
+          <button
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            disabled={!editorState.canStrike}
+            className={`cursor-pointer ${editorState.isStrike ? 'is-active' : ''}`}
+          >
+            <Strikethrough className="btn-format" />
+          </button>
+        </ButtonCard>
 
-      <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
+        <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
 
-      <ButtonCard editor={editor} state="codeBlock">
-        <button
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          disabled={!editorState.canCodeBlock}
-          className={`cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
-        >
-          <CodeXml className="btn-format" />
-        </button>
-      </ButtonCard>
+        <ButtonCard editor={editor} state="codeBlock">
+          <button
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            disabled={!editorState.canCodeBlock}
+            className={`cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
+          >
+            <CodeXml className="btn-format" />
+          </button>
+        </ButtonCard>
 
-      <ButtonCard editor={editor} state="blockQuote">
-        <button
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          disabled={!editorState.canBlockQuote}
-          className={`cursor-pointer ${editorState.isBlockQuote ? 'is-active' : ''}`}
-        >
-          <TextQuote className="btn-format" />
-        </button>
-      </ButtonCard>
+        <ButtonCard editor={editor} state="blockQuote">
+          <button
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            disabled={!editorState.canBlockQuote}
+            className={`cursor-pointer ${editorState.isBlockQuote ? 'is-active' : ''}`}
+          >
+            <TextQuote className="btn-format" />
+          </button>
+        </ButtonCard>
 
-      <ButtonCard editor={editor}>
-        <HighlightDropdown editor={editor} />
-      </ButtonCard>
+        <ButtonCard editor={editor}>
+          <HighlightDropdown editor={editor} />
+        </ButtonCard>
 
-      <ButtonCard editor={editor}>
-        <LinkPopover editor={editor} type="image" />
-      </ButtonCard>
+        <ButtonCard editor={editor}>
+          <LinkPopover editor={editor} type="image" />
+        </ButtonCard>
 
-      <ButtonCard editor={editor}>
-        <LinkPopover editor={editor} type="youtube" />
-      </ButtonCard>
+        <ButtonCard editor={editor}>
+          <LinkPopover editor={editor} type="youtube" />
+        </ButtonCard>
 
-      <ButtonCard editor={editor}>
-        <TableDropdown editor={editor} />
-      </ButtonCard>
+        <ButtonCard editor={editor}>
+          <TableDropdown editor={editor} />
+        </ButtonCard>
 
-      <ButtonCard editor={editor} state={'link'}>
-        <>
-          {!editorState.isLink ? (
-            <LinkPopover type="link" editor={editor} />
-          ) : (
-            <button
-              onClick={() => editor.chain().focus().unsetLink().run()}
-              disabled={!editorState.isLink}
-            >
-              <Link2Off className="btn-format" />
-            </button>
-          )}
-        </>
-      </ButtonCard>
-      <ButtonCard editor={editor}>
-        <button
-          onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        >
-          <SquareMinus className="btn-format cursor-pointer" />
-        </button>
-      </ButtonCard>
+        <ButtonCard editor={editor}>
+          <AlignDropdown editor={editor} />
+        </ButtonCard>
 
-      <ButtonCard editor={editor}>
-        <ListDropdown editor={editor} editorState={editorState} />
-      </ButtonCard>
+        <ButtonCard editor={editor} state={'link'}>
+          <>
+            {!editorState.isLink ? (
+              <LinkPopover type="link" editor={editor} />
+            ) : (
+              <button
+                onClick={() => editor.chain().focus().unsetLink().run()}
+                disabled={!editorState.isLink}
+              >
+                <Link2Off className="btn-format" />
+              </button>
+            )}
+          </>
+        </ButtonCard>
+        <ButtonCard editor={editor}>
+          <button
+            onClick={() => editor.chain().focus().setHorizontalRule().run()}
+          >
+            <SquareMinus className="btn-format cursor-pointer" />
+          </button>
+        </ButtonCard>
+
+        <ButtonCard editor={editor}>
+          <ListDropdown editor={editor} editorState={editorState} />
+        </ButtonCard>
+      </Tooltip.Provider>
     </menu>
   )
 }
