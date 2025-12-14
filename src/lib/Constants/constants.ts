@@ -18,6 +18,7 @@ import { Dropcursor } from '@tiptap/extensions'
 import Image from '@tiptap/extension-image'
 import Blockquote from '@tiptap/extension-blockquote'
 import Youtube from '@tiptap/extension-youtube'
+import TabIndent from '@/lib/CustomExtensions/TabIndent'
 
 export const extensions = [
   Document,
@@ -33,6 +34,7 @@ export const extensions = [
   ListItem,
   Blockquote,
   Youtube,
+  TabIndent,
 ]
 
 export const extraExtensions = [
