@@ -2,7 +2,7 @@ import { useEditorState } from '@tiptap/react'
 import type { Editor } from '@tiptap/react'
 import ButtonCard from '../ButtonCard'
 import HeaderDropdown from '@/components/Dropdowns/HeaderDropdown'
-import HighlightDropdown from '@/components/Dropdowns/HighlightDropdown'
+import ColorPicker from '@/components/Dropdowns/ColorPickerDropdown'
 import { RxDividerVertical } from 'react-icons/rx'
 import { ListDropdown } from '@/components/Dropdowns/ListDropdown'
 import LinkPopover from '@/components/Dropdowns/LinkPopover'
@@ -23,13 +23,21 @@ import {
 } from 'lucide-react'
 import TableDropdown from '../Dropdowns/TableDropdown'
 import { AlignDropdown } from '../Dropdowns/AlignDropdown'
+import CountsDropdown from '../Dropdowns/CountsDropdown'
+
+interface Counts {
+  characters: number
+  words: number
+}
 
 export default function MenuBar({
   editor,
   editable,
+  counts,
 }: {
   editor: Editor
   editable: boolean
+  counts: Counts
 }) {
   const editorState = useEditorState({
     editor,
@@ -64,31 +72,55 @@ export default function MenuBar({
       }
     },
   })
+  const Divider = () => (
+    <RxDividerVertical
+      className="hidden md:block md:h-10 md:w-10"
+      color="gray"
+    />
+  )
+
   return (
     <menu
-      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-start space-x-1 bg-gray-200 px-3 py-2 md:px-5`}
+      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-center space-x-1 border-b border-gray-300 bg-gray-200 px-3 py-2 md:px-5`}
       aria-label="Editor toolbar"
     >
       <Tooltip.Provider delayDuration={200}>
-        <ButtonCard editor={editor} state="undo">
+        <Divider />
+        <ButtonCard editor={editor} state="undo" text="Undo Button">
           <button onClick={() => editor.chain().focus().undo().run()}>
             <Undo className="btn-format cursor-pointer" />
           </button>
         </ButtonCard>
 
-        <ButtonCard editor={editor} state="redo">
+        <ButtonCard editor={editor} state="redo" text="Redo Button">
           <button onClick={() => editor.chain().focus().redo().run()}>
             <Redo className="btn-format cursor-pointer" />
           </button>
         </ButtonCard>
 
-        <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
+        <Divider />
 
-        <ButtonCard editor={editor}>
+        <ButtonCard editor={editor} text="Header dropdown">
           <HeaderDropdown editor={editor} />
         </ButtonCard>
 
-        <ButtonCard state="code" editor={editor}>
+        <ButtonCard editor={editor} text="Open Table dropdown">
+          <TableDropdown editor={editor} />
+        </ButtonCard>
+
+        <Divider />
+
+        <ButtonCard editor={editor} text="Open Highlight dropdown">
+          <ColorPicker editor={editor} mode="highlight" />
+        </ButtonCard>
+
+        <ButtonCard editor={editor} text="Open Text-Color dropdown">
+          <ColorPicker editor={editor} mode="color" />
+        </ButtonCard>
+
+        <Divider />
+
+        <ButtonCard state="code" editor={editor} text="Toggle code text">
           <button
             onClick={() => editor.chain().focus().toggleCode().run()}
             disabled={!editorState.canCode}
@@ -98,7 +130,7 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <ButtonCard state="bold" editor={editor}>
+        <ButtonCard state="bold" editor={editor} text="Toggle bold text">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editorState.canBold}
@@ -108,7 +140,7 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <ButtonCard editor={editor} state="italic">
+        <ButtonCard editor={editor} state="italic" text="Toggle italic text">
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editorState.canItalic}
@@ -118,7 +150,11 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <ButtonCard editor={editor} state="underline">
+        <ButtonCard
+          editor={editor}
+          state="underline"
+          text="Toggle underline text"
+        >
           <button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
             className={`cursor-pointer ${editor.isActive('underline') ? 'underline' : ''}`}
@@ -127,7 +163,7 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <ButtonCard state="strike" editor={editor}>
+        <ButtonCard state="strike" editor={editor} text="Toggle strike text">
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editorState.canStrike}
@@ -137,9 +173,9 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <RxDividerVertical className="hidden md:block md:h-10 md:w-10" />
+        <Divider />
 
-        <ButtonCard editor={editor} state="codeBlock">
+        <ButtonCard editor={editor} state="codeBlock" text="Toggle code block">
           <button
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
             disabled={!editorState.canCodeBlock}
@@ -149,7 +185,11 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <ButtonCard editor={editor} state="blockQuote">
+        <ButtonCard
+          editor={editor}
+          state="blockQuote"
+          text="Toggle block-quote"
+        >
           <button
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             disabled={!editorState.canBlockQuote}
@@ -159,27 +199,30 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <ButtonCard editor={editor}>
-          <HighlightDropdown editor={editor} />
-        </ButtonCard>
+        <Divider />
 
-        <ButtonCard editor={editor}>
+        <ButtonCard
+          editor={editor}
+          text="Open Image dropdown"
+          mobileDisplay={true}
+        >
           <LinkPopover editor={editor} type="image" />
         </ButtonCard>
 
-        <ButtonCard editor={editor}>
+        <ButtonCard
+          editor={editor}
+          text="Open Youtube dropdown"
+          mobileDisplay={true}
+        >
           <LinkPopover editor={editor} type="youtube" />
         </ButtonCard>
 
-        <ButtonCard editor={editor}>
-          <TableDropdown editor={editor} />
-        </ButtonCard>
-
-        <ButtonCard editor={editor}>
-          <AlignDropdown editor={editor} />
-        </ButtonCard>
-
-        <ButtonCard editor={editor} state={'link'}>
+        <ButtonCard
+          editor={editor}
+          state={'link'}
+          text="Toggle link"
+          mobileDisplay={true}
+        >
           <>
             {!editorState.isLink ? (
               <LinkPopover type="link" editor={editor} />
@@ -193,7 +236,19 @@ export default function MenuBar({
             )}
           </>
         </ButtonCard>
-        <ButtonCard editor={editor}>
+
+        <Divider />
+
+        <ButtonCard editor={editor} text="Open Align dropdown">
+          <AlignDropdown editor={editor} />
+        </ButtonCard>
+
+        <ButtonCard editor={editor} text="Open List dropdown">
+          <ListDropdown editor={editor} editorState={editorState} />
+        </ButtonCard>
+        <Divider />
+
+        <ButtonCard editor={editor} text="Set Horizontal Rule">
           <button
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
           >
@@ -201,9 +256,13 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <ButtonCard editor={editor}>
-          <ListDropdown editor={editor} editorState={editorState} />
+        <Divider />
+
+        <ButtonCard editor={editor} text="Toggle Word / Character Count">
+          <CountsDropdown counts={counts} />
         </ButtonCard>
+
+        <Divider />
       </Tooltip.Provider>
     </menu>
   )

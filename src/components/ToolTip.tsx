@@ -10,11 +10,7 @@ export default function ToolTip({
 }) {
   return (
     <Tooltip.Root>
-      <Tooltip.Trigger asChild>
-        <span className="flex items-center border border-gray-300 p-1 hover:bg-gray-100">
-          {children}
-        </span>
-      </Tooltip.Trigger>
+      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
       <Tooltip.Content
         side="bottom"
         align="center"

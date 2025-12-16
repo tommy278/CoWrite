@@ -14,7 +14,7 @@ import python from 'highlight.js/lib/languages/python'
 import typescript from 'highlight.js/lib/languages/typescript'
 import { Dropcursor } from '@tiptap/extensions'
 import Image from '@tiptap/extension-image'
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { TableKit } from '@tiptap/extension-table'
 import TextAlign from '@tiptap/extension-text-align'
 
@@ -81,6 +81,12 @@ export default function Tiptap({
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ]
   }, [])
+
+  interface CountProps {
+    characters: number
+    words: number
+  }
+  const [counts, setCounts] = useState<CountProps>({ characters: 0, words: 0 })
   const editor = useEditor({
     extensions,
     editable,
@@ -90,6 +96,10 @@ export default function Tiptap({
 
     onUpdate: ({ editor }) => {
       onChange?.(editor.getJSON())
+      setCounts({
+        characters: editor.storage.characterCount.characters(),
+        words: editor.storage.characterCount.words(),
+      })
     },
     editorProps: {
       attributes: {
@@ -97,12 +107,18 @@ export default function Tiptap({
       },
     },
   })
+  useEffect(() => {
+    if (!editor) return
+    setCounts({
+      characters: editor.storage.characterCount.characters(),
+      words: editor.storage.characterCount.words(),
+    })
+  }, [editor])
 
   if (!editor) return <div>Loading...</div>
-
   return (
     <div className="relative flex flex-col items-center justify-center">
-      <MenuBar editor={editor} editable={editable} />
+      <MenuBar editor={editor} editable={editable} counts={counts} />
       <EditorContent
         editor={editor}
         className={`prose-editor h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10 ${className}`}

@@ -1,10 +1,29 @@
 import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
-import { ChevronDown, Heading } from 'lucide-react'
 import { clickDetector } from '@/context/clickDetector'
+import {
+  ChevronDown,
+  Heading,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+} from 'lucide-react'
 
 type Level = 1 | 2 | 3 | 4 | 5 | 6
 const levels: Level[] = [1, 2, 3, 4, 5, 6]
+
+const ICONS = [
+  Heading,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+]
 
 export default function HeaderDropdown({ editor }: { editor: Editor }) {
   const [lastOpened, setLastOpened] = useState<Level | null>(null)
@@ -16,17 +35,15 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
   }
 
   const ref = clickDetector(() => toggleHeaderOpen(false))
+  const Icon = ICONS[lastOpened ?? 0]
   return (
     <div ref={ref} className="flex items-center">
       {lastOpened ? (
         <button
           onClick={() => handleClick(lastOpened)}
-          className={`mr-1 cursor-pointer ${editor.isActive('heading', { lastOpened }) ? 'font-bold' : ''}`}
+          className="cursor-pointer"
         >
-          <div className="flex items-center">
-            <Heading className="btn-format cursor-pointer" />
-            <span className="text-[8px] md:text-[16px]">{lastOpened}</span>
-          </div>
+          <Icon className="btn-format" />
         </button>
       ) : (
         <button className="flex items-center">

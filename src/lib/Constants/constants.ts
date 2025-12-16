@@ -24,6 +24,8 @@ import { TableKit } from '@tiptap/extension-table'
 import Typography from '@tiptap/extension-typography'
 import { TrailingNode } from '@tiptap/extensions'
 import TextAlign from '@tiptap/extension-text-align'
+import { TextStyle, Color } from '@tiptap/extension-text-style'
+import { CharacterCount } from '@tiptap/extensions'
 
 export const extensions = [
   Document,
@@ -43,6 +45,9 @@ export const extensions = [
   Gapcursor,
   Typography,
   TrailingNode,
+  TextStyle,
+  Color,
+  CharacterCount,
 ]
 
 export const extraExtensions = [
