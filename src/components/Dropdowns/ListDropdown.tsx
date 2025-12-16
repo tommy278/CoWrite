@@ -21,7 +21,7 @@ export function ListDropdown({ editor, editorState }: ListDropdownProps) {
         onClick={() => toggleListOpen(!listOpen)}
       />
       {listOpen && (
-        <div className="dropdown">
+        <div className="dropdown flex">
           <ButtonCard editor={editor} state="bulletList">
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}

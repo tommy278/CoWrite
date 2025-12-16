@@ -18,8 +18,15 @@ import {
 } from 'lucide-react'
 import ToolTip from '../ToolTip'
 import { clickDetector } from '@/context/clickDetector'
+import DropdownCard from '../DropdownCard'
 
-export default function TableDropdown({ editor }: { editor: Editor }) {
+export default function TableDropdown({
+  editor,
+  mobile,
+}: {
+  editor: Editor
+  mobile?: boolean
+}) {
   const [isDisplayOpen, setIsDisplayOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [selected, setSelected] = useState({ row: 0, col: 0 })
@@ -31,8 +38,8 @@ export default function TableDropdown({ editor }: { editor: Editor }) {
   }
 
   const ref = clickDetector(() => handleClose())
-  const rows = 10
-  const cols = 8
+  const rows = !mobile ? 10 : 5
+  const cols = !mobile ? 8 : 5
   return (
     <>
       <div className="flex" ref={ref}>
@@ -56,7 +63,9 @@ export default function TableDropdown({ editor }: { editor: Editor }) {
         </button>
       </div>
       {isDisplayOpen && !isDropdownOpen && (
-        <div className="dropdown flex-col space-y-1">
+        <div
+          className={`${mobile ? 'absolute top-0 left-full' : 'dropdown'} flex-col`}
+        >
           {Array.from({ length: rows }).map((_, rowIndex) => (
             <div key={rowIndex} className="flex space-x-1">
               {Array.from({ length: cols }).map((_, colIndex) => {
@@ -98,57 +107,109 @@ export default function TableDropdown({ editor }: { editor: Editor }) {
         </div>
       )}
       {isDropdownOpen && (
-        <div className="dropdown grid grid-cols-3 gap-2">
-          <ToolTip text="Add column before">
+        <div
+          className={`${mobile ? 'absolute top-0 left-full ml-2 flex w-30 flex-col gap-1 rounded-md bg-gray-200 p-1' : 'dropdown grid grid-cols-3 gap-2'} `}
+        >
+          <ToolTip text="Add column before" dropdownChild={true}>
             <button
               onClick={() => editor.chain().focus().addColumnBefore().run()}
             >
-              <BetweenVerticalStart />
+              <DropdownCard text="Column before">
+                <BetweenVerticalStart className="h-5 w-5" />
+              </DropdownCard>
             </button>
           </ToolTip>
 
-          <ToolTip text="Add column after">
+          <ToolTip text="Add column after" dropdownChild={true}>
             <button
               onClick={() => editor.chain().focus().addColumnAfter().run()}
             >
-              <BetweenVerticalEnd />
+              <DropdownCard text="Column After">
+                <BetweenVerticalEnd className="h-5 w-5" />
+              </DropdownCard>
             </button>
           </ToolTip>
 
-          <ToolTip text="Delete Column">
+          <ToolTip text="Delete Column" dropdownChild={true}>
             <button onClick={() => editor.chain().focus().deleteColumn().run()}>
-              <Minus />
+              <DropdownCard text="Delete Column">
+                <Minus className="h-5 w-5" />
+              </DropdownCard>
             </button>
           </ToolTip>
-          <button onClick={() => editor.chain().focus().addRowBefore().run()}>
-            <BetweenHorizontalStart />
-          </button>
-          <button onClick={() => editor.chain().focus().addRowAfter().run()}>
-            <BetweenHorizontalEnd />
-          </button>
-          <button onClick={() => editor.chain().focus().deleteRow().run()}>
-            <Trash />
-          </button>
-          <button onClick={() => editor.chain().focus().deleteTable().run()}>
-            <Grid2x2X />
-          </button>
-          <button onClick={() => editor.chain().focus().mergeCells().run()}>
-            <TableCellsMerge />
-          </button>
-          <button onClick={() => editor.chain().focus().splitCell().run()}>
-            <TableRowsSplit />
-          </button>
-          <button onClick={() => editor.chain().focus().fixTables().run()}>
-            <Settings />
-          </button>
-          <button onClick={() => editor.chain().focus().goToNextCell().run()}>
-            <ArrowRight />
-          </button>
-          <button
-            onClick={() => editor.chain().focus().goToPreviousCell().run()}
-          >
-            <ArrowLeft />
-          </button>
+
+          <ToolTip text="Add row before" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().addRowBefore().run()}>
+              <DropdownCard text="Row before">
+                <BetweenHorizontalStart className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+
+          <ToolTip text="Add row after" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().addRowAfter().run()}>
+              <DropdownCard text="Row after">
+                <BetweenHorizontalEnd className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+
+          <ToolTip text="Delete row" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().deleteRow().run()}>
+              <DropdownCard text="Delete row">
+                <Trash className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+
+          <ToolTip text="Delete Table" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().deleteTable().run()}>
+              <DropdownCard text="Delete table">
+                <Grid2x2X className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+
+          <ToolTip text="Merge Cells" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().mergeCells().run()}>
+              <DropdownCard text="Merge cells">
+                <TableCellsMerge className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+
+          <ToolTip text="Split cell" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().splitCell().run()}>
+              <DropdownCard text="Split cell">
+                <TableRowsSplit className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+
+          <ToolTip text="Fix tables" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().fixTables().run()}>
+              <DropdownCard text="Fix tables">
+                <Settings className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+
+          <ToolTip text="Go to next cell" dropdownChild={true}>
+            <button onClick={() => editor.chain().focus().goToNextCell().run()}>
+              <DropdownCard text="Next cell">
+                <ArrowRight className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
+          <ToolTip text="Go to previous cell" dropdownChild={true}>
+            <button
+              onClick={() => editor.chain().focus().goToPreviousCell().run()}
+            >
+              <DropdownCard text="Prev cell">
+                <ArrowLeft className="h-5 w-5" />
+              </DropdownCard>
+            </button>
+          </ToolTip>
         </div>
       )}
     </>

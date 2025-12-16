@@ -23,7 +23,7 @@ export default function Logout({ onLogout }: LogoutProps) {
   return (
     <button
       onClick={handleLogout}
-      className="flex cursor-pointer items-center gap-3 rounded-lg bg-red-500 p-3 transition-colors transition-transform duration-150 hover:scale-105"
+      className="flex cursor-pointer items-center gap-3 rounded-lg bg-red-500 p-3 transition-transform duration-150 hover:scale-105"
     >
       <LogOut size={20} />
       Sign Out

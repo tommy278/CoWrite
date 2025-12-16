@@ -4,13 +4,21 @@ import { ReactNode } from 'react'
 export default function ToolTip({
   children,
   text,
+  dropdownChild,
 }: {
   children: ReactNode
   text: string
+  dropdownChild?: boolean
 }) {
   return (
     <Tooltip.Root>
-      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
+      {!dropdownChild ? (
+        <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
+      ) : (
+        <Tooltip.Trigger asChild>
+          <span className="flex w-full items-center">{children}</span>
+        </Tooltip.Trigger>
+      )}
       <Tooltip.Content
         side="bottom"
         align="center"

@@ -12,13 +12,16 @@ import {
 } from 'lucide-react'
 import { RxDividerVertical } from 'react-icons/rx'
 import { clickDetector } from '@/context/clickDetector'
+import ToolTip from '../ToolTip'
 
 export default function LinkPopover({
   editor,
   type,
+  mobile,
 }: {
   editor: Editor
   type: 'image' | 'link' | 'youtube'
+  mobile?: boolean
 }) {
   const PRESETS = {
     small: { width: '560', height: '315' },
@@ -68,7 +71,7 @@ export default function LinkPopover({
   }
   const ref = clickDetector(() => setIsOpen(false))
   return (
-    <div ref={ref} className="flex items-center">
+    <div ref={mobile ? ref : null} className="flex items-center">
       <button onClick={() => setIsOpen((prev) => !prev)}>
         {type === 'image' ? (
           <ImagePlus className="btn-format cursor-pointer" />
@@ -79,7 +82,9 @@ export default function LinkPopover({
         ) : null}
       </button>
       {isOpen && (
-        <div className="dropdown flex-col">
+        <div
+          className={`${mobile ? 'absolute left-full' : 'dropdown'} flex-col`}
+        >
           {type === 'youtube' && (
             <div className="relative flex w-auto max-w-[280px] min-w-[180px] justify-between">
               {!customViewOpen && (
@@ -154,7 +159,15 @@ export default function LinkPopover({
                 onClick={() => setCustomViewOpen((prev) => !prev)}
                 className="cursor-pointer"
               >
-                {customViewOpen ? <X /> : <Columns3Cog />}
+                {customViewOpen ? (
+                  <ToolTip text="Close">
+                    <X />
+                  </ToolTip>
+                ) : (
+                  <ToolTip text="Open custom image size">
+                    <Columns3Cog />
+                  </ToolTip>
+                )}
               </button>
             </div>
           )}
@@ -173,23 +186,32 @@ export default function LinkPopover({
               }}
               className="border-none px-1 hover:ring-0 hover:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none"
             />
-            <button
-              onClick={addLink}
-              disabled={!inputValue}
-              className="cursor-pointer"
-            >
-              {<CornerDownLeft />}
-            </button>
+            <ToolTip text="Apply link">
+              <button
+                onClick={addLink}
+                disabled={!inputValue}
+                className="cursor-pointer"
+              >
+                {<CornerDownLeft />}
+              </button>
+            </ToolTip>
+
             <RxDividerVertical size={30} />
-            <a href={inputValue} target="_blank" rel="noopener noreferrer">
-              <SquareArrowOutUpRight />
-            </a>
-            <button
-              className="cursor-pointer"
-              onClick={() => setInputValue('')}
-            >
-              <Trash />
-            </button>
+
+            <ToolTip text="Visit link">
+              <a href={inputValue} target="_blank" rel="noopener noreferrer">
+                <SquareArrowOutUpRight />
+              </a>
+            </ToolTip>
+
+            <ToolTip text="Clear link">
+              <button
+                className="cursor-pointer"
+                onClick={() => setInputValue('')}
+              >
+                <Trash />
+              </button>
+            </ToolTip>
           </div>
         </div>
       )}
