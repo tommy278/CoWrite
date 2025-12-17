@@ -8,7 +8,6 @@ interface LogoutProps {
 
 export default function Logout({ onLogout }: LogoutProps) {
   const router = useRouter()
-
   const handleLogout = async () => {
     const { error, message } = await logoutFn()
     if (error) {

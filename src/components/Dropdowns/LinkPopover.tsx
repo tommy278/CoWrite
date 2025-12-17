@@ -13,6 +13,7 @@ import {
 import { RxDividerVertical } from 'react-icons/rx'
 import { clickDetector } from '@/context/clickDetector'
 import ToolTip from '../ToolTip'
+import MobileText from '../MobileText'
 
 export default function LinkPopover({
   editor,
@@ -39,6 +40,12 @@ export default function LinkPopover({
     const number = parseInt(value, 10)
     if (Number.isNaN(number)) return fallback
     return Math.max(min, number)
+  }
+
+  const TEXTS = {
+    link: 'Open link',
+    image: 'Link image',
+    youtube: 'Link Youtube',
   }
 
   const handlers = {
@@ -71,14 +78,18 @@ export default function LinkPopover({
   }
   const ref = clickDetector(() => setIsOpen(false))
   return (
-    <div ref={mobile ? ref : null} className="flex items-center">
-      <button onClick={() => setIsOpen((prev) => !prev)}>
+    <div ref={ref} className="flex items-center">
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="parallel cursor-pointer"
+      >
+        <MobileText text={TEXTS[type]} />
         {type === 'image' ? (
-          <ImagePlus className="btn-format cursor-pointer" />
+          <ImagePlus className="btn-format" />
         ) : type === 'link' ? (
-          <Link className="btn-format cursor-pointer" />
+          <Link className="btn-format" />
         ) : type === 'youtube' ? (
-          <YT className="btn-format cursor-pointer" />
+          <YT className="btn-format" />
         ) : null}
       </button>
       {isOpen && (

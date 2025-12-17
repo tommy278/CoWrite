@@ -20,7 +20,7 @@ export default function ButtonCard({
   mobileDisplay,
 }: ButtonCardProps) {
   const isActive = state ? editor?.isActive(state) : false
-  const classes = `flex md:h-fit md:w-fit items-center rounded-md p-1 md:p-2 md:hover:bg-blue-400 ${isActive ? 'bg-blue-300' : ''} ${className} ${mobileDisplay ? 'hidden md:flex' : ''}`
+  const classes = `flex h-fit w-fit items-center rounded-md p-1 md:p-2 md:hover:bg-blue-400 ${isActive ? 'bg-blue-300' : ''} ${className} ${mobileDisplay ? 'hidden md:flex' : ''}`
   if (text) {
     return (
       <ToolTip text={text}>

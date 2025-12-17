@@ -15,7 +15,15 @@ code {
 }
 
 .dropdown {
-  @apply absolute top-full z-50 mt-2 rounded-md bg-gray-200 p-2 shadow-md;
+  @apply absolute top-full z-50 mt-2 rounded-md bg-gray-200 p-1 shadow-md md:p-2;
+}
+
+.dropdown-child {
+  @apply absolute top-0 left-full ml-2 flex w-30 flex-col gap-1 rounded-md bg-gray-200 p-1;
+}
+
+.parallel {
+  @apply flex cursor-pointer flex-row items-center space-x-1;
 }
 
 .input-field {

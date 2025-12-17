@@ -17,7 +17,6 @@ const colors = {
   lime: '#c0eb75',
   cyan: '#99e9f2',
   magenta: '#da77f2',
-  brown: '#eebfaa',
 }
 
 type Mode = 'highlight' | 'color'
@@ -62,7 +61,7 @@ export default function ColorPicker({
       />
 
       {isOpen && (
-        <div className="dropdown shadow-md md:min-w-[150px]">
+        <div className="dropdown end-0 md:end-auto md:min-w-[150px]">
           <div className="flex items-center space-x-2 md:grid md:grid-cols-4 md:space-x-0">
             {Object.entries(colors).map(([key, color]) => (
               <button

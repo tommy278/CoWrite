@@ -26,7 +26,6 @@ import { AlignDropdown } from '../Dropdowns/AlignDropdown'
 import CountsDropdown from '../Dropdowns/CountsDropdown'
 import LargeDropdown from '../Dropdowns/LargeDropdown'
 import ToolsDropdown from '../Dropdowns/ToolsDropdown'
-import DropdownCard from '../DropdownCard'
 
 interface Counts {
   characters: number
@@ -78,7 +77,6 @@ export default function MenuBar({
   const Divider = () => (
     <RxDividerVertical className="hidden h-10 w-10 md:block" color="gray" />
   )
-
   return (
     <menu
       className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-between space-x-2 border-b border-gray-300 bg-gray-200 px-1 py-2 md:space-x-1 md:px-5`}
@@ -99,17 +97,16 @@ export default function MenuBar({
         </ButtonCard>
 
         <LargeDropdown text="Insert">
+          <ButtonCard editor={editor} text="Open List dropdown">
+            <ListDropdown editor={editor} editorState={editorState} mobile />
+          </ButtonCard>
           <ButtonCard editor={editor} text="Open Table dropdown">
-            <DropdownCard text="Open Table" className="space-x-1">
-              <TableDropdown editor={editor} mobile />
-            </DropdownCard>
+            <TableDropdown editor={editor} mobile />
           </ButtonCard>
           <ButtonCard editor={editor} state={'link'} text="Toggle link">
             <>
               {!editorState.isLink ? (
-                <DropdownCard text="Open link" className="space-x-1">
-                  <LinkPopover type="link" editor={editor} mobile />
-                </DropdownCard>
+                <LinkPopover type="link" editor={editor} mobile />
               ) : (
                 <button
                   onClick={() => editor.chain().focus().unsetLink().run()}
@@ -122,14 +119,10 @@ export default function MenuBar({
           </ButtonCard>
 
           <ButtonCard editor={editor} text="Open Image dropdown">
-            <DropdownCard text="Image link" className="space-x-1">
-              <LinkPopover editor={editor} type="image" mobile />
-            </DropdownCard>
+            <LinkPopover editor={editor} type="image" mobile />
           </ButtonCard>
           <ButtonCard editor={editor} text="Open Youtube dropdown">
-            <DropdownCard className="space-x-1" text="Youtube link">
-              <LinkPopover editor={editor} type="youtube" mobile />
-            </DropdownCard>
+            <LinkPopover editor={editor} type="youtube" mobile />
           </ButtonCard>
         </LargeDropdown>
 
@@ -140,12 +133,15 @@ export default function MenuBar({
         />
         <Divider />
 
-        <ButtonCard editor={editor} text="Header dropdown">
-          <HeaderDropdown editor={editor} />
-        </ButtonCard>
-
         <ButtonCard editor={editor} text="Open Table dropdown" mobileDisplay>
           <TableDropdown editor={editor} />
+        </ButtonCard>
+
+        <ButtonCard editor={editor} text="Open Align dropdown">
+          <AlignDropdown editor={editor} />
+        </ButtonCard>
+        <ButtonCard editor={editor} text="Header dropdown">
+          <HeaderDropdown editor={editor} />
         </ButtonCard>
 
         <Divider />
@@ -276,10 +272,6 @@ export default function MenuBar({
         </ButtonCard>
 
         <Divider />
-
-        <ButtonCard editor={editor} text="Open Align dropdown">
-          <AlignDropdown editor={editor} />
-        </ButtonCard>
 
         <ButtonCard editor={editor} text="Open List dropdown" mobileDisplay>
           <ListDropdown editor={editor} editorState={editorState} />
