@@ -1,13 +1,11 @@
-import { useEditorState } from '@tiptap/react'
+import { useEditor } from '@/lib/Constants/editorState'
 import type { Editor } from '@tiptap/react'
 import ButtonCard from '../ButtonCard'
 import HeaderDropdown from '@/components/Dropdowns/HeaderDropdown'
 import ColorPicker from '@/components/Dropdowns/ColorPickerDropdown'
-import { RxDividerVertical } from 'react-icons/rx'
 import { ListDropdown } from '@/components/Dropdowns/ListDropdown'
 import LinkPopover from '@/components/Dropdowns/LinkPopover'
 import * as Tooltip from '@radix-ui/react-tooltip'
-
 import {
   Bold,
   Strikethrough,
@@ -24,8 +22,8 @@ import {
 import TableDropdown from '../Dropdowns/TableDropdown'
 import { AlignDropdown } from '../Dropdowns/AlignDropdown'
 import CountsDropdown from '../Dropdowns/CountsDropdown'
-import LargeDropdown from '../Dropdowns/LargeDropdown'
 import ToolsDropdown from '../Dropdowns/ToolsDropdown'
+import InsertDropdown from '../Dropdowns/InsertDropdown'
 
 interface Counts {
   characters: number
@@ -41,49 +39,16 @@ export default function MenuBar({
   editable: boolean
   counts: Counts
 }) {
-  const editorState = useEditorState({
-    editor,
-    selector: (ctx) => {
-      return {
-        isBold: ctx.editor.isActive('bold') ?? false,
-        canBold: ctx.editor.can().chain().toggleBold().run() ?? false,
-        isItalic: ctx.editor.isActive('italic') ?? false,
-        canItalic: ctx.editor.can().chain().toggleItalic().run() ?? false,
-        isStrike: ctx.editor.isActive('strike') ?? false,
-        canStrike: ctx.editor.can().chain().toggleStrike().run() ?? false,
-        isCode: ctx.editor.isActive('code') ?? false,
-        canCode: ctx.editor.can().chain().toggleCode().run() ?? false,
-        canClearMarks: ctx.editor.can().chain().unsetAllMarks().run() ?? false,
-        isParagraph: ctx.editor.isActive('paragraph') ?? false,
-        isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
-        isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
-        isHeading3: ctx.editor.isActive('heading', { level: 3 }) ?? false,
-        isHeading4: ctx.editor.isActive('heading', { level: 4 }) ?? false,
-        isHeading5: ctx.editor.isActive('heading', { level: 5 }) ?? false,
-        isHeading6: ctx.editor.isActive('heading', { level: 6 }) ?? false,
-        isBulletList: ctx.editor.isActive('bulletList') ?? false,
-        isOrderedList: ctx.editor.isActive('orderedList') ?? false,
-        isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
-        canCodeBlock: ctx.editor.can().chain().toggleCodeBlock().run() ?? false,
-        isBlockQuote: ctx.editor.isActive('blockQuote') ?? false,
-        canBlockQuote:
-          ctx.editor.can().chain().toggleBlockquote().run() ?? false,
-        isLink: ctx.editor.isActive('link') ?? false,
-        canUndo: ctx.editor.can().chain().undo().run() ?? false,
-        canRedo: ctx.editor.can().chain().redo().run() ?? false,
-      }
-    },
-  })
+  const editorState = useEditor(editor)
   const Divider = () => (
-    <RxDividerVertical className="hidden h-10 w-10 md:block" color="gray" />
+    <div className="hidden h-5 w-px shrink-0 bg-gray-500 md:block md:h-8" />
   )
   return (
     <menu
-      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-between space-x-2 border-b border-gray-300 bg-gray-200 px-1 py-2 md:space-x-1 md:px-5`}
+      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-between border-b border-gray-300 bg-gray-200 px-0.5 py-2 sm:px-6 md:px-10`}
       aria-label="Editor toolbar"
     >
       <Tooltip.Provider delayDuration={200}>
-        <Divider />
         <ButtonCard editor={editor} state="undo" text="Undo Button">
           <button onClick={() => editor.chain().focus().undo().run()}>
             <Undo className="btn-format cursor-pointer" />
@@ -96,50 +61,24 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <LargeDropdown text="Insert">
-          <ButtonCard editor={editor} text="Open List dropdown">
-            <ListDropdown editor={editor} editorState={editorState} mobile />
-          </ButtonCard>
-          <ButtonCard editor={editor} text="Open Table dropdown">
-            <TableDropdown editor={editor} mobile />
-          </ButtonCard>
-          <ButtonCard editor={editor} state={'link'} text="Toggle link">
-            <>
-              {!editorState.isLink ? (
-                <LinkPopover type="link" editor={editor} mobile />
-              ) : (
-                <button
-                  onClick={() => editor.chain().focus().unsetLink().run()}
-                  disabled={!editorState.isLink}
-                >
-                  <Link2Off className="btn-format" />
-                </button>
-              )}
-            </>
-          </ButtonCard>
-
-          <ButtonCard editor={editor} text="Open Image dropdown">
-            <LinkPopover editor={editor} type="image" mobile />
-          </ButtonCard>
-          <ButtonCard editor={editor} text="Open Youtube dropdown">
-            <LinkPopover editor={editor} type="youtube" mobile />
-          </ButtonCard>
-        </LargeDropdown>
-
-        <ToolsDropdown
-          editor={editor}
-          editorState={editorState}
-          counts={counts}
-        />
         <Divider />
 
+        <ButtonCard className="md:hidden">
+          <InsertDropdown editor={editor} editorState={editorState} />
+        </ButtonCard>
+
+        <ButtonCard className="md:hidden">
+          <ToolsDropdown
+            editor={editor}
+            editorState={editorState}
+            counts={counts}
+          />
+        </ButtonCard>
         <ButtonCard editor={editor} text="Open Table dropdown" mobileDisplay>
           <TableDropdown editor={editor} />
         </ButtonCard>
 
-        <ButtonCard editor={editor} text="Open Align dropdown">
-          <AlignDropdown editor={editor} />
-        </ButtonCard>
+        <Divider />
         <ButtonCard editor={editor} text="Header dropdown">
           <HeaderDropdown editor={editor} />
         </ButtonCard>
@@ -155,7 +94,6 @@ export default function MenuBar({
         </ButtonCard>
 
         <Divider />
-
         <ButtonCard state="code" editor={editor} text="Toggle code text">
           <button
             onClick={() => editor.chain().focus().toggleCode().run()}
@@ -228,7 +166,7 @@ export default function MenuBar({
 
         <ButtonCard
           editor={editor}
-          state="blockQuote"
+          state="blockquote"
           text="Toggle block-quote"
           mobileDisplay
         >
@@ -276,6 +214,11 @@ export default function MenuBar({
         <ButtonCard editor={editor} text="Open List dropdown" mobileDisplay>
           <ListDropdown editor={editor} editorState={editorState} />
         </ButtonCard>
+
+        <ButtonCard editor={editor} text="Open Align dropdown">
+          <AlignDropdown editor={editor} />
+        </ButtonCard>
+
         <Divider />
 
         <ButtonCard editor={editor} text="Set Horizontal Rule" mobileDisplay>
@@ -286,17 +229,9 @@ export default function MenuBar({
           </button>
         </ButtonCard>
 
-        <Divider />
-
-        <ButtonCard
-          editor={editor}
-          text="Toggle Word / Character Count"
-          mobileDisplay
-        >
+        <ButtonCard editor={editor} mobileDisplay>
           <CountsDropdown counts={counts} />
         </ButtonCard>
-
-        <Divider />
       </Tooltip.Provider>
     </menu>
   )

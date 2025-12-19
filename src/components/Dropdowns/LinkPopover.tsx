@@ -77,13 +77,13 @@ export default function LinkPopover({
     setIsOpen(false)
   }
   const ref = clickDetector(() => setIsOpen(false))
+  const relative = !mobile ? 'relative' : ''
   return (
-    <div ref={ref} className="flex items-center">
+    <div ref={ref} className={`flex items-center ${relative}`}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="parallel cursor-pointer"
       >
-        <MobileText text={TEXTS[type]} />
         {type === 'image' ? (
           <ImagePlus className="btn-format" />
         ) : type === 'link' ? (
@@ -91,13 +91,14 @@ export default function LinkPopover({
         ) : type === 'youtube' ? (
           <YT className="btn-format" />
         ) : null}
+        <MobileText text={TEXTS[type]} />
       </button>
       {isOpen && (
         <div
-          className={`${mobile ? 'absolute left-full' : 'dropdown'} flex-col`}
+          className={`${mobile ? 'absolute left-[110%] rounded-md bg-gray-300 p-1 text-sm' : 'dropdown-right'} flex-col`}
         >
           {type === 'youtube' && (
-            <div className="relative flex w-auto max-w-[280px] min-w-[180px] justify-between">
+            <div className="relative flex w-fit justify-between">
               {!customViewOpen && (
                 <div className="flex gap-2">
                   <button
@@ -112,7 +113,7 @@ export default function LinkPopover({
                         : ''
                     }`}
                   >
-                    Small
+                    <MobileText text="Small" primary />
                   </button>
                   <button
                     onClick={() => {
@@ -126,7 +127,7 @@ export default function LinkPopover({
                         : ''
                     }`}
                   >
-                    Medium
+                    <MobileText text="Medium" primary />
                   </button>
                   <button
                     onClick={() => {
@@ -140,7 +141,7 @@ export default function LinkPopover({
                         : ''
                     } `}
                   >
-                    Large
+                    <MobileText text="Large" primary />
                   </button>
                 </div>
               )}
@@ -153,7 +154,7 @@ export default function LinkPopover({
                     placeholder="width"
                     value={width}
                     onChange={(event) => setWidth(event.target.value)}
-                    className="w-20 rounded-md border border-gray-300 px-2 py-1"
+                    className="w-10 rounded-md border border-gray-300 px-2 py-1 md:w-20"
                   />
                   <input
                     id="height"
@@ -162,7 +163,7 @@ export default function LinkPopover({
                     placeholder="height"
                     value={height}
                     onChange={(event) => setHeight(event.target.value)}
-                    className="w-20 rounded-md border border-gray-300 px-2 py-1"
+                    className="w-10 rounded-md border border-gray-300 p-1 md:w-20"
                   />
                 </div>
               )}
@@ -172,11 +173,11 @@ export default function LinkPopover({
               >
                 {customViewOpen ? (
                   <ToolTip text="Close">
-                    <X />
+                    <X className="h-3 w-3 md:h-5 md:w-5" />
                   </ToolTip>
                 ) : (
                   <ToolTip text="Open custom image size">
-                    <Columns3Cog />
+                    <Columns3Cog className="h-3 w-3 md:h-5 md:w-5" />
                   </ToolTip>
                 )}
               </button>
@@ -195,7 +196,7 @@ export default function LinkPopover({
                   addLink()
                 }
               }}
-              className="border-none px-1 hover:ring-0 hover:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none"
+              className="border-none p-1 text-xs hover:ring-0 hover:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none md:text-sm"
             />
             <ToolTip text="Apply link">
               <button
@@ -203,15 +204,15 @@ export default function LinkPopover({
                 disabled={!inputValue}
                 className="cursor-pointer"
               >
-                {<CornerDownLeft />}
+                {<CornerDownLeft className="h-3 w-3 md:h-5 md:w-5" />}
               </button>
             </ToolTip>
 
-            <RxDividerVertical size={30} />
+            <RxDividerVertical size={mobile ? 10 : 30} />
 
             <ToolTip text="Visit link">
               <a href={inputValue} target="_blank" rel="noopener noreferrer">
-                <SquareArrowOutUpRight />
+                <SquareArrowOutUpRight className="mr-1 h-3 w-3 md:mr-0 md:h-5 md:w-5" />
               </a>
             </ToolTip>
 
@@ -220,7 +221,7 @@ export default function LinkPopover({
                 className="cursor-pointer"
                 onClick={() => setInputValue('')}
               >
-                <Trash />
+                <Trash className="h-3 w-3 md:h-5 md:w-5" />
               </button>
             </ToolTip>
           </div>

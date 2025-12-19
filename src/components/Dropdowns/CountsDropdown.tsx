@@ -21,8 +21,8 @@ export default function CountsDropdown({
         onClick={() => setIsOpen((prev) => !prev)}
         className={`cursor-pointer ${mobile && 'parallel'}`}
       >
-        <MobileText text="Character/Word Count" />
         <WholeWord className="btn-format" />
+        <MobileText text="Character/Word Count" />
       </button>
       {isOpen && (
         <div className="dropdown absolute top-0 right-0">

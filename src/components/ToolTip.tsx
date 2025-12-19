@@ -5,10 +5,12 @@ export default function ToolTip({
   children,
   text,
   dropdownChild,
+  direction,
 }: {
   children: ReactNode
   text: string
   dropdownChild?: boolean
+  direction?: 'top' | 'bottom' | 'right' | 'left'
 }) {
   return (
     <Tooltip.Root>
@@ -16,13 +18,15 @@ export default function ToolTip({
         <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
       ) : (
         <Tooltip.Trigger asChild>
-          <span className="flex w-full items-center">{children}</span>
+          <div className="flex flex-row items-center rounded-md p-1 hover:bg-gray-300">
+            {children}
+          </div>
         </Tooltip.Trigger>
       )}
       <Tooltip.Content
-        side="bottom"
+        side={direction ?? 'bottom'}
         align="center"
-        className="mt-2 rounded bg-gray-800 px-2 py-1 text-xs text-white"
+        className="m-2 rounded bg-gray-800 px-2 py-1 text-xs text-white"
       >
         {text}
       </Tooltip.Content>

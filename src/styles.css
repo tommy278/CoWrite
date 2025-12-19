@@ -18,12 +18,16 @@ code {
   @apply absolute top-full z-50 mt-2 rounded-md bg-gray-200 p-1 shadow-md md:p-2;
 }
 
+.dropdown-right {
+  @apply absolute top-10 right-0 z-50 rounded-md bg-gray-300 p-1;
+}
+
 .dropdown-child {
-  @apply absolute top-0 left-full ml-2 flex w-30 flex-col gap-1 rounded-md bg-gray-200 p-1;
+  @apply absolute top-0 left-full ml-2 flex w-full flex-col gap-1 rounded-md bg-gray-200 p-1;
 }
 
 .parallel {
-  @apply flex cursor-pointer flex-row items-center space-x-1;
+  @apply flex items-center whitespace-nowrap;
 }
 
 .input-field {

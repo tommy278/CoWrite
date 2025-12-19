@@ -21,37 +21,58 @@ export default function ToolsDropdown({
 }) {
   return (
     <LargeDropdown text="Tools">
-      <ButtonCard editor={editor} state="codeBlock" text="Toggle code block">
+      <ButtonCard
+        editor={editor}
+        state="codeBlock"
+        text="Toggle code block"
+        direction="right"
+        dropdown
+      >
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           disabled={!editorState.canCodeBlock}
           className={`parallel cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
         >
-          <MobileText text="Code block" />
           <CodeXml className="btn-format" />
+          <MobileText text="Code block" />
         </button>
       </ButtonCard>
-      <ButtonCard editor={editor} state="blockQuote" text="Toggle block-quote">
+      <ButtonCard
+        editor={editor}
+        state="blockQuote"
+        text="Toggle block-quote"
+        direction="right"
+        dropdown
+      >
         <button
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           disabled={!editorState.canBlockQuote}
           className={`parallel cursor-pointer ${editorState.isBlockQuote ? 'is-active' : ''}`}
         >
-          <MobileText text="Block quote" />
           <TextQuote className="btn-format" />
+          <MobileText text="Block quote" />
         </button>
       </ButtonCard>
 
-      <ButtonCard editor={editor} text="Set Horizontal Rule">
+      <ButtonCard
+        editor={editor}
+        text="Set Horizontal Rule"
+        direction="right"
+        dropdown
+      >
         <button
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
           className="parallel"
         >
-          <MobileText text="Horizontal rule" />
           <SquareMinus className="btn-format cursor-pointer" />
+          <MobileText text="Horizontal rule" />
         </button>
       </ButtonCard>
-      <ButtonCard editor={editor} text="Toggle Word / Character Count">
+      <ButtonCard
+        editor={editor}
+        text="Toggle Word / Character Count"
+        dropdown
+      >
         <CountsDropdown counts={counts} mobile />
       </ButtonCard>
     </LargeDropdown>

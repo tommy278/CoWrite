@@ -19,36 +19,48 @@ export function ListDropdown({
 }: ListDropdownProps) {
   const [listOpen, toggleListOpen] = useState(false)
   const ref = clickDetector(() => toggleListOpen(false))
-
+  const relative = !mobile ? 'relative' : ''
   return (
-    <div ref={ref}>
+    <div ref={ref} className={relative}>
       <button
         onClick={() => toggleListOpen((prev) => !prev)}
-        className="parallel cursor-pointer"
+        className="flex cursor-pointer items-center justify-center space-x-1"
       >
-        <MobileText text="List dropdown" />
         <EllipsisVertical className="btn-format" />
+        <MobileText text="List dropdown" />
       </button>
 
       {listOpen && (
-        <div className={mobile ? 'dropdown-child' : 'dropdown'}>
-          <ButtonCard editor={editor} state="bulletList">
+        <div className={mobile ? 'dropdown-child' : 'dropdown-right'}>
+          <ButtonCard
+            editor={editor}
+            state="bulletList"
+            text="Bullet list"
+            direction="left"
+            dropdown
+          >
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               className={`parallel ${editorState.isBulletList ? 'is-active' : ''}`}
             >
+              <List className="btn-format" />{' '}
               <MobileText text="Bullet list" primary />
-              <List className="btn-format" />
             </button>
           </ButtonCard>
 
-          <ButtonCard editor={editor} state="orderedList">
+          <ButtonCard
+            editor={editor}
+            state="orderedList"
+            text="Ordered list"
+            direction="left"
+            dropdown
+          >
             <button
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
               className={`parallel ${editorState.isOrderedList ? 'is-active' : ''}`}
             >
-              <MobileText text="Ordered list" primary />
               <ListOrdered className="btn-format" />
+              <MobileText text="Ordered list" primary />
             </button>
           </ButtonCard>
         </div>

@@ -16,7 +16,6 @@ const colors = {
   indigo: '#91a7ff',
   lime: '#c0eb75',
   cyan: '#99e9f2',
-  magenta: '#da77f2',
 }
 
 type Mode = 'highlight' | 'color'
@@ -70,7 +69,7 @@ export default function ColorPicker({
                   config.apply(editor, color)
                   setIsOpen(false)
                 }}
-                className={`flex h-5 w-5 items-center justify-center rounded-full md:h-7 md:w-7 ${
+                className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-full md:h-7 md:w-7 ${
                   config.isActive(editor, color) ? 'is-active' : ''
                 }`}
               >

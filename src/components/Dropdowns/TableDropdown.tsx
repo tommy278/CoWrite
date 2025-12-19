@@ -38,18 +38,11 @@ export default function TableDropdown({
 
   const rows = !mobile ? 10 : 5
   const cols = !mobile ? 8 : 5
+  const direction = 'right'
 
   return (
     <div ref={ref}>
-      <div className="flex">
-        <MobileText
-          text="List dropdown"
-          className="cursor-pointer"
-          onClick={() => {
-            setIsDisplayOpen((prev) => !prev)
-            setIsDropdownOpen(false)
-          }}
-        />
+      <div className="flex space-x-1">
         <button
           onClick={() => {
             setIsDisplayOpen((prev) => !prev)
@@ -59,6 +52,14 @@ export default function TableDropdown({
         >
           <Table className="btn-format" />
         </button>
+        <MobileText
+          text="List dropdown"
+          className="cursor-pointer"
+          onClick={() => {
+            setIsDisplayOpen((prev) => !prev)
+            setIsDropdownOpen(false)
+          }}
+        />
 
         <button
           onClick={() => {
@@ -71,7 +72,7 @@ export default function TableDropdown({
       </div>
       {isDisplayOpen && !isDropdownOpen && (
         <div
-          className={`${mobile ? 'absolute top-0 left-full' : 'dropdown'} flex-col`}
+          className={`${mobile ? 'absolute top-0 left-full ml-2' : 'dropdown'} flex-col`}
         >
           {Array.from({ length: rows }).map((_, rowIndex) => (
             <div key={rowIndex} className="flex space-x-1">
@@ -83,7 +84,7 @@ export default function TableDropdown({
                 return (
                   <div
                     key={colIndex}
-                    className={`h-6 w-6 cursor-pointer border ${
+                    className={`m-0.5 h-6 w-6 cursor-pointer border ${
                       isActive
                         ? 'bg-blue-400'
                         : isHover
@@ -117,124 +118,128 @@ export default function TableDropdown({
         <div
           className={`${mobile ? 'dropdown-child' : 'dropdown flex flex-col gap-2'} `}
         >
-          <ToolTip text="Add column before" dropdownChild={true}>
+          <ToolTip text="Add column before" dropdownChild direction={direction}>
             <button
               onClick={() => {
                 editor.chain().focus().addColumnBefore().run()
               }}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Column before" primary />
               <BetweenVerticalStart className="h-5 w-5" />
+              <MobileText text="Column before" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Add column after" dropdownChild={true}>
+          <ToolTip text="Add column after" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().addColumnAfter().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Column After" primary />
               <BetweenVerticalEnd className="h-5 w-5" />
+              <MobileText text="Column After" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Delete Column" dropdownChild={true}>
+          <ToolTip text="Delete Column" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().deleteColumn().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Delete column" primary />
               <Minus className="h-5 w-5" />
+              <MobileText text="Delete column" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Add row before" dropdownChild={true}>
+          <ToolTip text="Add row before" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().addRowBefore().run()}
               className="parallel cursor-pointer"
             >
+              <BetweenHorizontalStart className="h-5 w-5" />{' '}
               <MobileText text="Row before" primary />
-              <BetweenHorizontalStart className="h-5 w-5" />
             </button>
           </ToolTip>
 
-          <ToolTip text="Add row after" dropdownChild={true}>
+          <ToolTip text="Add row after" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().addRowAfter().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Row after" primary />
               <BetweenHorizontalEnd className="h-5 w-5" />
+              <MobileText text="Row after" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Delete row" dropdownChild={true}>
+          <ToolTip text="Delete row" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().deleteRow().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Delete row" primary />
               <Trash className="h-5 w-5" />
+              <MobileText text="Delete row" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Delete Table" dropdownChild={true}>
+          <ToolTip text="Delete Table" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().deleteTable().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Delete Table" primary />
               <Grid2x2X className="h-5 w-5" />
+              <MobileText text="Delete Table" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Merge Cells" dropdownChild={true}>
+          <ToolTip text="Merge Cells" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().mergeCells().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Merge cells" primary />
               <TableCellsMerge className="h-5 w-5" />
+              <MobileText text="Merge cells" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Split cell" dropdownChild={true}>
+          <ToolTip text="Split cell" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().splitCell().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Split cell" primary />
               <TableRowsSplit className="h-5 w-5" />
+              <MobileText text="Split cell" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Fix tables" dropdownChild={true}>
+          <ToolTip text="Fix tables" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().fixTables().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Fix tables" primary />
               <Settings className="h-5 w-5" />
+              <MobileText text="Fix tables" primary />
             </button>
           </ToolTip>
 
-          <ToolTip text="Go to next cell" dropdownChild={true}>
+          <ToolTip text="Go to next cell" dropdownChild direction={direction}>
             <button
               onClick={() => editor.chain().focus().goToNextCell().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Next cell" primary />
               <ArrowRight className="h-5 w-5" />
+              <MobileText text="Next cell" primary />
             </button>
           </ToolTip>
-          <ToolTip text="Go to previous cell" dropdownChild={true}>
+          <ToolTip
+            text="Go to previous cell"
+            dropdownChild
+            direction={direction}
+          >
             <button
               onClick={() => editor.chain().focus().goToPreviousCell().run()}
               className="parallel cursor-pointer"
             >
-              <MobileText text="Prev cell" primary />
               <ArrowLeft className="h-5 w-5" />
+              <MobileText text="Prev cell" primary />
             </button>
           </ToolTip>
         </div>
