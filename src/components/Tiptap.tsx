@@ -30,6 +30,7 @@ interface TiptapProps {
   value: JSONContent
   className?: string
   editable: boolean
+  display?: boolean
 }
 
 export default function Tiptap({
@@ -37,6 +38,7 @@ export default function Tiptap({
   className,
   onChange,
   editable,
+  display,
 }: TiptapProps) {
   const extensions = useMemo(() => {
     return [
@@ -116,13 +118,13 @@ export default function Tiptap({
   }, [editor])
 
   if (!editor) return <div>Loading...</div>
+  const editorClass = `prose-editor ${!display ? 'h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10' : 'time-size px-0.5 py-1 md:px-1 md:py-2'} ${className}`
   return (
     <div className="relative flex flex-col items-center justify-center">
-      <MenuBar editor={editor} editable={editable} counts={counts} />
-      <EditorContent
-        editor={editor}
-        className={`prose-editor h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10 ${className}`}
-      />
+      {!display && (
+        <MenuBar editor={editor} editable={editable} counts={counts} />
+      )}
+      <EditorContent editor={editor} className={editorClass} />
     </div>
   )
 }

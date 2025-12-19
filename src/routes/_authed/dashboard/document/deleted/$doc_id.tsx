@@ -23,7 +23,7 @@ function RouteComponent() {
   if (!document) return null
   return (
     <div className="w-full">
-      <Tiptap id={doc_id} value={document.content} editable={false} />
+      <Tiptap value={document.content} editable={false} />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { ArrowDown } from 'lucide-react'
 import { sortDocuments, sortAlphabetically } from '@/lib/helpers/sort'
 import { Document } from '@/lib/Constants/dataTypes'
 import { useMemo } from 'react'
+import { clickDetector } from '@/context/clickDetector'
 
 interface SortDropdownProps {
   toggleDropdown: (dropdown: boolean) => void
@@ -25,21 +26,22 @@ export default function SortDropdown({
     }),
     [setOrderedDocuments, time]
   )
+  const ref = clickDetector(() => toggleDropdown(false))
   return (
-    <>
-      <div className="relative m-5 flex items-center justify-between">
+    <div ref={ref} className="relative">
+      <div className="relative flex items-center justify-between">
         <div className="flex flex-row items-center space-x-10">
           <button
             onClick={() => toggleDropdown(!dropdown)}
-            className="relative flex cursor-pointer justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300"
+            className="relative flex cursor-pointer items-center justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300"
           >
-            Sort By
-            <ArrowDown />
+            <p className="text-xs sm:text-sm md:text-base">Sort by</p>
+            <ArrowDown className="h-3 w-3 md:w-5" />
           </button>
         </div>
       </div>
       {dropdown && (
-        <div className="absolute top-full right-5 z-50 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">
+        <div className="absolute top-full right-5 z-50 mt-2 flex flex-col items-start rounded-md bg-gray-100 p-3 shadow-lg">
           {Object.entries(sortFunctions).map(([key, sortFunction]) => (
             <button
               key={key}
@@ -49,11 +51,11 @@ export default function SortDropdown({
               }}
               className="cursor-pointer"
             >
-              {key}
+              <p className="text-xs sm:text-sm md:text-base">{key}</p>
             </button>
           ))}
         </div>
       )}
-    </>
+    </div>
   )
 }

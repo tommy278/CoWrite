@@ -27,7 +27,7 @@ code {
 }
 
 .parallel {
-  @apply flex items-center whitespace-nowrap;
+  @apply flex items-center gap-1 whitespace-nowrap md:gap-2;
 }
 
 .input-field {
@@ -74,21 +74,16 @@ code {
   font-size: 1em;
 }
 
-.prose-editor a,
-#container a {
+.prose-editor a {
   @apply cursor-pointer text-blue-500 underline;
 }
 
-#container ul,
 .prose-editor ul {
   @apply list-disc pl-2 md:pl-4;
 }
-#container ol,
 .prose-editor ol {
   @apply list-decimal pl-2 md:pl-4;
 }
-
-#container hr,
 .prose-editor hr {
   @apply my-[1em];
 }
@@ -115,8 +110,8 @@ code {
 }
 
 @layer base {
-  #container ol li::marker,
-  #container ul li::marker {
+  ol li::marker,
+  ul li::marker {
     @apply text-[clamp(3px,_1vw,_5px)];
     color: currentColor;
   }
@@ -144,16 +139,6 @@ code {
 
 .view-height {
   @apply h-[clamp(120px,_25vw,_300px)] w-[clamp(90px,_20vw,_250px)];
-}
-
-#container h1,
-#container h2,
-#container h3,
-#container h4,
-#container h5,
-#container h6,
-#container p {
-  @apply text-[clamp(3px,_1vw,_5px)];
 }
 
 .header-size {
@@ -292,9 +277,15 @@ code {
   padding-left: 1rem;
 }
 
-tr,
-td,
-table,
-th {
-  @apply border border-gray-400;
+.prose img {
+  @apply h-auto max-w-full rounded-md;
+}
+
+.prose table {
+  @apply w-auto table-auto border border-gray-200;
+}
+
+.prose td,
+.prose th {
+  @apply border border-gray-200 px-2 py-1;
 }

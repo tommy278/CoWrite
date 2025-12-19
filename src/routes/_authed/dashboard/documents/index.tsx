@@ -3,10 +3,9 @@ import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
 import { useState, useEffect } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
-import { clickDetector } from '@/context/clickDetector'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import SortDropdown from '@/components/Dropdowns/SortDropdown'
-import { Trash } from 'lucide-react'
+import { Plus, Trash } from 'lucide-react'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
@@ -43,8 +42,6 @@ function RouteComponent() {
     )
   }, [documents])
 
-  const ref = clickDetector(() => toggleDropdown(false))
-
   const form = useForm({
     defaultValues: { title: '' },
     onSubmit: async ({ value }) => {
@@ -65,42 +62,42 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="mx-5 flex items-center justify-between">
-        <h3 className="text-base font-semibold">All Documents</h3>
-        <div className="flex items-center">
-          <span ref={ref} className="relative">
-            <SortDropdown
-              dropdown={dropdown}
-              toggleDropdown={toggleDropdown}
-              setOrderedDocuments={setOrderedDocuments}
-              documentPage={true}
-            />
-          </span>
+      <div className="mt-2 mb-2 ml-2 flex items-center justify-between md:mx-5">
+        <h3 className="text-sm font-semibold md:text-base">All Documents</h3>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex cursor-pointer items-center rounded-md bg-blue-400/50 p-2 hover:bg-blue-400"
+          >
+            <p className="hidden text-base md:flex">New Document</p>
+            <p className="flex items-center text-xs md:hidden">
+              New
+              <Plus className="h-3 w-3" />
+            </p>
+          </button>
+          <SortDropdown
+            dropdown={dropdown}
+            toggleDropdown={toggleDropdown}
+            setOrderedDocuments={setOrderedDocuments}
+            documentPage={true}
+          />
           <Link to="/dashboard/documents/deleted" className="hidden md:block">
             <span className="flex items-center rounded-md bg-red-400/50 p-2 hover:bg-red-400">
               <Trash size={20} className="mr-1" />
-              Trash
+              <p className="text-xs sm:text-sm md:text-base">Trash</p>
             </span>
           </Link>
         </div>
       </div>
 
-      <DocumentDisplay
-        isOpen={isOpen}
-        documents={orderedDocuments}
-        setIsOpen={setIsOpen}
-        documentPage={true}
-      />
+      <DocumentDisplay documents={orderedDocuments} documentPage={true} />
 
       {isOpen && (
         <div
           className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"
           onClick={() => setIsOpen(false)}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="w-[80%] md:w-[50%]"
-          >
+          <div onClick={(e) => e.stopPropagation()} className="w-">
             <form
               onSubmit={(e) => {
                 e.preventDefault()

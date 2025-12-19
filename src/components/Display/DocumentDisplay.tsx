@@ -1,28 +1,20 @@
 import { Document } from '@/lib/Constants/dataTypes'
-import { CirclePlus, Pin } from 'lucide-react'
-import { generateHTML } from '@tiptap/html'
-import { extensions, extraExtensions } from '@/lib/Constants/constants'
 import { Link } from '@tanstack/react-router'
 import dayjs from 'dayjs'
-import { EllipsisVertical, X } from 'lucide-react'
+import { EllipsisVertical, Pin, X } from 'lucide-react'
 import ConfirmModal from '@/components/Dropdowns/ConfirmModal'
 import { useState } from 'react'
+import Tiptap from '../Tiptap'
 
 interface DocumentProps {
-  isOpen?: boolean
   documents: Document[]
-  setIsOpen?: (state: boolean) => void
   documentPage: boolean
 }
 
 export default function DocumentDisplay({
-  isOpen,
   documents,
-  setIsOpen,
   documentPage,
 }: DocumentProps) {
-  const allExtensions = [...extensions, ...extraExtensions]
-
   const limitTextLength = (text: string) => {
     return text.length > 30 ? text.slice(0, 30) + '...' : text
   }
@@ -30,18 +22,6 @@ export default function DocumentDisplay({
   const [activeDocId, setActiveDocId] = useState<string | null>(null)
   return (
     <div className="grid w-full grid-cols-3 md:grid-cols-4">
-      {!isOpen && documentPage && setIsOpen && (
-        <div className="flex hidden justify-center">
-          <div className="view-height rounded-sm bg-cyan-300">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="flex h-full w-full cursor-pointer items-center justify-center"
-            >
-              <CirclePlus id="icon" />
-            </button>
-          </div>
-        </div>
-      )}
       {documents.map((doc) => {
         if (!doc.content)
           return (
@@ -49,7 +29,6 @@ export default function DocumentDisplay({
               <p>No Content found</p>
             </div>
           )
-        const htmlContent = generateHTML(doc.content, allExtensions)
         return (
           <div
             className="relative mx-5 my-2 flex min-w-0 flex-col"
@@ -65,13 +44,15 @@ export default function DocumentDisplay({
                   <Pin color="blue" className="icon" />
                 </div>
               )}
-              <div className="view-height overflow-hidden p-3">
-                <div
-                  id="container"
-                  className="overflow-hidden text-ellipsis"
-                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+              <div className="max-w-full overflow-auto">
+                <Tiptap
+                  value={doc.content}
+                  editable={false}
+                  display
+                  className="view-height"
                 />
               </div>
+
               <div className="w-full border-t border-gray-200 px-1 py-2 md:px-2 md:py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col">
