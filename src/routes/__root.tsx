@@ -80,9 +80,22 @@ function RootDocument() {
   return (
     <html lang="en">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        (() => {
+          try {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark')
+            }
+          } catch (_) {}
+        })();
+      `,
+          }}
+        />
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-page-bg text-page-text relative transition-colors duration-300">
         <IsSavingProvider>
           <Header type={headerType === 'doc' ? 'doc' : 'default'} id={id} />
           <Outlet />

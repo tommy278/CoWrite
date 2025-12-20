@@ -4,7 +4,7 @@ import { restoreDocumentFn } from '@/lib/serverFunctions/UPDATE/restoreDocument'
 import { pinDocumentFn } from '@/lib/serverFunctions/UPDATE/pinDocumentFn'
 import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import { Pin, Trash } from 'lucide-react'
 
 interface ConfirmModalProps {

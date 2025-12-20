@@ -14,7 +14,7 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-y-10 bg-gray-50">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-y-10">
       <h1 className="text-7xl font-bold text-blue-500">Default App</h1>
       <h2 className="text-base">This is the default line to display the app</h2>
       <Link

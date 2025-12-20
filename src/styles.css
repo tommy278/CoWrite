@@ -9,25 +9,55 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
+menu {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 40;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-page-bg: white;
+  --color-page-text: #1a1a1a;
+}
+
+.dark {
+  --color-page-bg: #0f172a;
+  --color-page-text: #f8fafc;
+}
+
+.prose-editor code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .dropdown {
-  @apply absolute top-full z-50 mt-2 rounded-md bg-gray-200 p-1 shadow-md md:p-2;
+  @apply absolute top-full z-50 mt-2 rounded-md p-1 shadow-md md:p-2;
+  @apply bg-gray-300;
+  @variant dark {
+    @apply bg-gray-600;
+  }
 }
 
 .dropdown-right {
-  @apply absolute top-10 right-0 z-50 rounded-md bg-gray-300 p-1;
+  @apply absolute top-10 right-0 z-50 rounded-md p-1;
+  @apply bg-gray-300;
+  @variant dark {
+    @apply bg-gray-600;
+  }
 }
 
 .dropdown-child {
-  @apply absolute top-0 left-full ml-2 flex w-full flex-col gap-1 rounded-md bg-gray-200 p-1;
+  @apply absolute top-0 left-full ml-2 flex w-full flex-col gap-1 rounded-md p-1;
+  @apply bg-gray-300;
+  @variant dark {
+    @apply bg-gray-600;
+  }
 }
 
 .parallel {
-  @apply flex items-center gap-1 whitespace-nowrap md:gap-2;
+  @apply flex cursor-pointer items-center gap-1 whitespace-nowrap md:gap-2;
 }
 
 .input-field {
@@ -35,11 +65,19 @@ code {
 }
 
 .form-content {
-  @apply w-full max-w-md space-y-5 rounded bg-white p-6 shadow-md;
+  @apply w-full max-w-md space-y-5 rounded p-6 shadow-md;
+  @apply bg-white;
+  @variant dark {
+    @apply border border-slate-800 bg-slate-900 shadow-xl;
+  }
 }
 
 .button-primary {
-  @apply h-10 w-full rounded-md bg-blue-600 text-white transition-colors duration-150 hover:bg-blue-700;
+  @apply h-10 w-full cursor-pointer rounded-md transition-colors duration-150 hover:bg-blue-700;
+  @apply bg-blue-600 text-white;
+  @variant dark {
+    @apply bg-blue-300 text-gray-800;
+  }
 }
 
 .btn-format {
@@ -78,7 +116,7 @@ code {
   @apply cursor-pointer text-blue-500 underline;
 }
 
-.prose-editor ul {
+.prose-editor .list-disc {
   @apply list-disc pl-2 md:pl-4;
 }
 .prose-editor ol {
@@ -94,6 +132,18 @@ code {
   border-radius: 8px;
 }
 
+#container pre {
+  background: #0a0a0a;
+  padding: 1em;
+  border-radius: 8px;
+}
+
+#container pre > code {
+  @apply text-[clamp(3px,_1vw,_8px)];
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: white;
+}
+
 .prose-editor pre > code {
   font-size: 0.8rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -101,12 +151,17 @@ code {
 }
 
 .prose-editor p > code {
-  display: inline-block;
-  padding: 0.2em 0.4em;
+  display: inline;
+  padding: 0.15em 0.35em;
   border-radius: 0.25rem;
-  font-family: monospace;
-  background-color: #f5f5f5;
-  color: #c7254e;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: #f1f5f9;
+  color: #0f172a;
+  @variant dark {
+    background: #1e293b;
+    color: #e5e7eb;
+  }
 }
 
 @layer base {
@@ -126,7 +181,11 @@ code {
 }
 
 .confirm-modal {
-  @apply absolute top-full right-0 z-50 mt-2 flex w-[80%] flex-col space-y-2 bg-gray-100 px-2 py-2 text-[clamp(7px,_1vw,_15px)] shadow-md;
+  @apply absolute top-full right-0 z-50 mt-2 flex w-[80%] flex-col space-y-2 px-2 py-2 text-[clamp(7px,_1vw,_15px)] shadow-md;
+  @apply bg-gray-100;
+  @variant dark {
+    @apply bg-gray-800/5;
+  }
 }
 
 #icon {
@@ -277,15 +336,44 @@ code {
   padding-left: 1rem;
 }
 
-.prose img {
+.prose-editor img {
   @apply h-auto max-w-full rounded-md;
 }
 
-.prose table {
+.prose-editor table {
   @apply w-auto table-auto border border-gray-200;
 }
 
-.prose td,
-.prose th {
+.prose-editor td,
+.prose-editor th {
   @apply border border-gray-200 px-2 py-1;
+}
+.prose-editor ul[data-type='taskList'] {
+  list-style: none;
+  margin: 2px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.prose-editor ul[data-type='taskList'] li {
+  display: flex;
+  align-items: flex-start;
+}
+
+.prose-editor ul[data-type='taskList'] li > label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.prose-editor ul[data-type='taskList'] li > div {
+  flex: 1 1 auto;
+}
+
+.prose-editor ul[data-type='taskList'] input[type='checkbox'] {
+  cursor: pointer;
+}
+
+.prose-editor ul[data-type='taskList'] ul[data-type='taskList'] {
+  margin: 0;
 }

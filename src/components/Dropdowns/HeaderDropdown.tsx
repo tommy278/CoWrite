@@ -1,6 +1,6 @@
 import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import {
   ChevronDown,
   Heading,
@@ -60,7 +60,7 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
             <div key={index}>
               <button
                 onClick={() => handleClick(level)}
-                className={`w-full cursor-pointer rounded-md px-1 py-0.5 hover:bg-gray-300 ${editor.isActive('heading', { level }) ? 'font-bold' : ''}`}
+                className={`w-full cursor-pointer rounded-md px-1 py-0.5 hover:bg-gray-300 dark:hover:bg-gray-700 ${editor.isActive('heading', { level }) ? 'font-bold' : ''}`}
               >
                 {`Heading ${level}`}
               </button>

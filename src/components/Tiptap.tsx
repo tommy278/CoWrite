@@ -17,6 +17,7 @@ import Image from '@tiptap/extension-image'
 import { useMemo, useState, useEffect } from 'react'
 import { TableKit } from '@tiptap/extension-table'
 import TextAlign from '@tiptap/extension-text-align'
+import { useHeaderHeight } from '@/Hooks/useHeaderHeight'
 
 const lowlight = createLowlight()
 lowlight.register('javascript', javascript)
@@ -117,14 +118,18 @@ export default function Tiptap({
     })
   }, [editor])
 
+  useHeaderHeight()
+
   if (!editor) return <div>Loading...</div>
-  const editorClass = `prose-editor ${!display ? 'h-full min-h-screen w-[70%] border-x border-gray-200 px-5 py-10' : 'time-size px-0.5 py-1 md:px-1 md:py-2'} ${className}`
+  const editorClass = `prose-editor 
+  ${!display ? 'w-[70%] min-h-screen border-x dark:border-gray-500 border-gray-200 px-2 py-5 sm:px-4 sm:py-7 md:px-6 md:py-10' : 'time-size px-0.5 py-1 md:px-1 md:py-2'} 
+  ${className}`
   return (
-    <div className="relative flex flex-col items-center justify-center">
-      {!display && (
-        <MenuBar editor={editor} editable={editable} counts={counts} />
-      )}
-      <EditorContent editor={editor} className={editorClass} />
-    </div>
+    <>
+      {!display && <MenuBar editor={editor} counts={counts} />}
+      <div className="flex justify-center">
+        <EditorContent editor={editor} className={editorClass} />
+      </div>
+    </>
   )
 }

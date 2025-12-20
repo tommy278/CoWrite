@@ -1,4 +1,4 @@
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import type { Editor } from '@tiptap/react'
 import {
   AlignLeft,

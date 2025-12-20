@@ -12,6 +12,7 @@ import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import { ArrowLeft } from 'lucide-react'
 import dayjs from 'dayjs'
 import SearchBar from '../SearchBar'
+import Menubar from './Menubar'
 
 interface HeaderProps {
   type: 'doc' | 'default'
@@ -71,10 +72,10 @@ export default function Header({ type, id }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 pr-4 text-white shadow-lg">
+      <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-700 px-4 py-2 text-white shadow-lg dark:bg-blue-900">
         {type === 'default' && (
           <h1
-            className={`${user ? 'w-[80%]' : 'w-[50%]'} my-5 ml-5 flex items-center justify-between gap-4 text-2xl font-semibold`}
+            className={`${user ? 'w-[80%]' : 'w-[50%]'} flex items-center justify-between gap-4 text-lg font-semibold sm:text-xl md:text-2xl`}
           >
             <Link to={user ? '/dashboard/documents' : '/'}>coWrite</Link>
             {user && <SearchBar documents={documents} className="text-base" />}
@@ -113,7 +114,7 @@ export default function Header({ type, id }: HeaderProps) {
                       name="Title"
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      className="my-4 mb-5 rounded-md border px-3 py-2"
+                      className="rounded-md border px-3 py-2"
                       disabled={document?.deleted}
                     />
                     {showSaving && !document?.deleted ? (
@@ -129,7 +130,7 @@ export default function Header({ type, id }: HeaderProps) {
                       </span>
                     )}
                     {document?.deleted && (
-                      <p className="text-base">
+                      <p className="text-xs sm:text-sm md:text-base">
                         Deleted at{' '}
                         {dayjs(deleted_at).format('DD/MM/YYYY HH:mm')}
                       </p>
@@ -142,10 +143,10 @@ export default function Header({ type, id }: HeaderProps) {
         )}
         <button
           onClick={() => setIsOpen(true)}
-          className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-blue-700 md:hidden"
+          className="cursor-pointer rounded-lg p-2 hover:bg-blue-300 md:hidden dark:hover:bg-blue-700"
           aria-label="Open menu"
         >
-          <Menu size={24} />
+          <Menu className="h-5 w-5" />
         </button>
         <MobileNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
         <DesktopNavbar />

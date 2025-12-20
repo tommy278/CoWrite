@@ -3,7 +3,7 @@ import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import { useState } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
 import SortDropdown from '@/components/Dropdowns/SortDropdown'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import { Home } from 'lucide-react'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/deleted')({

@@ -3,7 +3,7 @@ import { type Document } from '@/lib/Constants/dataTypes'
 import { useState } from 'react'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import { Link } from '@tanstack/react-router'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import { FilePlus, Search } from 'lucide-react'
 import { restoreDocumentFn } from '@/lib/serverFunctions/UPDATE/restoreDocument'
 import { useRouter } from '@tanstack/react-router'
@@ -83,8 +83,8 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
           children={(field) => (
             <div className="relative w-full">
               {/* Search logo inside the input field */}
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <Search className="h-5 w-5 text-gray-400" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2 md:pl-3">
+                <Search className="h-3 w-3 text-gray-400 md:h-5 md:w-5" />
               </div>
               <input
                 name="search"
@@ -93,7 +93,7 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onFocus={() => toggleSearchIsOpen(true)}
-                className="h-10 w-full rounded-md border px-10 transition-all duration-150 focus:ring-2 focus:outline-none"
+                className="max-w-full rounded-md border p-1 px-6 text-xs transition-all duration-150 focus:ring-2 focus:outline-none sm:w-full sm:text-sm md:px-10 md:text-base"
               />
 
               <div className="absolute top-full left-0 z-50 mt-3 w-full">

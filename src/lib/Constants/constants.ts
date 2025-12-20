@@ -26,6 +26,7 @@ import { TrailingNode } from '@tiptap/extensions'
 import TextAlign from '@tiptap/extension-text-align'
 import { TextStyle, Color } from '@tiptap/extension-text-style'
 import { CharacterCount } from '@tiptap/extensions'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
 
 export const extensions = [
   Document,
@@ -48,6 +49,8 @@ export const extensions = [
   TextStyle,
   Color,
   CharacterCount,
+  TaskItem,
+  TaskList,
 ]
 
 export const extraExtensions = [

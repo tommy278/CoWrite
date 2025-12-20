@@ -32,11 +32,9 @@ interface Counts {
 
 export default function MenuBar({
   editor,
-  editable,
   counts,
 }: {
   editor: Editor
-  editable: boolean
   counts: Counts
 }) {
   const editorState = useEditor(editor)
@@ -45,7 +43,7 @@ export default function MenuBar({
   )
   return (
     <menu
-      className={`sticky ${editable ? 'top-[78px]' : 'top-76px'} z-40 flex w-full items-center justify-between border-b border-gray-300 bg-gray-200 px-0.5 py-2 sm:px-6 md:px-10`}
+      className="flex w-full items-center justify-between self-start bg-gray-200 px-0.5 py-2 sm:px-6 md:px-10 dark:bg-gray-800"
       aria-label="Editor toolbar"
     >
       <Tooltip.Provider delayDuration={200}>

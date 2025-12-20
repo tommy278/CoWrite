@@ -1,9 +1,9 @@
 import ButtonCard from '@/components/ButtonCard'
 import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
-import { List, ListOrdered } from 'lucide-react'
+import { List, ListOrdered, LayoutList } from 'lucide-react'
 import { EllipsisVertical } from 'lucide-react'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import MobileText from '../MobileText'
 
 interface ListDropdownProps {
@@ -32,6 +32,21 @@ export function ListDropdown({
 
       {listOpen && (
         <div className={mobile ? 'dropdown-child' : 'dropdown-right'}>
+          <ButtonCard
+            editor={editor}
+            state="taskList"
+            text="Task list"
+            direction="left"
+            dropdown
+          >
+            <button
+              onClick={() => editor.chain().focus().toggleTaskList().run()}
+              className={`parallel ${editor.isActive('taskList') ? 'is-active' : ''}`}
+            >
+              <LayoutList className="btn-format" />
+              <MobileText text="Task list" primary />
+            </button>
+          </ButtonCard>
           <ButtonCard
             editor={editor}
             state="bulletList"

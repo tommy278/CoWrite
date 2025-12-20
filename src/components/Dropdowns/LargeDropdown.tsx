@@ -1,4 +1,4 @@
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import { ReactNode, useState } from 'react'
 
 export default function LargeDropdown({

@@ -7,7 +7,7 @@ export default function DesktopNavbar() {
   const { user } = ParentRoute.useRouteContext()
 
   return (
-    <div className="flex hidden items-center md:block">
+    <div className="hidden items-center md:flex">
       <nav className="flex space-x-4">
         {user ? (
           <Logout />
@@ -15,7 +15,7 @@ export default function DesktopNavbar() {
           <>
             <Link
               to="/auth/login"
-              className="flex items-center gap-3 rounded-lg border border-white p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
+              className="flex items-center gap-3 rounded-lg border border-white p-3 transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
               activeProps={{
                 className:
                   'flex items-center gap-3 p-3 rounded-lg bg-cyan-500 hover:bg-cyan-600 transition-colors border-none',
@@ -26,7 +26,7 @@ export default function DesktopNavbar() {
             </Link>
             <Link
               to="/auth/register"
-              className="flex items-center gap-3 rounded-lg border border-white p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
+              className="flex items-center gap-3 rounded-lg border border-white p-3 transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
               activeProps={{
                 className:
                   'flex items-center gap-3 p-3 rounded-lg bg-cyan-500 hover:bg-cyan-600 transition-colors border-none',

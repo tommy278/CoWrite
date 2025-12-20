@@ -70,7 +70,7 @@ function RouteComponent() {
             className="flex cursor-pointer items-center rounded-md bg-blue-400/50 p-2 hover:bg-blue-400"
           >
             <p className="hidden text-base md:flex">New Document</p>
-            <p className="flex items-center text-xs md:hidden">
+            <p className="flex items-center text-xs sm:text-sm md:hidden">
               New
               <Plus className="h-3 w-3" />
             </p>
@@ -94,16 +94,16 @@ function RouteComponent() {
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"
+          className="fixed inset-0 z-50 flex w-full items-center justify-center"
           onClick={() => setIsOpen(false)}
         >
-          <div onClick={(e) => e.stopPropagation()} className="w-">
+          <div onClick={(e) => e.stopPropagation()}>
             <form
               onSubmit={(e) => {
                 e.preventDefault()
                 form.handleSubmit()
               }}
-              className="w-full space-y-5 rounded bg-white p-6 shadow-lg"
+              className="w-full space-y-5 rounded bg-gray-200/10 p-6 shadow-lg dark:bg-gray-600"
             >
               <form.Field
                 name="title"

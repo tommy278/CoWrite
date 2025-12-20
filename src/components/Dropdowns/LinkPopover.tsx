@@ -11,7 +11,7 @@ import {
   Youtube as YT,
 } from 'lucide-react'
 import { RxDividerVertical } from 'react-icons/rx'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 import ToolTip from '../ToolTip'
 import MobileText from '../MobileText'
 
@@ -78,6 +78,8 @@ export default function LinkPopover({
   }
   const ref = clickDetector(() => setIsOpen(false))
   const relative = !mobile ? 'relative' : ''
+  const buttonClass =
+    'rounded-md border border-blue-300 transition-transform duration-200 hover:scale-105'
   return (
     <div ref={ref} className={`flex items-center ${relative}`}>
       <button
@@ -98,7 +100,7 @@ export default function LinkPopover({
           className={`${mobile ? 'absolute left-[110%] rounded-md bg-gray-300 p-1 text-sm' : 'dropdown-right'} flex-col`}
         >
           {type === 'youtube' && (
-            <div className="relative flex w-fit justify-between">
+            <div className="relative flex w-full justify-between">
               {!customViewOpen && (
                 <div className="flex gap-2">
                   <button
@@ -109,7 +111,7 @@ export default function LinkPopover({
                     className={`cursor-pointer p-1 ${
                       width === PRESETS.small.width &&
                       height === PRESETS.small.height
-                        ? 'border border-blue-300'
+                        ? buttonClass
                         : ''
                     }`}
                   >
@@ -123,7 +125,7 @@ export default function LinkPopover({
                     className={`cursor-pointer p-1 ${
                       width === PRESETS.medium.width &&
                       height === PRESETS.medium.height
-                        ? 'border border-blue-300'
+                        ? buttonClass
                         : ''
                     }`}
                   >
@@ -137,7 +139,7 @@ export default function LinkPopover({
                     className={`cursor-pointer p-1 ${
                       width === PRESETS.large.width &&
                       height === PRESETS.large.height
-                        ? 'border border-blue-300'
+                        ? buttonClass
                         : ''
                     } `}
                   >

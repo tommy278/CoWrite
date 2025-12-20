@@ -21,7 +21,7 @@ export default function DocumentDisplay({
 
   const [activeDocId, setActiveDocId] = useState<string | null>(null)
   return (
-    <div className="grid w-full grid-cols-3 md:grid-cols-4">
+    <div className="grid w-full grid-cols-3 gap-2 px-5 md:grid-cols-4 md:gap-5">
       {documents.map((doc) => {
         if (!doc.content)
           return (
@@ -30,10 +30,7 @@ export default function DocumentDisplay({
             </div>
           )
         return (
-          <div
-            className="relative mx-5 my-2 flex min-w-0 flex-col"
-            key={doc.id}
-          >
+          <div className="relative my-2 flex min-w-0 flex-col" key={doc.id}>
             <Link
               to={`${documentPage ? '/dashboard/document/$doc_id' : '/dashboard/document/deleted/$doc_id'}`}
               params={{ doc_id: doc.id }}
@@ -44,12 +41,12 @@ export default function DocumentDisplay({
                   <Pin color="blue" className="icon" />
                 </div>
               )}
-              <div className="max-w-full overflow-auto">
+              <div className="view-height overflow-hidden" id="container">
                 <Tiptap
                   value={doc.content}
                   editable={false}
                   display
-                  className="view-height"
+                  className="h-full w-full"
                 />
               </div>
 

@@ -3,7 +3,7 @@ import { Home, X, LogIn, Plus } from 'lucide-react'
 import Logout from '@/components/Logout'
 import { Route as ParentRoute } from '@/routes/__root'
 import { Trash } from 'lucide-react'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 
 interface MobileNavbarProps {
   isOpen: boolean | null
@@ -26,7 +26,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
           <h2 className="text-xl font-bold">Navigation</h2>
           <button
             onClick={() => setIsOpen?.(false)}
-            className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-blue-700"
+            className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-blue-300 dark:hover:bg-blue-700"
             aria-label="Close menu"
           >
             <X size={24} />
@@ -37,7 +37,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
           <Link
             to={user ? '/dashboard/documents' : '/'}
             onClick={() => setIsOpen?.(false)}
-            className="flex items-center gap-3 rounded-lg p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
+            className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
             activeProps={{
               className:
                 'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors',
@@ -53,7 +53,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
               <Link
                 to="/dashboard/documents/deleted"
                 onClick={() => setIsOpen?.(false)}
-                className="flex items-center gap-3 rounded-lg p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
+                className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
                 activeProps={{
                   className:
                     'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors',
@@ -69,7 +69,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
               <Link
                 to="/auth/login"
                 onClick={() => setIsOpen?.(false)}
-                className="flex items-center gap-3 rounded-lg p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
+                className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
                 activeProps={{
                   className:
                     'flex items-center gap-3 p-3 rounded-lg bg-cyan-500 hover:bg-cyan-600 transition-colors',
@@ -82,7 +82,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
               <Link
                 to="/auth/register"
                 onClick={() => setIsOpen?.(false)}
-                className="flex items-center gap-3 rounded-lg p-3 transition-colors transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
+                className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-blue-700"
                 activeProps={{
                   className:
                     'flex items-center gap-3 p-3 rounded-lg bg-cyan-500 hover:bg-cyan-600 transition-colors',

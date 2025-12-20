@@ -2,7 +2,7 @@ import type { Editor } from '@tiptap/react'
 import { useState } from 'react'
 import { Highlighter, Baseline } from 'lucide-react'
 import { FaBan } from 'react-icons/fa'
-import { clickDetector } from '@/context/clickDetector'
+import { clickDetector } from '@/Hooks/clickDetector'
 
 const colors = {
   orange: '#ffc078',
