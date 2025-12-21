@@ -139,7 +139,7 @@ menu {
 }
 
 #container pre > code {
-  @apply text-[clamp(3px,_1vw,_8px)];
+  @apply text-[clamp(3px,1vw,8px)];
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   color: white;
 }
@@ -167,7 +167,7 @@ menu {
 @layer base {
   ol li::marker,
   ul li::marker {
-    @apply text-[clamp(3px,_1vw,_5px)];
+    @apply text-[clamp(3px,1vw,5px)];
     color: currentColor;
   }
 }
@@ -181,7 +181,7 @@ menu {
 }
 
 .confirm-modal {
-  @apply absolute top-full right-0 z-50 mt-2 flex w-20 flex-col space-y-2 rounded-sm p-2 text-[clamp(7px,_1vw,_15px)] shadow-md sm:w-30 md:w-40;
+  @apply absolute top-full right-0 z-50 mt-2 flex w-20 flex-col space-y-2 rounded-sm p-2 text-[clamp(7px,1vw,15px)] shadow-md sm:w-30 md:w-40;
   @apply bg-gray-100/80;
   @variant dark {
     @apply bg-gray-700/80;
@@ -197,15 +197,15 @@ menu {
 }
 
 .view-height {
-  @apply h-[clamp(120px,_25vw,_300px)] w-[clamp(90px,_20vw,_250px)];
+  @apply h-[clamp(120px,25vw,300px)] w-[clamp(90px,20vw,250px)];
 }
 
 .header-size {
-  @apply text-[clamp(5px,_1vw,_10px)];
+  @apply text-[clamp(5px,1vw,10px)];
 }
 
 .time-size {
-  @apply text-[clamp(3px,_1vw,_8px)];
+  @apply text-[clamp(3px,1vw,8px)];
 }
 
 .hljs-comment,

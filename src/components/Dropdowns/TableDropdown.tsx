@@ -17,8 +17,8 @@ import {
   ChevronDown,
 } from 'lucide-react'
 import ToolTip from '../ToolTip'
-import { clickDetector } from '@/Hooks/clickDetector'
 import MobileText from '@/components/MobileText'
+import { clickDetector } from '@/Hooks/clickDetector'
 
 export default function TableDropdown({
   editor,

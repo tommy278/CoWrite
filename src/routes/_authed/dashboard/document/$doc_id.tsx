@@ -10,27 +10,30 @@ import type { JSONContent } from '@tiptap/core'
 
 export const Route = createFileRoute('/_authed/dashboard/document/$doc_id')({
   component: RouteComponent,
-  beforeLoad: async ({ context, params }) => {
-    const document = await getDocumentFn({ data: { id: params.doc_id } })
+  beforeLoad: ({ context, params }) => {
     return {
       ...context,
       headerType: 'doc',
-      document_id: document?.id,
+      document_id: params.doc_id,
     }
+  },
+  loader: async ({ params }) => {
+    const document = await getDocumentFn({
+      data: { id: params.doc_id },
+    })
+    return { document }
   },
 })
 
 function RouteComponent() {
   const { handleSave, doneSaving } = useIsSaving()
-  const { doc_id } = Route.useParams()
-  const { documents } = Route.useRouteContext()
-  const document = documents.find((row) => row.id === doc_id)
+  const { document } = Route.useLoaderData()
   const router = useRouter()
   if (!document) return <p>Document not found</p>
 
   const contentForm = useForm({
     defaultValues: {
-      id: doc_id,
+      id: document.id,
       content: document.content ?? { type: 'doc', content: [] },
     },
   })

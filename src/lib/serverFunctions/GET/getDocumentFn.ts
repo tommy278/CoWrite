@@ -30,6 +30,7 @@ export const getDocumentFn = createServerFn({ method: 'GET' })
         updated_at: data.updated_at,
         deleted_at: data.deleted_at,
         deleted: data.deleted,
+        pinned: data.pinned,
       }
       return document
     } else {

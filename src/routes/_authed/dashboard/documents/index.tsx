@@ -1,46 +1,40 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
-import { useState, useEffect } from 'react'
-import { Document } from '@/lib/Constants/dataTypes'
+import { useState } from 'react'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import SortDropdown from '@/components/Dropdowns/SortDropdown'
 import { Plus, Trash } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { getDocumentPageFn } from '@/lib/serverFunctions/GET/getDocumentsPageFn'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { documents } = Route.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const [dropdown, toggleDropdown] = useState(false)
-  const [orderedDocuments, setOrderedDocuments] = useState<Document[]>(() => [
-    ...documents
-      .filter((doc) => !doc.deleted)
-      .sort((a, b) => {
-        if (a.pinned && !b.pinned) return -1
-        if (!a.pinned && b.pinned) return 1
-        return (
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-        )
+  const PAGE_SIZE = 20
+  const [page, setPage] = useState(0)
+  const [sort, setSort] = useState<'updated' | 'created'>('updated')
+  const { user } = Route.useRouteContext()
+  if (!user) return
+  const { data, isLoading } = useQuery({
+    queryKey: ['documents', user?.id, page, sort],
+    queryFn: () =>
+      getDocumentPageFn({
+        data: {
+          user_id: user?.id,
+          page,
+          pageSize: PAGE_SIZE,
+          sort,
+          deleted: false,
+        },
       }),
-  ])
-
-  useEffect(() => {
-    setOrderedDocuments(
-      [...documents]
-        .filter((doc) => !doc.deleted)
-        .sort((a, b) => {
-          if (a.pinned && !b.pinned) return -1
-          if (!a.pinned && b.pinned) return 1
-          return (
-            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-          )
-        })
-    )
-  }, [documents])
+  })
+  const documents = data?.documents ?? []
+  const totalPages = Math.ceil((data?.total ?? 0) / PAGE_SIZE)
 
   const form = useForm({
     defaultValues: { title: '' },
@@ -76,10 +70,11 @@ function RouteComponent() {
             </p>
           </button>
           <SortDropdown
-            dropdown={dropdown}
-            toggleDropdown={toggleDropdown}
-            setOrderedDocuments={setOrderedDocuments}
-            documentPage={true}
+            sort={sort}
+            onChange={(nextSort) => {
+              setPage(0)
+              setSort(nextSort)
+            }}
           />
           <Link to="/dashboard/documents/deleted" className="hidden md:block">
             <span className="flex items-center rounded-md bg-red-400/50 p-2 hover:bg-red-400">
@@ -90,7 +85,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      <DocumentDisplay documents={orderedDocuments} documentPage={true} />
+      <DocumentDisplay documents={documents} documentPage={true} />
 
       {isOpen && (
         <div
@@ -136,6 +131,22 @@ function RouteComponent() {
           </div>
         </div>
       )}
+      <div className="flex items-center justify-between px-4">
+        <button disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
+          Previous
+        </button>
+
+        <span>
+          Page {page + 1} of {totalPages}
+        </span>
+
+        <button
+          disabled={page + 1 >= totalPages}
+          onClick={() => setPage((p) => p + 1)}
+        >
+          Next
+        </button>
+      </div>
     </>
   )
 }

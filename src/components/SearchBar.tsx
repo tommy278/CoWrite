@@ -7,9 +7,11 @@ import { clickDetector } from '@/Hooks/clickDetector'
 import { FilePlus, Search } from 'lucide-react'
 import { restoreDocumentFn } from '@/lib/serverFunctions/UPDATE/restoreDocument'
 import { useRouter } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
+import { getAllDocumentsFn } from '@/lib/serverFunctions/GET/getAllDocuments'
+import { Route as ParentRoute } from '@/routes/__root'
 
 interface SearchBarProps {
-  documents: Document[]
   className?: string
 }
 
@@ -18,7 +20,7 @@ interface SearchResultProps {
   deleted: Document[]
 }
 
-export default function SearchBar({ documents, className }: SearchBarProps) {
+export default function SearchBar({ className }: SearchBarProps) {
   const searchForm = useForm({
     defaultValues: {
       search: '',
@@ -32,6 +34,13 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
   const [searchIsOpen, toggleSearchIsOpen] = useState(false)
   const ref = clickDetector(() => toggleSearchIsOpen(false))
   const router = useRouter()
+  const { user } = ParentRoute.useRouteContext()
+
+  const { data: documents = [] } = useQuery({
+    queryKey: ['documents', user?.id],
+    queryFn: () => getAllDocumentsFn({ data: { user_id: user!.id } }),
+    enabled: !!user?.id,
+  })
 
   const debouncedSearch = useDebouncedCallback(
     (search: string) => {
@@ -48,10 +57,10 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
       const active = filtered.filter((doc) => !doc.deleted)
       const deleted = filtered.filter((doc) => doc.deleted)
 
-      const activeSorted = active
+      const activeSorted = [...active]
         .sort((a, b) => a.title.localeCompare(b.title))
         .slice(0, 10)
-      const deletedSorted = deleted
+      const deletedSorted = [...deleted]
         .sort((a, b) => a.title.localeCompare(b.title))
         .slice(0, 10)
 

@@ -11,8 +11,8 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import { getUserFn } from '@/lib/serverFunctions/GET/getUserFn'
 import Header from '../components/Headers/Header'
 import appCss from '../styles.css?url'
-import { getAllDocumentsFn } from '@/lib/serverFunctions/GET/getAllDocuments'
 import { IsSavingProvider } from '@/context/isLoading'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -38,10 +38,8 @@ export const Route = createRootRoute({
   beforeLoad: async () => {
     const user = await getUserFn()
     if (!user?.id) return { user: null, documents: [] }
-    const documents = await getAllDocumentsFn({ data: { user_id: user?.id } })
     return {
       user,
-      documents,
       headerType: 'default' as 'default' | 'doc',
       document_id: 'default' as string,
     }
@@ -76,6 +74,7 @@ function RootDocument() {
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
   const id = deepestMatchWithHeaderType?.context.document_id ?? ''
+  const queryClient = new QueryClient()
 
   return (
     <html lang="en">
@@ -97,8 +96,11 @@ function RootDocument() {
       </head>
       <body className="bg-page-bg text-page-text relative transition-colors duration-300">
         <IsSavingProvider>
-          <Header type={headerType === 'doc' ? 'doc' : 'default'} id={id} />
-          <Outlet />
+          <QueryClientProvider client={queryClient}>
+            <Header type={headerType === 'doc' ? 'doc' : 'default'} id={id} />
+            <Outlet />
+          </QueryClientProvider>
+
           <TanStackDevtools
             config={{
               position: 'bottom-right',

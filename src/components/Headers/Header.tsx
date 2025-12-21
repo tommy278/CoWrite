@@ -11,6 +11,8 @@ import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import dayjs from 'dayjs'
 import SearchBar from '../SearchBar'
+import { useQuery } from '@tanstack/react-query'
+import { getDocumentFn } from '@/lib/serverFunctions/GET/getDocumentFn'
 
 interface HeaderProps {
   type: 'doc' | 'default'
@@ -19,12 +21,19 @@ interface HeaderProps {
 
 export default function Header({ type, id }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const { user, documents = [] } = ParentRoute.useRouteContext()
+  const { user } = ParentRoute.useRouteContext()
   const [hideSave, setHideSave] = useState(false)
   const { isSaving, handleSave, doneSaving } = useIsSaving()
   const router = useRouter()
 
-  const document = documents?.find((document) => document.id === id)
+  const isDocPage = type === 'doc' && id !== 'default'
+
+  const { data: document } = useQuery({
+    queryKey: ['document', id],
+    queryFn: () => getDocumentFn({ data: { id } }),
+    enabled: isDocPage,
+  })
+
   const title = document?.title ?? 'Untitled Document'
   const updated_at = document?.updated_at
   const deleted_at = document?.deleted_at
@@ -68,6 +77,9 @@ export default function Header({ type, id }: HeaderProps) {
 
   const showSaving = !hideSave && isSaving
 
+  if (!user) return null
+  if (type === 'doc' && !document) return null
+
   return (
     <>
       <header className="sticky top-0 z-51 flex items-center justify-between bg-blue-700 px-4 py-2 text-white shadow-lg dark:bg-blue-900">
@@ -76,7 +88,7 @@ export default function Header({ type, id }: HeaderProps) {
             className={`${user ? 'w-[80%]' : 'w-[50%]'} flex items-center justify-between gap-4 text-lg font-semibold sm:text-xl md:text-2xl`}
           >
             <Link to={user ? '/dashboard/documents' : '/'}>coWrite</Link>
-            {user && <SearchBar documents={documents} className="text-base" />}
+            {user && <SearchBar className="text-sm sm:text-xs" />}
           </h1>
         )}
         {type === 'doc' && (
