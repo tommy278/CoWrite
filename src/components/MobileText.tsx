@@ -11,7 +11,7 @@ export default function MobileText({
 }) {
   return (
     <p
-      className={`md:sm flex text-xs ${!primary && 'md:hidden'} ${className ? className : ''}`}
+      className={`flex text-xs sm:text-sm md:text-sm ${!primary && 'md:hidden'} ${className ? className : ''}`}
       onClick={onClick}
     >
       {text}

@@ -62,7 +62,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="mt-2 mb-2 ml-2 flex items-center justify-between md:mx-5">
+      <div className="m-2 flex items-center justify-between md:mx-5">
         <h3 className="text-sm font-semibold md:text-base">All Documents</h3>
         <div className="flex items-center space-x-2">
           <button
@@ -103,7 +103,7 @@ function RouteComponent() {
                 e.preventDefault()
                 form.handleSubmit()
               }}
-              className="w-full space-y-5 rounded bg-gray-200/10 p-6 shadow-lg dark:bg-gray-600"
+              className="w-full space-y-5 rounded bg-gray-200/95 p-6 shadow-lg dark:bg-gray-600/95"
             >
               <form.Field
                 name="title"

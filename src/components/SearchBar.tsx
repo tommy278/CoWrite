@@ -84,7 +84,7 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
             <div className="relative w-full">
               {/* Search logo inside the input field */}
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2 md:pl-3">
-                <Search className="h-3 w-3 text-gray-400 md:h-5 md:w-5" />
+                <Search className="h-3 w-3 md:h-5 md:w-5" />
               </div>
               <input
                 name="search"
@@ -96,10 +96,10 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
                 className="max-w-full rounded-md border p-1 px-6 text-xs transition-all duration-150 focus:ring-2 focus:outline-none sm:w-full sm:text-sm md:px-10 md:text-base"
               />
 
-              <div className="absolute top-full left-0 z-50 mt-3 w-full">
+              <div className="absolute top-full left-0 z-50 mt-3 w-full bg-gray-800/90">
                 {searchIsOpen && searchResults.active.length > 0 && (
-                  <section className="w-full rounded-t-md bg-gray-200 dark:bg-gray-800">
-                    <div className="px-4 py-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+                  <section className="w-full rounded-t-md">
+                    <div className="px-4 py-2 text-xs font-semibold tracking-wide uppercase">
                       Active
                     </div>
                     {searchResults.active.map((entry) => (
@@ -107,7 +107,7 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
                         key={entry.id}
                         to="/dashboard/document/$doc_id"
                         params={{ doc_id: entry.id }}
-                        className="block border-b border-gray-300/40 px-3 py-2 hover:bg-gray-300 dark:hover:bg-gray-700"
+                        className="block border-b px-3 py-2 hover:bg-gray-500"
                       >
                         {entry.title}
                       </Link>
@@ -116,14 +116,14 @@ export default function SearchBar({ documents, className }: SearchBarProps) {
                 )}
 
                 {searchIsOpen && searchResults.deleted.length > 0 && (
-                  <section className="w-full rounded-b-md bg-gray-200 dark:bg-gray-800">
-                    <div className="px-4 py-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+                  <section className="w-full rounded-b-md dark:bg-gray-800">
+                    <div className="px-4 py-2 text-xs font-semibold tracking-wide uppercase">
                       Deleted
                     </div>
                     {searchResults.deleted.map((entry) => (
                       <div
                         key={entry.id}
-                        className="flex justify-between border-b border-gray-300/40 hover:bg-gray-300 dark:hover:bg-gray-700"
+                        className="flex justify-between border-b border-gray-300/40 hover:bg-gray-500"
                       >
                         <Link
                           to="/dashboard/document/$doc_id"

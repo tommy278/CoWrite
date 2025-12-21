@@ -60,7 +60,7 @@ export default function ColorPicker({
       />
 
       {isOpen && (
-        <div className="dropdown end-0 md:end-auto md:min-w-[150px]">
+        <div className="dropdown end-2 md:end-auto md:min-w-[150px]">
           <div className="flex items-center space-x-2 md:grid md:grid-cols-4 md:space-x-0">
             {Object.entries(colors).map(([key, color]) => (
               <button
@@ -82,7 +82,7 @@ export default function ColorPicker({
 
             <button
               onClick={() => config.unset(editor)}
-              className="flex h-7 w-7 items-center justify-center"
+              className="flex h-7 w-7 cursor-pointer items-center justify-center"
             >
               <FaBan className="h-3 w-3 md:h-5 md:w-5" />
             </button>

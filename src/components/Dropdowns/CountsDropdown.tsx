@@ -15,8 +15,32 @@ export default function CountsDropdown({
   mobile?: boolean
 }) {
   const [isOpen, setIsOpen] = useState(false)
+  const textSize = 'flex flex-row space-x-1 text-xs md:text-sm text-xs'
+
+  const DesktopComponent = () => {
+    return (
+      <div className="dropdown-right flex w-fit flex-col">
+        <p className={textSize}>
+          <span>Characters:</span>
+          <span>{counts.characters}</span>
+        </p>
+        <p className={textSize}>
+          <span>Words:</span> <span>{counts.words}</span>
+        </p>
+      </div>
+    )
+  }
+
+  const MobileComponent = () => {
+    return (
+      <div className="absolute top-[160%] right-0 rounded-md bg-gray-400 p-1 dark:bg-gray-700">
+        <p>Characters: {counts.characters}</p>
+        <p>Words: {counts.words}</p>
+      </div>
+    )
+  }
   return (
-    <div className="flex items-center">
+    <div className="relative flex items-center">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className={`cursor-pointer ${mobile && 'parallel'}`}
@@ -24,12 +48,8 @@ export default function CountsDropdown({
         <WholeWord className="btn-format" />
         <MobileText text="Character/Word Count" />
       </button>
-      {isOpen && (
-        <div className="dropdown absolute top-0 right-0">
-          <p>Characters: {counts.characters}</p>
-          <p>Words: {counts.words}</p>
-        </div>
-      )}
+      {isOpen && !mobile && <DesktopComponent />}
+      {isOpen && mobile && <MobileComponent />}
     </div>
   )
 }

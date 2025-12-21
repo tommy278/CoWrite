@@ -35,7 +35,6 @@ export default function InsertDropdown({
           )}
         </>
       </ButtonCard>
-
       <ButtonCard editor={editor} dropdown>
         <LinkPopover editor={editor} type="image" mobile />
       </ButtonCard>

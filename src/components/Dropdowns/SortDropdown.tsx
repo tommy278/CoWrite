@@ -33,7 +33,7 @@ export default function SortDropdown({
         <div className="flex flex-row items-center space-x-10">
           <button
             onClick={() => toggleDropdown(!dropdown)}
-            className="relative flex cursor-pointer items-center justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-600 dark:bg-gray-500"
+            className="relative flex cursor-pointer items-center justify-end rounded-sm bg-gray-100 p-2 shadow-sm hover:bg-gray-300 dark:bg-gray-500 dark:hover:bg-gray-600"
           >
             <p className="text-xs sm:text-sm md:text-base">Sort by</p>
             <ArrowDown className="h-3 w-3" />
@@ -49,7 +49,7 @@ export default function SortDropdown({
                 sortFunction()
                 toggleDropdown(false)
               }}
-              className="flex w-full cursor-pointer items-center justify-start rounded-md p-0.5 hover:bg-gray-700 md:p-1"
+              className="flex w-full cursor-pointer items-center justify-start rounded-md p-0.5 hover:bg-gray-300 md:p-1 dark:hover:bg-gray-700"
             >
               <p className="text-xs sm:text-sm md:text-base">{key}</p>
             </button>

@@ -31,7 +31,7 @@ export default function ToolsDropdown({
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           disabled={!editorState.canCodeBlock}
-          className={`parallel cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
+          className={`parallel w-full cursor-pointer ${editorState.isCodeBlock ? 'is-active' : ''}`}
         >
           <CodeXml className="btn-format" />
           <MobileText text="Code block" />
@@ -47,7 +47,7 @@ export default function ToolsDropdown({
         <button
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           disabled={!editorState.canBlockQuote}
-          className={`parallel cursor-pointer ${editorState.isBlockQuote ? 'is-active' : ''}`}
+          className={`parallel w-full cursor-pointer ${editorState.isBlockQuote ? 'is-active' : ''}`}
         >
           <TextQuote className="btn-format" />
           <MobileText text="Block quote" />
@@ -62,17 +62,13 @@ export default function ToolsDropdown({
       >
         <button
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
-          className="parallel"
+          className="parallel w-full"
         >
           <SquareMinus className="btn-format cursor-pointer" />
           <MobileText text="Horizontal rule" />
         </button>
       </ButtonCard>
-      <ButtonCard
-        editor={editor}
-        text="Toggle Word / Character Count"
-        dropdown
-      >
+      <ButtonCard editor={editor} text="Toggle Word / Character Count" dropdown>
         <CountsDropdown counts={counts} mobile />
       </ButtonCard>
     </LargeDropdown>

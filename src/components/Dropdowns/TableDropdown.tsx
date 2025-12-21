@@ -40,6 +40,8 @@ export default function TableDropdown({
   const cols = !mobile ? 8 : 5
   const direction = 'right'
 
+  const mobileStyle = mobile ? { width: 'fit-content' } : undefined
+
   return (
     <div ref={ref}>
       <div className="flex space-x-1">
@@ -53,7 +55,7 @@ export default function TableDropdown({
           <Table className="btn-format" />
         </button>
         <MobileText
-          text="List dropdown"
+          text="Table"
           className="cursor-pointer"
           onClick={() => {
             setIsDisplayOpen((prev) => !prev)
@@ -88,8 +90,8 @@ export default function TableDropdown({
                       isActive
                         ? 'bg-blue-400'
                         : isHover
-                          ? 'bg-blue-200'
-                          : 'bg-gray-300'
+                          ? 'bg-blue-200 dark:bg-blue-300'
+                          : 'bg-gray-300 dark:bg-gray-400'
                     }`}
                     onMouseEnter={() =>
                       setHovered({ row: rowIndex, col: colIndex })
@@ -117,6 +119,7 @@ export default function TableDropdown({
       {isDropdownOpen && (
         <div
           className={`${mobile ? 'dropdown-child' : 'dropdown flex flex-col gap-2'} `}
+          style={mobileStyle}
         >
           <ToolTip text="Add column before" dropdownChild direction={direction}>
             <button
@@ -125,7 +128,7 @@ export default function TableDropdown({
               }}
               className="parallel cursor-pointer"
             >
-              <BetweenVerticalStart className="h-5 w-5" />
+              <BetweenVerticalStart className="icon" />
               <MobileText text="Column before" primary />
             </button>
           </ToolTip>
@@ -135,7 +138,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().addColumnAfter().run()}
               className="parallel cursor-pointer"
             >
-              <BetweenVerticalEnd className="h-5 w-5" />
+              <BetweenVerticalEnd className="icon" />
               <MobileText text="Column After" primary />
             </button>
           </ToolTip>
@@ -145,7 +148,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().deleteColumn().run()}
               className="parallel cursor-pointer"
             >
-              <Minus className="h-5 w-5" />
+              <Minus className="icon" />
               <MobileText text="Delete column" primary />
             </button>
           </ToolTip>
@@ -155,7 +158,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().addRowBefore().run()}
               className="parallel cursor-pointer"
             >
-              <BetweenHorizontalStart className="h-5 w-5" />{' '}
+              <BetweenHorizontalStart className="icon" />{' '}
               <MobileText text="Row before" primary />
             </button>
           </ToolTip>
@@ -165,7 +168,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().addRowAfter().run()}
               className="parallel cursor-pointer"
             >
-              <BetweenHorizontalEnd className="h-5 w-5" />
+              <BetweenHorizontalEnd className="icon" />
               <MobileText text="Row after" primary />
             </button>
           </ToolTip>
@@ -175,7 +178,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().deleteRow().run()}
               className="parallel cursor-pointer"
             >
-              <Trash className="h-5 w-5" />
+              <Trash className="icon" />
               <MobileText text="Delete row" primary />
             </button>
           </ToolTip>
@@ -185,7 +188,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().deleteTable().run()}
               className="parallel cursor-pointer"
             >
-              <Grid2x2X className="h-5 w-5" />
+              <Grid2x2X className="icon" />
               <MobileText text="Delete Table" primary />
             </button>
           </ToolTip>
@@ -195,7 +198,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().mergeCells().run()}
               className="parallel cursor-pointer"
             >
-              <TableCellsMerge className="h-5 w-5" />
+              <TableCellsMerge className="icon" />
               <MobileText text="Merge cells" primary />
             </button>
           </ToolTip>
@@ -205,7 +208,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().splitCell().run()}
               className="parallel cursor-pointer"
             >
-              <TableRowsSplit className="h-5 w-5" />
+              <TableRowsSplit className="icon" />
               <MobileText text="Split cell" primary />
             </button>
           </ToolTip>
@@ -215,7 +218,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().fixTables().run()}
               className="parallel cursor-pointer"
             >
-              <Settings className="h-5 w-5" />
+              <Settings className="icon" />
               <MobileText text="Fix tables" primary />
             </button>
           </ToolTip>
@@ -225,7 +228,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().goToNextCell().run()}
               className="parallel cursor-pointer"
             >
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight className="icon" />
               <MobileText text="Next cell" primary />
             </button>
           </ToolTip>
@@ -238,7 +241,7 @@ export default function TableDropdown({
               onClick={() => editor.chain().focus().goToPreviousCell().run()}
               className="parallel cursor-pointer"
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="icon" />
               <MobileText text="Prev cell" primary />
             </button>
           </ToolTip>

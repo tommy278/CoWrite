@@ -18,7 +18,7 @@ export default function ToolTip({
         <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
       ) : (
         <Tooltip.Trigger asChild>
-          <div className="flex flex-row items-center rounded-md p-1 hover:bg-gray-100 md:p-2 dark:hover:bg-gray-700">
+          <div className="flex flex-row items-center rounded-md p-1 text-xs hover:bg-gray-100 md:p-2 md:text-sm dark:hover:bg-gray-700">
             {children}
           </div>
         </Tooltip.Trigger>

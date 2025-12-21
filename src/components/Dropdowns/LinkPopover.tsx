@@ -43,9 +43,9 @@ export default function LinkPopover({
   }
 
   const TEXTS = {
-    link: 'Open link',
-    image: 'Link image',
-    youtube: 'Link Youtube',
+    link: 'Link',
+    image: 'Add Image',
+    youtube: 'Add Youtube',
   }
 
   const handlers = {
@@ -81,10 +81,10 @@ export default function LinkPopover({
   const buttonClass =
     'rounded-md border border-blue-300 transition-transform duration-200 hover:scale-105'
   return (
-    <div ref={ref} className={`flex items-center ${relative}`}>
+    <div ref={ref} className={`flex w-full items-center ${relative}`}>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="parallel cursor-pointer"
+        className="parallel w-full cursor-pointer"
       >
         {type === 'image' ? (
           <ImagePlus className="btn-format" />
@@ -97,12 +97,12 @@ export default function LinkPopover({
       </button>
       {isOpen && (
         <div
-          className={`${mobile ? 'absolute left-[110%] rounded-md bg-gray-300 p-1 text-sm' : 'dropdown-right'} flex-col`}
+          className={`${mobile ? 'absolute left-[101%] w-fit rounded-md bg-gray-300 p-1 text-xs sm:left-[105%] dark:bg-gray-600' : 'dropdown-right'} flex-col`}
         >
           {type === 'youtube' && (
-            <div className="relative flex w-full justify-between">
+            <div className="relative flex justify-between">
               {!customViewOpen && (
-                <div className="flex gap-2">
+                <div className="flex gap-0 sm:gap-1 md:gap-2">
                   <button
                     onClick={() => {
                       setWidth(PRESETS.small.width)
@@ -156,7 +156,7 @@ export default function LinkPopover({
                     placeholder="width"
                     value={width}
                     onChange={(event) => setWidth(event.target.value)}
-                    className="w-10 rounded-md border border-gray-300 px-2 py-1 md:w-20"
+                    className="w-10 rounded-md border border-gray-300 px-2 py-1 text-xs md:w-20 md:text-base"
                   />
                   <input
                     id="height"
@@ -165,30 +165,30 @@ export default function LinkPopover({
                     placeholder="height"
                     value={height}
                     onChange={(event) => setHeight(event.target.value)}
-                    className="w-10 rounded-md border border-gray-300 p-1 md:w-20"
+                    className="w-10 rounded-md border border-gray-300 px-2 py-1 text-xs md:w-20 md:text-base"
                   />
                 </div>
               )}
               <button
                 onClick={() => setCustomViewOpen((prev) => !prev)}
-                className="cursor-pointer"
+                className="ml-1 cursor-pointer"
               >
                 {customViewOpen ? (
                   <ToolTip text="Close">
-                    <X className="h-3 w-3 md:h-5 md:w-5" />
+                    <X className="icon" />
                   </ToolTip>
                 ) : (
                   <ToolTip text="Open custom image size">
-                    <Columns3Cog className="h-3 w-3 md:h-5 md:w-5" />
+                    <Columns3Cog className="icon" />
                   </ToolTip>
                 )}
               </button>
             </div>
           )}
-          <div className="flex items-center">
+          <div className="flex w-full items-center">
             <input
               type="text"
-              placeholder="Paste a link..."
+              placeholder="Link..."
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -198,7 +198,7 @@ export default function LinkPopover({
                   addLink()
                 }
               }}
-              className="border-none p-1 text-xs hover:ring-0 hover:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none md:text-sm"
+              className="w-auto border-none p-1 hover:ring-0 hover:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none sm:w-30 sm:text-xs md:w-50 md:text-base"
             />
             <ToolTip text="Apply link">
               <button
@@ -206,15 +206,15 @@ export default function LinkPopover({
                 disabled={!inputValue}
                 className="cursor-pointer"
               >
-                {<CornerDownLeft className="h-3 w-3 md:h-5 md:w-5" />}
+                {<CornerDownLeft className="icon" />}
               </button>
             </ToolTip>
 
-            <RxDividerVertical size={mobile ? 10 : 30} />
+            <RxDividerVertical className="icon" />
 
             <ToolTip text="Visit link">
               <a href={inputValue} target="_blank" rel="noopener noreferrer">
-                <SquareArrowOutUpRight className="mr-1 h-3 w-3 md:mr-0 md:h-5 md:w-5" />
+                <SquareArrowOutUpRight className="icon mr-1 md:mr-2" />
               </a>
             </ToolTip>
 
@@ -223,7 +223,7 @@ export default function LinkPopover({
                 className="cursor-pointer"
                 onClick={() => setInputValue('')}
               >
-                <Trash className="h-3 w-3 md:h-5 md:w-5" />
+                <Trash className="icon" />
               </button>
             </ToolTip>
           </div>

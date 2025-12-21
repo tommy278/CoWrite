@@ -1,6 +1,6 @@
 import { Link, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
-import { Menu } from 'lucide-react'
+import { ArrowBigLeft, Menu } from 'lucide-react'
 import MobileNavbar from '@/components/Mobile/MobileNavbar'
 import DesktopNavbar from '@/components/Desktop/DesktopNavbar'
 import { Route as ParentRoute } from '@/routes/__root'
@@ -9,10 +9,8 @@ import { updateTitleFn } from '@/lib/serverFunctions/UPDATE/updateTitleFn'
 import { useEffect } from 'react'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
-import { ArrowLeft } from 'lucide-react'
 import dayjs from 'dayjs'
 import SearchBar from '../SearchBar'
-import Menubar from './Menubar'
 
 interface HeaderProps {
   type: 'doc' | 'default'
@@ -72,7 +70,7 @@ export default function Header({ type, id }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-700 px-4 py-2 text-white shadow-lg dark:bg-blue-900">
+      <header className="sticky top-0 z-51 flex items-center justify-between bg-blue-700 px-4 py-2 text-white shadow-lg dark:bg-blue-900">
         {type === 'default' && (
           <h1
             className={`${user ? 'w-[80%]' : 'w-[50%]'} flex items-center justify-between gap-4 text-lg font-semibold sm:text-xl md:text-2xl`}
@@ -88,10 +86,16 @@ export default function Header({ type, id }: HeaderProps) {
               e.stopPropagation()
               titleForm.handleSubmit()
             }}
-            className="ml-4 flex w-[70%] max-w-3xl items-center"
+            className="flex max-w-3xl items-center"
           >
-            <Link to="/dashboard/documents">
-              <ArrowLeft className="btn-format mr-3" />
+            <Link
+              to={
+                document?.deleted
+                  ? '/dashboard/documents/deleted'
+                  : '/dashboard/documents'
+              }
+            >
+              <ArrowBigLeft className="mr-3 h-5 w-5 md:h-8 md:w-8" />
             </Link>
             <titleForm.Field
               name="title"
@@ -114,25 +118,35 @@ export default function Header({ type, id }: HeaderProps) {
                       name="Title"
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      className="rounded-md border px-3 py-2"
+                      className="rounded-md border px-3 py-2 text-xs sm:text-sm md:text-base"
                       disabled={document?.deleted}
                     />
                     {showSaving && !document?.deleted ? (
                       <p>Saving...</p>
                     ) : (
-                      <span className="hidden md:block">
+                      <>
                         {!document?.deleted && (
-                          <p className="text-base">
-                            Saved at{' '}
-                            {dayjs(updated_at).format('DD/MM/YYYY HH:mm')}
+                          <p className="flex text-[clamp(10px,2vw,16px)]">
+                            <span className="mr-1">Saved:</span>
+                            <span className="md:hidden">
+                              {dayjs(updated_at).format('MMM D, YYYY')}
+                            </span>
+                            <span className="hidden md:block">
+                              {dayjs(updated_at).format('MMM D, YYYY h:mm A')}
+                            </span>
                           </p>
                         )}
-                      </span>
+                      </>
                     )}
                     {document?.deleted && (
-                      <p className="text-xs sm:text-sm md:text-base">
-                        Deleted at{' '}
-                        {dayjs(deleted_at).format('DD/MM/YYYY HH:mm')}
+                      <p className="flex text-[clamp(10px,2vw,16px)]">
+                        <span className="mr-1">Deleted:</span>
+                        <span className="md:hidden">
+                          {dayjs(deleted_at).format('MMM D, YYYY')}
+                        </span>
+                        <span className="hidden md:block">
+                          {dayjs(deleted_at).format('MMM D, YYYY h:mm A')}
+                        </span>
                       </p>
                     )}
                   </div>

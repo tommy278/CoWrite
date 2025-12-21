@@ -17,7 +17,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
   return (
     <>
       <aside
-        className={`fixed top-0 right-0 z-50 flex h-full w-80 transform flex-col bg-blue-800 text-white shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 right-0 z-50 flex h-full w-60 transform flex-col bg-blue-800/95 text-white shadow-2xl transition-transform duration-300 ease-in-out sm:w-80 md:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         ref={ref}

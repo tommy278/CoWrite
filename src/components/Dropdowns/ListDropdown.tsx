@@ -21,13 +21,13 @@ export function ListDropdown({
   const ref = clickDetector(() => toggleListOpen(false))
   const relative = !mobile ? 'relative' : ''
   return (
-    <div ref={ref} className={relative}>
+    <div ref={ref} className={'flex items-center ' + relative}>
       <button
         onClick={() => toggleListOpen((prev) => !prev)}
-        className="flex cursor-pointer items-center justify-center space-x-1"
+        className="flex w-full cursor-pointer items-center space-x-1"
       >
         <EllipsisVertical className="btn-format" />
-        <MobileText text="List dropdown" />
+        {mobile && <MobileText text="Lists" />}
       </button>
 
       {listOpen && (

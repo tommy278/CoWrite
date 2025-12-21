@@ -34,9 +34,9 @@ export function AlignDropdown({ editor }: { editor: Editor }) {
           >
             <button
               onClick={() => editor.chain().focus().setTextAlign('left').run()}
-              className="parallel justify-between"
+              className="parallel w-full"
             >
-              <AlignLeft className="h-5 w-5" />{' '}
+              <AlignLeft className="icon" />
               <MobileText text="Align left" primary />
             </button>
           </ButtonCard>
@@ -51,9 +51,9 @@ export function AlignDropdown({ editor }: { editor: Editor }) {
               onClick={() =>
                 editor.chain().focus().setTextAlign('center').run()
               }
-              className="parallel"
+              className="parallel w-full"
             >
-              <AlignCenter className="h-5 w-5" />
+              <AlignCenter className="icon" />
               <MobileText text="Align center" primary />
             </button>
           </ButtonCard>
@@ -66,9 +66,9 @@ export function AlignDropdown({ editor }: { editor: Editor }) {
           >
             <button
               onClick={() => editor.chain().focus().setTextAlign('right').run()}
-              className="parallel"
+              className="parallel w-full"
             >
-              <AlignRight className="h-5 w-5" />
+              <AlignRight className="icon" />
               <MobileText text="Align right" primary />
             </button>
           </ButtonCard>
@@ -83,9 +83,9 @@ export function AlignDropdown({ editor }: { editor: Editor }) {
               onClick={() =>
                 editor.chain().focus().setTextAlign('justify').run()
               }
-              className="parallel"
+              className="parallel w-full"
             >
-              <AlignJustify className="h-5 w-5" />
+              <AlignJustify className="icon" />
               <MobileText text="Align justify" primary />
             </button>
           </ButtonCard>

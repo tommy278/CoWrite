@@ -58,7 +58,7 @@ export default function ConfirmModal({
   if (documentPage && isDeleteOpen) {
     return (
       <div className="confirm-modal" ref={ref}>
-        <div className="flex flex-col space-y-1 md:space-y-2">
+        <div className="flex w-full flex-col space-y-1 md:space-y-2">
           <p>This will be in recently deleted for 30 days</p>
           <button
             onClick={serverFunctions.softDelete}
@@ -75,14 +75,14 @@ export default function ConfirmModal({
         <div className="flex flex-col space-y-1 md:space-y-2">
           <button
             onClick={serverFunctions.pinDocument}
-            className="flex cursor-pointer items-center justify-center rounded-md bg-blue-400 py-1"
+            className="flex cursor-pointer items-center justify-center rounded-md bg-blue-300 px-2 py-1 dark:bg-blue-400"
           >
             <Pin className="mr-1 h-4 w-4" />
             {!pinned ? 'Pin' : 'Unpin'}
           </button>
           <button
             onClick={() => setIsDeleteOpen(true)}
-            className="flex cursor-pointer items-center justify-center rounded-md bg-red-400 py-1"
+            className="flex cursor-pointer items-center justify-center rounded-md bg-red-500/85 px-2 py-1 dark:bg-red-400"
           >
             <Trash className="mr-1 h-4 w-4" />
             Delete
@@ -97,13 +97,13 @@ export default function ConfirmModal({
         <div className="confirm-modal" ref={ref}>
           <button
             onClick={() => setType('confirmDelete')}
-            className="cursor-pointer rounded-md bg-red-400"
+            className="cursor-pointer rounded-md bg-red-500/85 px-2 py-1"
           >
             Remove
           </button>
           <button
             onClick={() => setType('restore')}
-            className="cursor-pointer rounded-md bg-blue-400"
+            className="cursor-pointer rounded-md bg-blue-500/85 px-2 py-1"
           >
             Restore
           </button>
@@ -111,16 +111,16 @@ export default function ConfirmModal({
       )}
 
       {type && (
-        <div
-          className="fixed inset-0 z-50 flex w-full flex-col items-center justify-center bg-black/20"
-          onClick={() => onClose()}
-        >
-          <div className="w-auto max-w-[90%] min-w-[50%] rounded-md bg-gray-100 px-5 py-10 text-sm md:text-base">
+        <div className="fixed inset-0 z-50 flex w-full flex-col items-center justify-center bg-black/20">
+          <div
+            className="w-auto max-w-[90%] min-w-[50%] rounded-md bg-gray-200/95 px-5 py-10 text-sm md:text-base dark:bg-gray-500/95"
+            ref={ref}
+          >
             <p className="mb-2">{displayText[type]}</p>
             <div className="flex justify-between">
               <button
                 onClick={() => onClose()}
-                className="cursor-pointer rounded-md bg-white p-2 shadow-md"
+                className="cursor-pointer rounded-md bg-gray-300 p-2 shadow-md dark:bg-gray-600"
               >
                 Close
               </button>

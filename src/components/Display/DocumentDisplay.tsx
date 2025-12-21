@@ -5,6 +5,7 @@ import { EllipsisVertical, Pin, X } from 'lucide-react'
 import ConfirmModal from '@/components/Dropdowns/ConfirmModal'
 import { useState } from 'react'
 import Tiptap from '../Tiptap'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 interface DocumentProps {
   documents: Document[]
@@ -20,6 +21,7 @@ export default function DocumentDisplay({
   }
 
   const [activeDocId, setActiveDocId] = useState<string | null>(null)
+  dayjs.extend(relativeTime)
   return (
     <div className="grid w-full grid-cols-3 gap-2 px-5 md:grid-cols-4 md:gap-5">
       {documents.map((doc) => {
@@ -57,10 +59,12 @@ export default function DocumentDisplay({
                       {limitTextLength(doc.title)}
                     </h1>
                     <p className="time-size">
-                      Last Updated:{' '}
+                      <span className="mr-0.5 md:mr-1">
+                        {doc.deleted ? 'Deleted' : 'Last updated'}
+                      </span>
                       {dayjs(
                         documentPage ? doc.updated_at : doc.deleted_at
-                      ).format('DD/MM/YYYY HH:mm')}
+                      ).fromNow()}
                     </p>
                   </div>
                   <button
@@ -72,7 +76,7 @@ export default function DocumentDisplay({
                         prev === doc.id ? null : doc.id
                       )
                     }}
-                    className="z-50 cursor-pointer rounded-full p-2 transition duration-200 hover:bg-gray-200"
+                    className="z-50 cursor-pointer rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-600"
                   >
                     {activeDocId === doc.id ? (
                       <X className="icon" />

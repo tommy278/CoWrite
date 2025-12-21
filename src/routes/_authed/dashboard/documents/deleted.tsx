@@ -19,9 +19,9 @@ function RouteComponent() {
   const ref = clickDetector(() => toggleDropdown(false))
   return (
     <>
-      <div className="mx-5 flex items-center justify-between">
+      <div className="m-2 flex items-center justify-between md:mx-5">
         <h3 className="text-base font-semibold">Deleted Documents</h3>
-        <div className="flex items-center">
+        <div className="flex items-center space-x-2">
           <span ref={ref} className="relative">
             <SortDropdown
               dropdown={dropdown}

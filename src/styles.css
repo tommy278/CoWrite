@@ -181,10 +181,10 @@ menu {
 }
 
 .confirm-modal {
-  @apply absolute top-full right-0 z-50 mt-2 flex w-[80%] flex-col space-y-2 px-2 py-2 text-[clamp(7px,_1vw,_15px)] shadow-md;
-  @apply bg-gray-100;
+  @apply absolute top-full right-0 z-50 mt-2 flex w-20 flex-col space-y-2 rounded-sm p-2 text-[clamp(7px,_1vw,_15px)] shadow-md sm:w-30 md:w-40;
+  @apply bg-gray-100/80;
   @variant dark {
-    @apply bg-gray-800/5;
+    @apply bg-gray-700/80;
   }
 }
 
@@ -193,7 +193,7 @@ menu {
 }
 
 .icon {
-  @apply h-[clamp(6px,1.2vw,14px)] w-[clamp(6px,1.2vw,14px)];
+  @apply h-3 w-3 md:h-5 md:w-5;
 }
 
 .view-height {
