@@ -13,6 +13,7 @@ import Header from '../components/Headers/Header'
 import appCss from '../styles.css?url'
 import { IsSavingProvider } from '@/context/isLoading'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Document } from '@/lib/Constants/dataTypes'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -41,7 +42,7 @@ export const Route = createRootRoute({
     return {
       user,
       headerType: 'default' as 'default' | 'doc',
-      document_id: 'default' as string,
+      document: null as Document | null,
     }
   },
   shellComponent: RootDocument,
@@ -73,7 +74,7 @@ function RootDocument() {
     .find((m) => m.context?.headerType)
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
-  const id = deepestMatchWithHeaderType?.context.document_id ?? ''
+  const document = deepestMatchWithHeaderType?.context.document
   const queryClient = new QueryClient()
 
   return (
@@ -97,7 +98,10 @@ function RootDocument() {
       <body className="bg-page-bg text-page-text relative transition-colors duration-300">
         <IsSavingProvider>
           <QueryClientProvider client={queryClient}>
-            <Header type={headerType === 'doc' ? 'doc' : 'default'} id={id} />
+            <Header
+              type={headerType === 'doc' ? 'doc' : 'default'}
+              document={document}
+            />
             <Outlet />
           </QueryClientProvider>
 
