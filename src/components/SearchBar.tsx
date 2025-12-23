@@ -40,6 +40,8 @@ export default function SearchBar({ className }: SearchBarProps) {
     queryKey: ['documents', user?.id],
     queryFn: () => getAllDocumentsFn({ data: { user_id: user!.id } }),
     enabled: !!user?.id,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
   })
 
   const debouncedSearch = useDebouncedCallback(

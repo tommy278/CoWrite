@@ -25,7 +25,6 @@ export const Route = createFileRoute('/_authed/dashboard/document/$doc_id')({
 function RouteComponent() {
   const { handleSave, doneSaving } = useIsSaving()
   const { document } = Route.useRouteContext()
-  const router = useRouter()
   if (!document) return <p>Document not found</p>
 
   const contentForm = useForm({
@@ -39,7 +38,6 @@ function RouteComponent() {
     async (id: string, content: JSONContent) => {
       try {
         await updateContentFormFn({ data: { id, content } })
-        router.invalidate({ sync: true })
       } catch (error) {
         console.error(error)
         alert('Something went wrong')

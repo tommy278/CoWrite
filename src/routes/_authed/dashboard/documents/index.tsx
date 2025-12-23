@@ -7,21 +7,25 @@ import SortDropdown from '@/components/Dropdowns/SortDropdown'
 import { Plus, Trash } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getDocumentPageFn } from '@/lib/serverFunctions/GET/getDocumentsPageFn'
+import { useQueryClient } from '@tanstack/react-query'
+import Paginator from '@/components/Paginator'
+import DocumentsLoader from '@/components/SkeletonLoader/DocumentsLoader'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
 })
-
+const PAGE_SIZE = 24
 function RouteComponent() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const PAGE_SIZE = 20
+
   const [page, setPage] = useState(0)
   const [sort, setSort] = useState<'updated' | 'created'>('updated')
   const { user } = Route.useRouteContext()
+  const [ascending, setAscending] = useState(false)
   if (!user) return
   const { data, isLoading } = useQuery({
-    queryKey: ['documents', user?.id, page, sort],
+    queryKey: ['documents', user?.id, page, sort, ascending, false],
     queryFn: () =>
       getDocumentPageFn({
         data: {
@@ -30,11 +34,14 @@ function RouteComponent() {
           pageSize: PAGE_SIZE,
           sort,
           deleted: false,
+          ascending,
         },
       }),
+    staleTime: 1000 * 60 * 5,
   })
   const documents = data?.documents ?? []
   const totalPages = Math.ceil((data?.total ?? 0) / PAGE_SIZE)
+  const queryClient = useQueryClient()
 
   const form = useForm({
     defaultValues: { title: '' },
@@ -46,6 +53,9 @@ function RouteComponent() {
         if (!newDocument) throw new Error('No Document returned ')
         form.reset()
         setIsOpen(false)
+        queryClient.invalidateQueries({
+          queryKey: ['documents', user?.id],
+        })
         router.navigate({ to: `/dashboard/view-document/${newDocument.id}` })
       } catch (error) {
         console.error(error)
@@ -53,6 +63,8 @@ function RouteComponent() {
       }
     },
   })
+
+  if (isLoading) return <DocumentsLoader />
 
   return (
     <>
@@ -71,10 +83,12 @@ function RouteComponent() {
           </button>
           <SortDropdown
             sort={sort}
-            onChange={(nextSort) => {
+            onChange={(nextSort, asc) => {
               setPage(0)
               setSort(nextSort)
+              setAscending(asc)
             }}
+            ascending={ascending}
           />
           <Link to="/dashboard/documents/deleted" className="hidden md:block">
             <span className="flex items-center rounded-md bg-red-400/50 p-2 hover:bg-red-400">
@@ -131,22 +145,7 @@ function RouteComponent() {
           </div>
         </div>
       )}
-      <div className="flex items-center justify-between px-4">
-        <button disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
-          Previous
-        </button>
-
-        <span>
-          Page {page + 1} of {totalPages}
-        </span>
-
-        <button
-          disabled={page + 1 >= totalPages}
-          onClick={() => setPage((p) => p + 1)}
-        >
-          Next
-        </button>
-      </div>
+      <Paginator setPage={setPage} page={page} totalPages={totalPages} />
     </>
   )
 }

@@ -51,7 +51,6 @@ export default function DocumentDisplay({
                   className="h-full w-full"
                 />
               </div>
-
               <div className="w-full border-t border-gray-200 px-1 py-2 md:px-2 md:py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col">

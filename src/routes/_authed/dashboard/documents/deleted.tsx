@@ -5,20 +5,23 @@ import SortDropdown from '@/components/Dropdowns/SortDropdown'
 import { Home } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getDocumentPageFn } from '@/lib/serverFunctions/GET/getDocumentsPageFn'
+import Paginator from '@/components/Paginator'
+import DocumentsLoader from '@/components/SkeletonLoader/DocumentsLoader'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/deleted')({
   component: RouteComponent,
 })
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 24
 
 function RouteComponent() {
   const { user } = Route.useRouteContext()
   const [page, setPage] = useState(0)
   const [sort, setSort] = useState<'updated' | 'created'>('updated')
+  const [ascending, setAscending] = useState(false)
   if (!user) return
   const { data, isLoading } = useQuery({
-    queryKey: ['documents', user?.id, page, sort],
+    queryKey: ['documents', user?.id, page, sort, true, ascending],
     queryFn: () =>
       getDocumentPageFn({
         data: {
@@ -27,11 +30,14 @@ function RouteComponent() {
           pageSize: PAGE_SIZE,
           sort,
           deleted: true,
+          ascending,
         },
       }),
+    staleTime: 1000 * 60 * 5,
   })
   const documents = data?.documents ?? []
   const totalPages = Math.ceil((data?.total ?? 0) / PAGE_SIZE)
+  if (isLoading) return <DocumentsLoader />
   return (
     <>
       <div className="m-2 flex items-center justify-between md:mx-5">
@@ -39,9 +45,11 @@ function RouteComponent() {
         <div className="flex items-center space-x-2">
           <SortDropdown
             sort={sort}
-            onChange={(nextSort) => {
+            ascending={ascending}
+            onChange={(nextSort, ascending) => {
               setPage(0)
               setSort(nextSort)
+              setAscending(ascending)
             }}
           />
           <Link to="/dashboard/documents" className="hidden md:block">
@@ -53,22 +61,7 @@ function RouteComponent() {
         </div>
       </div>
       <DocumentDisplay documents={documents} documentPage={false} />
-      <div className="flex items-center justify-between px-4">
-        <button disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
-          Previous
-        </button>
-
-        <span>
-          Page {page + 1} of {totalPages}
-        </span>
-
-        <button
-          disabled={page + 1 >= totalPages}
-          onClick={() => setPage((p) => p + 1)}
-        >
-          Next
-        </button>
-      </div>
+      <Paginator setPage={setPage} page={page} totalPages={totalPages} />
     </>
   )
 }

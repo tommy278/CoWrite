@@ -16,7 +16,6 @@ interface HeaderProps {
 export default function Header({ type, document }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { user } = ParentRoute.useRouteContext()
-  if (!user) return null
   return (
     <>
       <header className="sticky top-0 z-51 flex items-center justify-between bg-blue-700 px-4 py-2 text-white shadow-lg dark:bg-blue-900">
