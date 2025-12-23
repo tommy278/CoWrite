@@ -5,7 +5,6 @@ import { Link } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import { ArrowBigLeft } from 'lucide-react'
 import { updateTitleFn } from '@/lib/serverFunctions/UPDATE/updateTitleFn'
-import { useRouter } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
 
@@ -14,7 +13,6 @@ export default function DocHeader({
 }: {
   document: Document | null | undefined
 }) {
-  const router = useRouter()
   const { isSaving, handleSave, doneSaving } = useIsSaving()
   const {
     id = '',

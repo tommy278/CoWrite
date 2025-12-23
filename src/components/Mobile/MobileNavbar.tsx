@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Home, X, LogIn, Plus } from 'lucide-react'
+import { Home, X, LogIn, Plus, UserRoundPen } from 'lucide-react'
 import Logout from '@/components/Logout'
 import { Route as ParentRoute } from '@/routes/__root'
 import { Trash } from 'lucide-react'
@@ -50,6 +50,18 @@ export default function MobileNavbar(props: MobileNavbarProps) {
 
           {user ? (
             <>
+              <Link
+                to="/dashboard/profile"
+                onClick={() => setIsOpen?.(false)}
+                className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
+                activeProps={{
+                  className:
+                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors',
+                }}
+              >
+                <UserRoundPen size={20} />
+                <span className="font-medium">Profile</span>
+              </Link>
               <Link
                 to="/dashboard/documents/deleted"
                 onClick={() => setIsOpen?.(false)}

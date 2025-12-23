@@ -16,6 +16,7 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as AuthedDashboardProfileRouteImport } from './routes/_authed/dashboard/profile'
 import { Route as AuthedDashboardDocumentsIndexRouteImport } from './routes/_authed/dashboard/documents/index'
 import { Route as AuthedDashboardDocumentsDeletedRouteImport } from './routes/_authed/dashboard/documents/deleted'
 import { Route as AuthedDashboardDocumentDoc_idRouteImport } from './routes/_authed/dashboard/document/$doc_id'
@@ -55,6 +56,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedDashboardProfileRoute = AuthedDashboardProfileRouteImport.update({
+  id: '/dashboard/profile',
+  path: '/dashboard/profile',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedDashboardDocumentsIndexRoute =
   AuthedDashboardDocumentsIndexRouteImport.update({
     id: '/dashboard/documents/',
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/dashboard/profile': typeof AuthedDashboardProfileRoute
   '/dashboard/document/$doc_id': typeof AuthedDashboardDocumentDoc_idRoute
   '/dashboard/documents/deleted': typeof AuthedDashboardDocumentsDeletedRoute
   '/dashboard/documents': typeof AuthedDashboardDocumentsIndexRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/dashboard/profile': typeof AuthedDashboardProfileRoute
   '/dashboard/document/$doc_id': typeof AuthedDashboardDocumentDoc_idRoute
   '/dashboard/documents/deleted': typeof AuthedDashboardDocumentsDeletedRoute
   '/dashboard/documents': typeof AuthedDashboardDocumentsIndexRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/_authed/dashboard/profile': typeof AuthedDashboardProfileRoute
   '/_authed/dashboard/document/$doc_id': typeof AuthedDashboardDocumentDoc_idRoute
   '/_authed/dashboard/documents/deleted': typeof AuthedDashboardDocumentsDeletedRoute
   '/_authed/dashboard/documents/': typeof AuthedDashboardDocumentsIndexRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
+    | '/dashboard/profile'
     | '/dashboard/document/$doc_id'
     | '/dashboard/documents/deleted'
     | '/dashboard/documents'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
+    | '/dashboard/profile'
     | '/dashboard/document/$doc_id'
     | '/dashboard/documents/deleted'
     | '/dashboard/documents'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
+    | '/_authed/dashboard/profile'
     | '/_authed/dashboard/document/$doc_id'
     | '/_authed/dashboard/documents/deleted'
     | '/_authed/dashboard/documents/'
@@ -219,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/dashboard/profile': {
+      id: '/_authed/dashboard/profile'
+      path: '/dashboard/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof AuthedDashboardProfileRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/dashboard/documents/': {
       id: '/_authed/dashboard/documents/'
       path: '/dashboard/documents'
@@ -251,6 +270,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthedRouteChildren {
+  AuthedDashboardProfileRoute: typeof AuthedDashboardProfileRoute
   AuthedDashboardDocumentDoc_idRoute: typeof AuthedDashboardDocumentDoc_idRoute
   AuthedDashboardDocumentsDeletedRoute: typeof AuthedDashboardDocumentsDeletedRoute
   AuthedDashboardDocumentsIndexRoute: typeof AuthedDashboardDocumentsIndexRoute
@@ -258,6 +278,7 @@ interface AuthedRouteChildren {
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDashboardProfileRoute: AuthedDashboardProfileRoute,
   AuthedDashboardDocumentDoc_idRoute: AuthedDashboardDocumentDoc_idRoute,
   AuthedDashboardDocumentsDeletedRoute: AuthedDashboardDocumentsDeletedRoute,
   AuthedDashboardDocumentsIndexRoute: AuthedDashboardDocumentsIndexRoute,

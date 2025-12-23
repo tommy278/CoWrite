@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import { clickDetector } from '@/Hooks/clickDetector'
 import { Pin, Trash } from 'lucide-react'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ConfirmModalProps {
   documentPage: boolean
@@ -23,6 +24,7 @@ export default function ConfirmModal({
   const [type, setType] = useState<'confirmDelete' | 'restore' | ''>('')
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const serverFunctions = {
     restore: async () => {
@@ -38,12 +40,12 @@ export default function ConfirmModal({
     softDelete: async () => {
       await softDeleteFn({ data: { id } })
       onClose()
-      router.invalidate({ sync: true })
+      queryClient.invalidateQueries({ queryKey: ['documents'] })
     },
     pinDocument: async () => {
       await pinDocumentFn({ data: { id, pinned } })
       onClose()
-      router.invalidate({ sync: true })
+      queryClient.invalidateQueries({ queryKey: ['documents'] })
     },
   }
 

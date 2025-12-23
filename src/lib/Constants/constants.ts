@@ -69,3 +69,30 @@ export const extraExtensions = [
 
 export const callbackUrl: string =
   import.meta.env.VITE_APP_CALLBACK_URL || 'http://localhost:3000/auth/callback'
+
+const adjectives = [
+  'Calm',
+  'Swift',
+  'Bright',
+  'Quiet',
+  'Brave',
+  'Sly',
+  'Shy',
+  'Quiet',
+]
+const animals = [
+  'Fox',
+  'Otter',
+  'Hawk',
+  'Lynx',
+  'Eagle',
+  'Dolphin',
+  'Shark',
+  'Antelope',
+  'Giraffe',
+  'Sloth',
+]
+
+export const defaultName =
+  adjectives[Math.floor(Math.random() * adjectives.length)] +
+  animals[Math.floor(Math.random() * animals.length)]

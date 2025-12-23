@@ -1,3 +1,5 @@
+import { Select } from '@headlessui/react'
+
 interface SortDropdownProps {
   sort: 'updated' | 'created'
   ascending: boolean
@@ -12,7 +14,7 @@ export default function SortDropdown({
   deleted = false,
 }: SortDropdownProps) {
   return (
-    <select
+    <Select
       value={`${sort}-${ascending ? 'asc' : 'desc'}`}
       onChange={(e) => {
         const [nextSort, dir] = e.target.value.split('-')
@@ -28,6 +30,6 @@ export default function SortDropdown({
       </option>
       <option value="created-desc">Date Created (Newest)</option>
       <option value="created-asc">Date Created (Oldest)</option>
-    </select>
+    </Select>
   )
 }

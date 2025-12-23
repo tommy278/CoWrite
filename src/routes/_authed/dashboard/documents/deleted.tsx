@@ -51,6 +51,7 @@ function RouteComponent() {
               setSort(nextSort)
               setAscending(ascending)
             }}
+            deleted
           />
           <Link to="/dashboard/documents" className="hidden md:block">
             <span className="flex items-center rounded-md bg-blue-400/50 p-2 hover:bg-blue-400">

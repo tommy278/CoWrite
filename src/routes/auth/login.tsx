@@ -2,7 +2,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { loginFn } from '@/lib/serverFunctions/AUTH/loginFn'
 import { Link } from '@tanstack/react-router'
-import { emailSchema, passwordSchema } from '@/lib/helpers/validators'
+import { emailSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
 
@@ -90,14 +90,6 @@ function RouteComponent() {
         <div>
           <form.Field
             name="password"
-            validators={{
-              onChange: ({ value }) => {
-                const result = passwordSchema.safeParse(value)
-                return result.success
-                  ? undefined
-                  : result.error.errors[0].message
-              },
-            }}
             children={(field) => (
               <div>
                 <input

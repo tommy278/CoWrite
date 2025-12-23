@@ -11,3 +11,10 @@ export interface Document {
   deleted: boolean
   pinned: boolean
 }
+
+export interface Profile {
+  id: string
+  display_name: string
+  created_at: Date
+  updated_at: Date
+}

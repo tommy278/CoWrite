@@ -14,6 +14,9 @@ import appCss from '../styles.css?url'
 import { IsSavingProvider } from '@/context/isLoading'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Document } from '@/lib/Constants/dataTypes'
+import { getProfileFn } from '@/lib/serverFunctions/GET/getProfileFn'
+import { createProfileFn } from '@/lib/serverFunctions/POST/createProfileFn'
+import { defaultName } from '@/lib/Constants/constants'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -38,9 +41,24 @@ export const Route = createRootRoute({
   }),
   beforeLoad: async () => {
     const user = await getUserFn()
-    if (!user?.id) return { user: null, documents: [] }
+    if (!user?.id)
+      return {
+        user: null,
+        headerType: 'default' as 'default' | 'doc',
+        document: null as Document | null,
+      }
+    const profile = await getProfileFn({ data: { id: user.id } })
+    if (!profile) {
+      await createProfileFn({
+        data: {
+          id: user.id,
+          display_name: defaultName,
+        },
+      })
+    }
     return {
       user,
+      profile,
       headerType: 'default' as 'default' | 'doc',
       document: null as Document | null,
     }
@@ -83,13 +101,18 @@ function RootDocument() {
         <script
           dangerouslySetInnerHTML={{
             __html: `
-        (() => {
-          try {
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              document.documentElement.classList.add('dark')
-            }
-          } catch (_) {}
-        })();
+          (() => {
+              try {
+                const stored = localStorage.getItem('theme')
+                if (stored === 'dark') {
+                  document.documentElement.classList.add('dark')
+                } else if (stored === 'light') {
+                  document.documentElement.classList.remove('dark')
+                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  document.documentElement.classList.add('dark')
+                }
+              } catch (_) {}
+          })();
       `,
           }}
         />
