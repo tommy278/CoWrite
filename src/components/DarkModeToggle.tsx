@@ -18,11 +18,11 @@ export default function DarkModeToggle() {
   }, [])
   return (
     <div className="flex items-center justify-center space-x-1">
-      <p className="text-sm md:text-base">Toggle Dark Mode</p>
+      <p>Toggle Dark Mode</p>
       <Switch
         checked={enabled}
         onChange={applyTheme}
-        className="group relative flex h-7 w-14 cursor-pointer rounded-full bg-gray-200 p-1 ease-in-out focus:not-data-focus:outline-none data-checked:bg-white/10 data-focus:outline data-focus:outline-white dark:bg-white/10"
+        className="group relative flex h-7 w-14 cursor-pointer rounded-full bg-gray-400/25 p-1 ease-in-out focus:not-data-focus:outline-none data-checked:bg-white/10 data-focus:outline data-focus:outline-white dark:bg-white/10"
         aria-label="Toggle dark mode"
       >
         <div

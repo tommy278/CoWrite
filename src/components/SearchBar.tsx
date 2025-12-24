@@ -93,7 +93,6 @@ export default function SearchBar({ className }: SearchBarProps) {
           }}
           children={(field) => (
             <div className="relative w-full">
-              {/* Search logo inside the input field */}
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2 md:pl-3">
                 <Search className="h-3 w-3 md:h-5 md:w-5" />
               </div>

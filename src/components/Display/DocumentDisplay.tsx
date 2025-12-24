@@ -9,7 +9,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 interface DocumentProps {
   documents: Document[]
-  documentPage: boolean
+  documentPage?: boolean
 }
 
 export default function DocumentDisplay({

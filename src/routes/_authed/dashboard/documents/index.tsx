@@ -5,47 +5,43 @@ import { useState } from 'react'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import SortDropdown from '@/components/Dropdowns/SortDropdown'
 import { Plus, Trash } from 'lucide-react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getDocumentPageFn } from '@/lib/serverFunctions/GET/getDocumentsPageFn'
-import { useQueryClient } from '@tanstack/react-query'
 import Paginator from '@/components/Paginator'
 import DocumentsLoader from '@/components/SkeletonLoader/DocumentsLoader'
 import { usePageSize } from '@/Hooks/usePageSize'
+import { useSort } from '@/Hooks/useSort'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
 })
 
-interface SortObject {
-  sort: 'updated' | 'created'
-  ascending: boolean
-}
-
 function RouteComponent() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-
   const [page, setPage] = useState(0)
-  const [sort, setSort] = useState<'updated' | 'created'>('updated')
-  const [sortObject, setSortObject] = useState<SortObject>({
-    sort: 'updated',
-    ascending: false,
-  })
   const { user } = Route.useRouteContext()
   const { pageSize } = usePageSize()
-  const [ascending, setAscending] = useState(false)
+  const { sortObject, setSortObject } = useSort()
   if (!user) return
   const { data, isLoading } = useQuery({
-    queryKey: ['documents', user?.id, page, sort, ascending, false, pageSize],
+    queryKey: [
+      'documents',
+      user?.id,
+      page,
+      sortObject.sort,
+      false,
+      sortObject.ascending,
+    ],
     queryFn: () =>
       getDocumentPageFn({
         data: {
           user_id: user?.id,
           page,
           pageSize,
-          sort,
+          sort: sortObject.sort,
           deleted: false,
-          ascending,
+          ascending: sortObject.ascending,
         },
       }),
     staleTime: 1000 * 60 * 5,
@@ -93,13 +89,15 @@ function RouteComponent() {
             </p>
           </button>
           <SortDropdown
-            sort={sort}
-            onChange={(nextSort, asc) => {
+            sort={sortObject.sort}
+            onChange={(nextSort, ascending) => {
               setPage(0)
-              setSort(nextSort)
-              setAscending(asc)
+              setSortObject({
+                sort: nextSort,
+                ascending,
+              })
             }}
-            ascending={ascending}
+            ascending={sortObject.ascending}
           />
           <Link to="/dashboard/documents/deleted" className="hidden md:block">
             <span className="flex items-center rounded-md bg-red-400/50 p-2 hover:bg-red-400">
@@ -110,7 +108,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      <DocumentDisplay documents={documents} documentPage={true} />
+      <DocumentDisplay documents={documents} />
 
       {isOpen && (
         <div

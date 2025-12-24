@@ -9,13 +9,14 @@ export const getDocumentPageFn = createServerFn({ method: 'GET' })
       user_id: z.string(),
       page: z.number(),
       pageSize: z.number(),
-      sort: z.enum(['updated', 'created']),
+      sort: z.enum(['updated', 'created']).optional(),
       deleted: z.boolean(),
-      ascending: z.boolean(),
+      ascending: z.boolean().optional(),
+      pinned: z.boolean().optional(),
     })
   )
   .handler(async ({ data }) => {
-    const { user_id, page, pageSize, sort, deleted, ascending } = data
+    const { user_id, page, pageSize, sort, deleted, ascending, pinned } = data
     const supabase = getSupabaseServerClient()
 
     const from = page * pageSize
@@ -27,22 +28,24 @@ export const getDocumentPageFn = createServerFn({ method: 'GET' })
       if (sort === 'created') return 'created_at'
       return deleted ? 'deleted_at' : 'updated_at'
     }
-    const sortOption = getSortColumn(sort, deleted)
+    const sortOption = getSortColumn(sort ?? 'updated', deleted)
 
-    const {
-      data: docs,
-      count,
-      error,
-    } = await supabase
+    let query = supabase
       .from('documents')
       .select('*', { count: 'exact' })
       .eq('user_id', user_id)
       .eq('deleted', deleted)
-      .order('pinned', { ascending: false })
-      .order(sortOption, {
-        ascending,
-      })
-      .range(from, to)
+
+    if (!deleted) {
+      query = query.order('pinned', { ascending: false })
+    }
+
+    if (pinned) {
+      query = query.eq('pinned', pinned)
+    }
+
+    query = query.order(sortOption, { ascending }).range(from, to)
+    const { data: docs, count, error } = await query
 
     if (error) throw error
 
