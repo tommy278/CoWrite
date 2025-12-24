@@ -96,3 +96,5 @@ const animals = [
 export const defaultName =
   adjectives[Math.floor(Math.random() * adjectives.length)] +
   animals[Math.floor(Math.random() * animals.length)]
+
+export type PageOptions = 12 | 24 | 36 | 48

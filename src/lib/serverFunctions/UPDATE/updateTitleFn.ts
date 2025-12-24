@@ -10,9 +10,7 @@ export const updateTitleFn = createServerFn({ method: 'POST' })
     const supabase = getSupabaseServerClient()
     const { data: updatedData, error } = await supabase
       .from('documents')
-      .update({ title
-        , updated_at: new Date()
-       })
+      .update({ title, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
 

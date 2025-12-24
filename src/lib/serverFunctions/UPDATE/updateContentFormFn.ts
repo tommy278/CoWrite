@@ -10,7 +10,7 @@ export const updateContentFormFn = createServerFn({ method: 'POST' })
 
     const { data: updatedData, error } = await supabase
       .from('documents')
-      .update({ content, updated_at: new Date() })
+      .update({ content, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
 

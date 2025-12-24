@@ -10,28 +10,39 @@ import { getDocumentPageFn } from '@/lib/serverFunctions/GET/getDocumentsPageFn'
 import { useQueryClient } from '@tanstack/react-query'
 import Paginator from '@/components/Paginator'
 import DocumentsLoader from '@/components/SkeletonLoader/DocumentsLoader'
+import { usePageSize } from '@/Hooks/usePageSize'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
 })
-const PAGE_SIZE = 24
+
+interface SortObject {
+  sort: 'updated' | 'created'
+  ascending: boolean
+}
+
 function RouteComponent() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
   const [page, setPage] = useState(0)
   const [sort, setSort] = useState<'updated' | 'created'>('updated')
+  const [sortObject, setSortObject] = useState<SortObject>({
+    sort: 'updated',
+    ascending: false,
+  })
   const { user } = Route.useRouteContext()
+  const { pageSize } = usePageSize()
   const [ascending, setAscending] = useState(false)
   if (!user) return
   const { data, isLoading } = useQuery({
-    queryKey: ['documents', user?.id, page, sort, ascending, false],
+    queryKey: ['documents', user?.id, page, sort, ascending, false, pageSize],
     queryFn: () =>
       getDocumentPageFn({
         data: {
           user_id: user?.id,
           page,
-          pageSize: PAGE_SIZE,
+          pageSize,
           sort,
           deleted: false,
           ascending,
@@ -40,7 +51,7 @@ function RouteComponent() {
     staleTime: 1000 * 60 * 5,
   })
   const documents = data?.documents ?? []
-  const totalPages = Math.ceil((data?.total ?? 0) / PAGE_SIZE)
+  const totalPages = Math.ceil((data?.total ?? 0) / pageSize)
   const queryClient = useQueryClient()
 
   const form = useForm({
