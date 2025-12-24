@@ -1,151 +1,39 @@
-import { Link, useRouter } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Menu } from 'lucide-react'
 import MobileNavbar from '@/components/Mobile/MobileNavbar'
 import DesktopNavbar from '@/components/Desktop/DesktopNavbar'
 import { Route as ParentRoute } from '@/routes/__root'
-import { useForm } from '@tanstack/react-form'
-import { updateTitleFn } from '@/lib/serverFunctions/UPDATE/updateTitleFn'
-import { useEffect } from 'react'
-import { useIsSaving } from '@/context/isLoading'
-import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
-import { ArrowLeft } from 'lucide-react'
-import dayjs from 'dayjs'
 import SearchBar from '../SearchBar'
+import DocHeader from './DocHeader'
+import { Document } from '@/lib/Constants/dataTypes'
 
 interface HeaderProps {
   type: 'doc' | 'default'
-  id: string
+  document: Document | null | undefined
 }
 
-export default function Header({ type, id }: HeaderProps) {
+export default function Header({ type, document }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const { user, documents = [] } = ParentRoute.useRouteContext()
-  const [hideSave, setHideSave] = useState(false)
-  const { isSaving, handleSave, doneSaving } = useIsSaving()
-  const router = useRouter()
-
-  const document = documents?.find((document) => document.id === id)
-  const title = document?.title ?? 'Untitled Document'
-  const updated_at = document?.updated_at
-  const deleted_at = document?.deleted_at
-
-  const titleForm = useForm({
-    defaultValues: {
-      title: title,
-    },
-  })
-
-  const debouncedUpdateTitle = useDebouncedCallback(
-    async (value: string, id: string) => {
-      if (document?.deleted) return
-      try {
-        await updateTitleFn({ data: { id, title: value } })
-        router.invalidate({ sync: true })
-      } catch (error) {
-        console.error(error)
-        alert('Something went wrong')
-      } finally {
-        doneSaving()
-      }
-    },
-    { wait: 1000 }
-  )
-
-  useEffect(() => {
-    if (isSaving) return
-    if (titleForm.getFieldValue('title') !== title) {
-      titleForm.setFieldValue('title', title)
-      setHideSave(true)
-    }
-    const timer = setTimeout(() => {
-      setHideSave(false)
-    }, 2000)
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [title])
-
-  const showSaving = !hideSave && isSaving
-
+  const { user } = ParentRoute.useRouteContext()
   return (
     <>
-      <header className="sticky top-0 z-50 flex items-center justify-between bg-blue-900 pr-4 text-white shadow-lg">
+      <header className="sticky top-0 z-51 flex items-center justify-between bg-blue-700 px-4 py-2 text-white shadow-lg dark:bg-blue-900">
         {type === 'default' && (
           <h1
-            className={`${user ? 'w-[80%]' : 'w-[50%]'} my-5 ml-5 flex items-center justify-between gap-4 text-2xl font-semibold`}
+            className={`${user ? 'w-[80%]' : 'w-[50%]'} flex items-center justify-between gap-4 text-lg font-semibold sm:text-xl md:text-2xl`}
           >
             <Link to={user ? '/dashboard/documents' : '/'}>coWrite</Link>
-            {user && <SearchBar documents={documents} className="text-base" />}
+            {user && <SearchBar className="text-sm sm:text-xs" />}
           </h1>
         )}
-        {type === 'doc' && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              titleForm.handleSubmit()
-            }}
-            className="ml-4 flex w-[70%] max-w-3xl items-center"
-          >
-            <Link to="/dashboard/documents">
-              <ArrowLeft className="btn-format mr-3" />
-            </Link>
-            <titleForm.Field
-              name="title"
-              validators={{
-                onChange: async ({ value }) => {
-                  handleSave()
-                  debouncedUpdateTitle(value, id)
-                },
-                onBlur: ({ value }) => {
-                  if (value.trim() === '') {
-                    titleForm.setFieldValue('title', 'Untitled Document')
-                  }
-                },
-              }}
-              children={(field) => {
-                return (
-                  <div className="flex items-center space-x-3">
-                    <input
-                      value={field.state.value}
-                      name="Title"
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      className="my-4 mb-5 rounded-md border px-3 py-2"
-                      disabled={document?.deleted}
-                    />
-                    {showSaving && !document?.deleted ? (
-                      <p>Saving...</p>
-                    ) : (
-                      <span className="hidden md:block">
-                        {!document?.deleted && (
-                          <p className="text-base">
-                            Saved at{' '}
-                            {dayjs(updated_at).format('DD/MM/YYYY HH:mm')}
-                          </p>
-                        )}
-                      </span>
-                    )}
-                    {document?.deleted && (
-                      <p className="text-base">
-                        Deleted at{' '}
-                        {dayjs(deleted_at).format('DD/MM/YYYY HH:mm')}
-                      </p>
-                    )}
-                  </div>
-                )
-              }}
-            />
-          </form>
-        )}
+        {type === 'doc' && <DocHeader document={document} />}
         <button
           onClick={() => setIsOpen(true)}
-          className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-blue-700 md:hidden"
+          className="cursor-pointer rounded-lg p-2 hover:bg-blue-300 md:hidden dark:hover:bg-blue-700"
           aria-label="Open menu"
         >
-          <Menu size={24} />
+          <Menu className="h-5 w-5" />
         </button>
         <MobileNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
         <DesktopNavbar />

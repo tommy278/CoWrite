@@ -8,7 +8,28 @@
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
   },
-  "cSpell.words": ["authstack", "debouncer", "pkce", "supabase"],
+  "cSpell.words": [
+    "authstack",
+    "Cantarell",
+    "Consolas",
+    "debouncer",
+    "Dropcursor",
+    "Fira",
+    "Gapcursor",
+    "grayscale",
+    "hljs",
+    "Lowlight",
+    "Menlo",
+    "nesw",
+    "Neue",
+    "nowrap",
+    "nwse",
+    "pkce",
+    "rgba",
+    "Roboto",
+    "Segoe",
+    "supabase"
+  ],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "[javascript]": {

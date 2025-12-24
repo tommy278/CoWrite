@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { resetPasswordFn } from '@/lib/serverFunctions/AUTH/resetPasswordFn'
 import { emailSchema } from '@/lib/helpers/validators'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/auth/forgot-password')({
   component: RouteComponent,
@@ -13,16 +14,16 @@ function RouteComponent() {
     onSubmit: async ({ value, formApi }) => {
       try {
         await resetPasswordFn({ data: { email: value.email } })
-        alert('Password reset email sent. Check your inbox.')
+        toast('Password reset email sent. Check your inbox.')
         formApi.reset()
       } catch (error) {
         console.error(error)
-        alert('Something went wrong. Please try again later.')
+        toast.error('Something went wrong. Please try again later.')
       }
     },
   })
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+    <div className="flex min-h-screen items-center justify-center">
       <form
         onSubmit={(e) => {
           e.preventDefault()

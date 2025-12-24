@@ -11,8 +11,13 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import { getUserFn } from '@/lib/serverFunctions/GET/getUserFn'
 import Header from '../components/Headers/Header'
 import appCss from '../styles.css?url'
-import { getAllDocumentsFn } from '@/lib/serverFunctions/GET/getAllDocuments'
 import { IsSavingProvider } from '@/context/isLoading'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Document } from '@/lib/Constants/dataTypes'
+import { getProfileFn } from '@/lib/serverFunctions/GET/getProfileFn'
+import { createProfileFn } from '@/lib/serverFunctions/POST/createProfileFn'
+import { defaultName } from '@/lib/Constants/constants'
+import { Toaster } from 'sonner'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -37,13 +42,26 @@ export const Route = createRootRoute({
   }),
   beforeLoad: async () => {
     const user = await getUserFn()
-    if (!user?.id) return { user: null, documents: [] }
-    const documents = await getAllDocumentsFn({ data: { user_id: user?.id } })
+    if (!user?.id)
+      return {
+        user: null,
+        headerType: 'default' as 'default' | 'doc',
+        document: null as Document | null,
+      }
+    const profile = await getProfileFn({ data: { id: user.id } })
+    if (!profile) {
+      await createProfileFn({
+        data: {
+          id: user.id,
+          display_name: defaultName,
+        },
+      })
+    }
     return {
       user,
-      documents,
+      profile,
       headerType: 'default' as 'default' | 'doc',
-      document_id: 'default' as string,
+      document: null as Document | null,
     }
   },
   shellComponent: RootDocument,
@@ -75,17 +93,49 @@ function RootDocument() {
     .find((m) => m.context?.headerType)
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
-  const id = deepestMatchWithHeaderType?.context.document_id ?? ''
+  const document = deepestMatchWithHeaderType?.context.document
+  const queryClient = new QueryClient()
 
   return (
     <html lang="en">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          (() => {
+              try {
+                const stored = localStorage.getItem('theme')
+                if (stored === 'dark') {
+                  document.documentElement.classList.add('dark')
+                } else if (stored === 'light') {
+                  document.documentElement.classList.remove('dark')
+                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  document.documentElement.classList.add('dark')
+                }
+              } catch (_) {}
+          })();
+      `,
+          }}
+        />
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-page-bg text-page-text relative transition-colors duration-300">
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          expand
+          duration={3000}
+        />
         <IsSavingProvider>
-          <Header type={headerType === 'doc' ? 'doc' : 'default'} id={id} />
-          <Outlet />
+          <QueryClientProvider client={queryClient}>
+            <Header
+              type={headerType === 'doc' ? 'doc' : 'default'}
+              document={document}
+            />
+            <Outlet />
+          </QueryClientProvider>
+
           <TanStackDevtools
             config={{
               position: 'bottom-right',

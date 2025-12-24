@@ -1,47 +1,29 @@
 import { Document } from '@/lib/Constants/dataTypes'
-import { CirclePlus, Trash } from 'lucide-react'
-import { generateHTML } from '@tiptap/html'
-import { extensions, extraExtensions } from '@/lib/Constants/constants'
 import { Link } from '@tanstack/react-router'
 import dayjs from 'dayjs'
-import { EllipsisVertical, X } from 'lucide-react'
+import { EllipsisVertical, Pin, X } from 'lucide-react'
 import ConfirmModal from '@/components/Dropdowns/ConfirmModal'
 import { useState } from 'react'
+import Tiptap from '../Tiptap'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 interface DocumentProps {
-  isOpen?: boolean
   documents: Document[]
-  setIsOpen?: (state: boolean) => void
-  documentPage: boolean
+  documentPage?: boolean
 }
 
 export default function DocumentDisplay({
-  isOpen,
   documents,
-  setIsOpen,
   documentPage,
 }: DocumentProps) {
-  const allExtensions = [...extensions, ...extraExtensions]
-
   const limitTextLength = (text: string) => {
     return text.length > 30 ? text.slice(0, 30) + '...' : text
   }
 
   const [activeDocId, setActiveDocId] = useState<string | null>(null)
+  dayjs.extend(relativeTime)
   return (
-    <div className="grid w-full grid-cols-3 md:grid-cols-4">
-      {!isOpen && documentPage && setIsOpen && (
-        <div className="flex hidden justify-center">
-          <div className="view-height rounded-sm bg-cyan-300">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="flex h-full w-full cursor-pointer items-center justify-center"
-            >
-              <CirclePlus id="icon" />
-            </button>
-          </div>
-        </div>
-      )}
+    <div className="grid w-full grid-cols-3 gap-2 px-5 md:grid-cols-4 md:gap-5">
       {documents.map((doc) => {
         if (!doc.content)
           return (
@@ -49,22 +31,24 @@ export default function DocumentDisplay({
               <p>No Content found</p>
             </div>
           )
-        const htmlContent = generateHTML(doc.content, allExtensions)
         return (
-          <div
-            className="relative mx-5 my-2 flex min-w-0 flex-col"
-            key={doc.id}
-          >
+          <div className="relative my-2 flex min-w-0 flex-col" key={doc.id}>
             <Link
               to={`${documentPage ? '/dashboard/document/$doc_id' : '/dashboard/document/deleted/$doc_id'}`}
               params={{ doc_id: doc.id }}
-              className="rounded-sm border border-gray-200 shadow-sm"
+              className="rounded-sm border border-gray-200 shadow-sm hover:border-blue-300"
             >
-              <div className="view-height overflow-hidden p-3">
-                <div
-                  id="container"
-                  className="overflow-hidden text-ellipsis"
-                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+              {doc.pinned && !doc.deleted && (
+                <div className="absolute top-0 right-0 m-1">
+                  <Pin color="blue" className="icon" />
+                </div>
+              )}
+              <div className="view-height overflow-hidden" id="container">
+                <Tiptap
+                  value={doc.content}
+                  editable={false}
+                  display
+                  className="h-full w-full"
                 />
               </div>
               <div className="w-full border-t border-gray-200 px-1 py-2 md:px-2 md:py-4">
@@ -74,10 +58,12 @@ export default function DocumentDisplay({
                       {limitTextLength(doc.title)}
                     </h1>
                     <p className="time-size">
-                      Last Updated:{' '}
+                      <span className="mr-0.5 md:mr-1">
+                        {doc.deleted ? 'Deleted' : 'Last updated'}
+                      </span>
                       {dayjs(
                         documentPage ? doc.updated_at : doc.deleted_at
-                      ).format('DD/MM/YYYY HH:mm')}
+                      ).fromNow()}
                     </p>
                   </div>
                   <button
@@ -89,18 +75,12 @@ export default function DocumentDisplay({
                         prev === doc.id ? null : doc.id
                       )
                     }}
-                    className="z-50 cursor-pointer rounded-full p-2 transition duration-200 hover:bg-gray-200"
+                    className="z-50 cursor-pointer rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-600"
                   >
-                    {doc.deleted ? (
-                      activeDocId === doc.id ? (
-                        <X className="icon" />
-                      ) : (
-                        <EllipsisVertical className="icon" />
-                      )
-                    ) : activeDocId === doc.id ? (
+                    {activeDocId === doc.id ? (
                       <X className="icon" />
                     ) : (
-                      <Trash className="icon" />
+                      <EllipsisVertical className="icon" />
                     )}
                   </button>
                 </div>
@@ -111,6 +91,7 @@ export default function DocumentDisplay({
                 documentPage={!doc.deleted}
                 id={doc.id}
                 onClose={() => setActiveDocId(null)}
+                pinned={doc.pinned}
               />
             )}
           </div>

@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { passwordSchema } from '@/lib/helpers/validators'
 import { updateUserFn } from '@/lib/serverFunctions/UPDATE/updateUserFn'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/auth/reset-password')({
   component: RouteComponent,
@@ -22,23 +23,23 @@ function RouteComponent() {
     onSubmit: async ({ value }) => {
       try {
         if (value.newPassword !== value.confirmPassword) {
-          alert('Passwords do not match')
+          toast.error('Passwords do not match')
           return
         }
 
         await updateUserFn({ data: { password: value.newPassword } })
-        alert('Password updated! Please log in.')
+        toast.success('Password updated! Please log in.')
         router.invalidate({ sync: true })
         router.navigate({ to: '/auth/login' })
       } catch (error) {
         console.error(error)
-        alert('Password reset unsuccessful.')
+        toast.error('Password reset unsuccessful.')
       }
     },
   })
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+    <div className="flex min-h-screen items-center justify-center">
       <form
         onSubmit={(e) => {
           e.preventDefault()

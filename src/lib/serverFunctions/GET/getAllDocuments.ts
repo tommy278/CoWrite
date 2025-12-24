@@ -13,7 +13,7 @@ export const getAllDocumentsFn = createServerFn({ method: 'GET' })
       .from('documents')
       .select('*')
       .eq('user_id', user_id)
-      .range(0, 49)
+      .range(0, 99)
 
     if (error) {
       console.error('Error fetching single record', error.message)
@@ -29,5 +29,6 @@ export const getAllDocumentsFn = createServerFn({ method: 'GET' })
       updated_at: d.updated_at,
       deleted_at: d.deleted_at,
       deleted: d.deleted,
+      pinned: d.pinned,
     }))
   })

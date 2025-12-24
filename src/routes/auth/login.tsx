@@ -2,9 +2,10 @@ import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { loginFn } from '@/lib/serverFunctions/AUTH/loginFn'
 import { Link } from '@tanstack/react-router'
-import { emailSchema, passwordSchema } from '@/lib/helpers/validators'
+import { emailSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/auth/login')({
   component: RouteComponent,
@@ -30,17 +31,17 @@ function RouteComponent() {
         },
       })
       if (error) {
-        alert(message)
+        toast.error('Login failed')
         console.error(message)
       } else {
-        alert(message)
+        toast.success(message)
         router.invalidate({ sync: true })
         router.navigate({ to: '/dashboard/documents' })
       }
     },
   })
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+    <div className="flex min-h-screen items-center justify-center">
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -90,14 +91,6 @@ function RouteComponent() {
         <div>
           <form.Field
             name="password"
-            validators={{
-              onChange: ({ value }) => {
-                const result = passwordSchema.safeParse(value)
-                return result.success
-                  ? undefined
-                  : result.error.errors[0].message
-              },
-            }}
             children={(field) => (
               <div>
                 <input

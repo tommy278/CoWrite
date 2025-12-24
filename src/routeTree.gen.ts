@@ -16,7 +16,9 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as AuthedDashboardSettingsRouteImport } from './routes/_authed/dashboard/settings'
 import { Route as AuthedDashboardDocumentsIndexRouteImport } from './routes/_authed/dashboard/documents/index'
+import { Route as AuthedDashboardDocumentsPinnedRouteImport } from './routes/_authed/dashboard/documents/pinned'
 import { Route as AuthedDashboardDocumentsDeletedRouteImport } from './routes/_authed/dashboard/documents/deleted'
 import { Route as AuthedDashboardDocumentDoc_idRouteImport } from './routes/_authed/dashboard/document/$doc_id'
 import { Route as AuthedDashboardDocumentDeletedDoc_idRouteImport } from './routes/_authed/dashboard/document/deleted/$doc_id'
@@ -55,10 +57,21 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedDashboardSettingsRoute = AuthedDashboardSettingsRouteImport.update({
+  id: '/dashboard/settings',
+  path: '/dashboard/settings',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedDashboardDocumentsIndexRoute =
   AuthedDashboardDocumentsIndexRouteImport.update({
     id: '/dashboard/documents/',
     path: '/dashboard/documents/',
+    getParentRoute: () => AuthedRoute,
+  } as any)
+const AuthedDashboardDocumentsPinnedRoute =
+  AuthedDashboardDocumentsPinnedRouteImport.update({
+    id: '/dashboard/documents/pinned',
+    path: '/dashboard/documents/pinned',
     getParentRoute: () => AuthedRoute,
   } as any)
 const AuthedDashboardDocumentsDeletedRoute =
@@ -87,8 +100,10 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/dashboard/settings': typeof AuthedDashboardSettingsRoute
   '/dashboard/document/$doc_id': typeof AuthedDashboardDocumentDoc_idRoute
   '/dashboard/documents/deleted': typeof AuthedDashboardDocumentsDeletedRoute
+  '/dashboard/documents/pinned': typeof AuthedDashboardDocumentsPinnedRoute
   '/dashboard/documents': typeof AuthedDashboardDocumentsIndexRoute
   '/dashboard/document/deleted/$doc_id': typeof AuthedDashboardDocumentDeletedDoc_idRoute
 }
@@ -99,8 +114,10 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/dashboard/settings': typeof AuthedDashboardSettingsRoute
   '/dashboard/document/$doc_id': typeof AuthedDashboardDocumentDoc_idRoute
   '/dashboard/documents/deleted': typeof AuthedDashboardDocumentsDeletedRoute
+  '/dashboard/documents/pinned': typeof AuthedDashboardDocumentsPinnedRoute
   '/dashboard/documents': typeof AuthedDashboardDocumentsIndexRoute
   '/dashboard/document/deleted/$doc_id': typeof AuthedDashboardDocumentDeletedDoc_idRoute
 }
@@ -113,8 +130,10 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/_authed/dashboard/settings': typeof AuthedDashboardSettingsRoute
   '/_authed/dashboard/document/$doc_id': typeof AuthedDashboardDocumentDoc_idRoute
   '/_authed/dashboard/documents/deleted': typeof AuthedDashboardDocumentsDeletedRoute
+  '/_authed/dashboard/documents/pinned': typeof AuthedDashboardDocumentsPinnedRoute
   '/_authed/dashboard/documents/': typeof AuthedDashboardDocumentsIndexRoute
   '/_authed/dashboard/document/deleted/$doc_id': typeof AuthedDashboardDocumentDeletedDoc_idRoute
 }
@@ -127,8 +146,10 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
+    | '/dashboard/settings'
     | '/dashboard/document/$doc_id'
     | '/dashboard/documents/deleted'
+    | '/dashboard/documents/pinned'
     | '/dashboard/documents'
     | '/dashboard/document/deleted/$doc_id'
   fileRoutesByTo: FileRoutesByTo
@@ -139,8 +160,10 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
+    | '/dashboard/settings'
     | '/dashboard/document/$doc_id'
     | '/dashboard/documents/deleted'
+    | '/dashboard/documents/pinned'
     | '/dashboard/documents'
     | '/dashboard/document/deleted/$doc_id'
   id:
@@ -152,8 +175,10 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/auth/reset-password'
+    | '/_authed/dashboard/settings'
     | '/_authed/dashboard/document/$doc_id'
     | '/_authed/dashboard/documents/deleted'
+    | '/_authed/dashboard/documents/pinned'
     | '/_authed/dashboard/documents/'
     | '/_authed/dashboard/document/deleted/$doc_id'
   fileRoutesById: FileRoutesById
@@ -219,11 +244,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/dashboard/settings': {
+      id: '/_authed/dashboard/settings'
+      path: '/dashboard/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof AuthedDashboardSettingsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/dashboard/documents/': {
       id: '/_authed/dashboard/documents/'
       path: '/dashboard/documents'
       fullPath: '/dashboard/documents'
       preLoaderRoute: typeof AuthedDashboardDocumentsIndexRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/dashboard/documents/pinned': {
+      id: '/_authed/dashboard/documents/pinned'
+      path: '/dashboard/documents/pinned'
+      fullPath: '/dashboard/documents/pinned'
+      preLoaderRoute: typeof AuthedDashboardDocumentsPinnedRouteImport
       parentRoute: typeof AuthedRoute
     }
     '/_authed/dashboard/documents/deleted': {
@@ -251,15 +290,19 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthedRouteChildren {
+  AuthedDashboardSettingsRoute: typeof AuthedDashboardSettingsRoute
   AuthedDashboardDocumentDoc_idRoute: typeof AuthedDashboardDocumentDoc_idRoute
   AuthedDashboardDocumentsDeletedRoute: typeof AuthedDashboardDocumentsDeletedRoute
+  AuthedDashboardDocumentsPinnedRoute: typeof AuthedDashboardDocumentsPinnedRoute
   AuthedDashboardDocumentsIndexRoute: typeof AuthedDashboardDocumentsIndexRoute
   AuthedDashboardDocumentDeletedDoc_idRoute: typeof AuthedDashboardDocumentDeletedDoc_idRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDashboardSettingsRoute: AuthedDashboardSettingsRoute,
   AuthedDashboardDocumentDoc_idRoute: AuthedDashboardDocumentDoc_idRoute,
   AuthedDashboardDocumentsDeletedRoute: AuthedDashboardDocumentsDeletedRoute,
+  AuthedDashboardDocumentsPinnedRoute: AuthedDashboardDocumentsPinnedRoute,
   AuthedDashboardDocumentsIndexRoute: AuthedDashboardDocumentsIndexRoute,
   AuthedDashboardDocumentDeletedDoc_idRoute:
     AuthedDashboardDocumentDeletedDoc_idRoute,

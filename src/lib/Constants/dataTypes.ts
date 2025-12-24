@@ -9,4 +9,12 @@ export interface Document {
   updated_at: Date
   deleted_at: Date
   deleted: boolean
+  pinned: boolean
+}
+
+export interface Profile {
+  id: string
+  display_name: string
+  created_at: Date
+  updated_at: Date
 }

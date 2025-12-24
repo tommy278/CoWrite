@@ -11,6 +11,22 @@ import Code from '@tiptap/extension-code'
 import Highlight from '@tiptap/extension-highlight'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import { UndoRedo } from '@tiptap/extensions/undo-redo'
+import Link from '@tiptap/extension-link'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { Dropcursor } from '@tiptap/extensions'
+import Image from '@tiptap/extension-image'
+import Blockquote from '@tiptap/extension-blockquote'
+import Youtube from '@tiptap/extension-youtube'
+import TabIndent from '@/lib/CustomExtensions/TabIndent'
+import { Gapcursor } from '@tiptap/extensions'
+import { TableKit } from '@tiptap/extension-table'
+import Typography from '@tiptap/extension-typography'
+import { TrailingNode } from '@tiptap/extensions'
+import TextAlign from '@tiptap/extension-text-align'
+import { TextStyle, Color } from '@tiptap/extension-text-style'
+import { CharacterCount } from '@tiptap/extensions'
+import { TaskItem, TaskList } from '@tiptap/extension-list'
 
 export const extensions = [
   Document,
@@ -24,9 +40,61 @@ export const extensions = [
   Code,
   UndoRedo,
   ListItem,
+  Blockquote,
+  Youtube,
+  TabIndent,
+  Gapcursor,
+  Typography,
+  TrailingNode,
+  TextStyle,
+  Color,
+  CharacterCount,
+  TaskItem,
+  TaskList,
 ]
 
-export const extraExtensions = [Highlight, OrderedList, Heading, BulletList]
+export const extraExtensions = [
+  Highlight,
+  OrderedList,
+  Heading,
+  BulletList,
+  Link,
+  HorizontalRule,
+  CodeBlockLowlight,
+  Dropcursor,
+  Image,
+  TableKit,
+  TextAlign,
+]
 
 export const callbackUrl: string =
   import.meta.env.VITE_APP_CALLBACK_URL || 'http://localhost:3000/auth/callback'
+
+const adjectives = [
+  'Calm',
+  'Swift',
+  'Bright',
+  'Quiet',
+  'Brave',
+  'Sly',
+  'Shy',
+  'Quiet',
+]
+const animals = [
+  'Fox',
+  'Otter',
+  'Hawk',
+  'Lynx',
+  'Eagle',
+  'Dolphin',
+  'Shark',
+  'Antelope',
+  'Giraffe',
+  'Sloth',
+]
+
+export const defaultName =
+  adjectives[Math.floor(Math.random() * adjectives.length)] +
+  animals[Math.floor(Math.random() * animals.length)]
+
+export type PageOptions = 12 | 24 | 36 | 48

@@ -1,20 +1,18 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
-import { getUserFn } from '@/lib/serverFunctions/GET/getUserFn'
 
 export const Route = createFileRoute('/')({
   component: App,
-  beforeLoad: async () => {
-    const user = await getUserFn()
+  beforeLoad: async ({ context }) => {
+    const user = context.user
     if (user) {
       throw redirect({ to: '/dashboard/documents' })
     }
-    return { user }
   },
 })
 
 function App() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-y-10 bg-gray-50">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-y-10">
       <h1 className="text-7xl font-bold text-blue-500">Default App</h1>
       <h2 className="text-base">This is the default line to display the app</h2>
       <Link

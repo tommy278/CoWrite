@@ -1,42 +1,55 @@
 import { createFileRoute, useRouter, Link } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { createDocumentFn } from '@/lib/serverFunctions/POST/createDocument'
-import { useState, useEffect } from 'react'
-import { Document } from '@/lib/Constants/dataTypes'
-import { clickDetector } from '@/context/clickDetector'
+import { useState } from 'react'
 import DocumentDisplay from '@/components/Display/DocumentDisplay'
 import SortDropdown from '@/components/Dropdowns/SortDropdown'
+import { Plus, Trash } from 'lucide-react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { getDocumentPageFn } from '@/lib/serverFunctions/GET/getDocumentsPageFn'
+import Paginator from '@/components/Paginator'
+import DocumentsLoader from '@/components/SkeletonLoader/DocumentsLoader'
+import { usePageSize } from '@/Hooks/usePageSize'
+import { useSort } from '@/Hooks/useSort'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const { documents } = Route.useRouteContext()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const [dropdown, toggleDropdown] = useState(false)
-  const [orderedDocuments, setOrderedDocuments] = useState<Document[]>(() => [
-    ...documents
-      .sort(
-        (a, b) =>
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      )
-      .filter((document) => !document.deleted),
-  ])
-
-  useEffect(() => {
-    setOrderedDocuments(
-      [...documents]
-        .sort(
-          (a, b) =>
-            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-        )
-        .filter((document) => !document.deleted)
-    )
-  }, [documents])
-
-  const ref = clickDetector(() => toggleDropdown(false))
+  const [page, setPage] = useState(0)
+  const { user } = Route.useRouteContext()
+  const { pageSize } = usePageSize()
+  const { sortObject, setSortObject } = useSort()
+  if (!user) return
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      'documents',
+      user?.id,
+      page,
+      sortObject.sort,
+      false,
+      sortObject.ascending,
+    ],
+    queryFn: () =>
+      getDocumentPageFn({
+        data: {
+          user_id: user?.id,
+          page,
+          pageSize,
+          sort: sortObject.sort,
+          deleted: false,
+          ascending: sortObject.ascending,
+        },
+      }),
+    staleTime: 1000 * 60 * 5,
+  })
+  const documents = data?.documents ?? []
+  const totalPages = Math.ceil((data?.total ?? 0) / pageSize)
+  const queryClient = useQueryClient()
 
   const form = useForm({
     defaultValues: { title: '' },
@@ -48,55 +61,68 @@ function RouteComponent() {
         if (!newDocument) throw new Error('No Document returned ')
         form.reset()
         setIsOpen(false)
+        queryClient.invalidateQueries({
+          queryKey: ['documents', user?.id],
+        })
         router.navigate({ to: `/dashboard/view-document/${newDocument.id}` })
       } catch (error) {
         console.error(error)
-        alert('Something went wrong creating the document')
+        toast.error('Something went wrong creating the document')
       }
     },
   })
 
+  if (isLoading) return <DocumentsLoader />
+
   return (
     <>
-      <div className="mx-5 flex items-center justify-between">
-        <h3 className="text-base font-semibold">All Documents</h3>
-        <div className="flex items-center">
-          <span ref={ref} className="relative">
-            <SortDropdown
-              dropdown={dropdown}
-              toggleDropdown={toggleDropdown}
-              setOrderedDocuments={setOrderedDocuments}
-              documentPage={true}
-            />
-          </span>
+      <div className="m-2 flex items-center justify-between md:mx-5">
+        <h3 className="text-sm font-semibold md:text-base">All Documents</h3>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="flex cursor-pointer items-center rounded-md bg-blue-400/50 p-2 hover:bg-blue-400"
+          >
+            <p className="hidden text-base md:flex">New Document</p>
+            <p className="flex items-center text-xs sm:text-sm md:hidden">
+              New
+              <Plus className="h-3 w-3" />
+            </p>
+          </button>
+          <SortDropdown
+            sort={sortObject.sort}
+            onChange={(nextSort, ascending) => {
+              setPage(0)
+              setSortObject({
+                sort: nextSort,
+                ascending,
+              })
+            }}
+            ascending={sortObject.ascending}
+          />
           <Link to="/dashboard/documents/deleted" className="hidden md:block">
-            Deleted
+            <span className="flex items-center rounded-md bg-red-400/50 p-2 hover:bg-red-400">
+              <Trash size={20} className="mr-1" />
+              <p className="text-xs sm:text-sm md:text-base">Trash</p>
+            </span>
           </Link>
         </div>
       </div>
 
-      <DocumentDisplay
-        isOpen={isOpen}
-        documents={orderedDocuments}
-        setIsOpen={setIsOpen}
-        documentPage={true}
-      />
+      <DocumentDisplay documents={documents} documentPage />
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex w-full items-center justify-center bg-black/50"
+          className="fixed inset-0 z-50 flex w-full items-center justify-center"
           onClick={() => setIsOpen(false)}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="w-[80%] md:w-[50%]"
-          >
+          <div onClick={(e) => e.stopPropagation()}>
             <form
               onSubmit={(e) => {
                 e.preventDefault()
                 form.handleSubmit()
               }}
-              className="w-full space-y-5 rounded bg-white p-6 shadow-lg"
+              className="w-full space-y-5 rounded bg-gray-200/95 p-6 shadow-lg dark:bg-gray-600/95"
             >
               <form.Field
                 name="title"
@@ -129,6 +155,7 @@ function RouteComponent() {
           </div>
         </div>
       )}
+      <Paginator setPage={setPage} page={page} totalPages={totalPages} />
     </>
   )
 }
