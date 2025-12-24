@@ -11,6 +11,7 @@ import Paginator from '@/components/Paginator'
 import DocumentsLoader from '@/components/SkeletonLoader/DocumentsLoader'
 import { usePageSize } from '@/Hooks/usePageSize'
 import { useSort } from '@/Hooks/useSort'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_authed/dashboard/documents/')({
   component: RouteComponent,
@@ -66,7 +67,7 @@ function RouteComponent() {
         router.navigate({ to: `/dashboard/view-document/${newDocument.id}` })
       } catch (error) {
         console.error(error)
-        alert('Something went wrong creating the document')
+        toast.error('Something went wrong creating the document')
       }
     },
   })
@@ -108,7 +109,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      <DocumentDisplay documents={documents} />
+      <DocumentDisplay documents={documents} documentPage />
 
       {isOpen && (
         <div

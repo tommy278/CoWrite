@@ -8,7 +8,7 @@ import {
   TextAlignStart,
 } from 'lucide-react'
 import { useState } from 'react'
-import MobileText from '../MobileText'
+import MobileText from '../Mobile/MobileText'
 import ButtonCard from '@/components/ButtonCard'
 
 export function AlignDropdown({ editor }: { editor: Editor }) {

@@ -3,7 +3,7 @@ import LargeDropdown from './LargeDropdown'
 import ButtonCard from '../ButtonCard'
 import { CodeXml, SquareMinus, TextQuote } from 'lucide-react'
 import CountsDropdown from './CountsDropdown'
-import MobileText from '../MobileText'
+import MobileText from '../Mobile/MobileText'
 
 interface Counts {
   characters: number

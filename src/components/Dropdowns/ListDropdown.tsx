@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { List, ListOrdered, LayoutList } from 'lucide-react'
 import { EllipsisVertical } from 'lucide-react'
 import { clickDetector } from '@/Hooks/clickDetector'
-import MobileText from '../MobileText'
+import MobileText from '../Mobile/MobileText'
 
 interface ListDropdownProps {
   editor: Editor

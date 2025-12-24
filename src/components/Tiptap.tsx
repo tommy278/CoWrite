@@ -18,6 +18,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { TableKit } from '@tiptap/extension-table'
 import TextAlign from '@tiptap/extension-text-align'
 import { useHeaderHeight } from '@/Hooks/useHeaderHeight'
+import DocumentLoader from './SkeletonLoader/DocumentLoader'
 
 const lowlight = createLowlight()
 lowlight.register('javascript', javascript)
@@ -94,9 +95,11 @@ export default function Tiptap({
     extensions,
     editable,
     content: value,
-    autofocus: true,
+    autofocus: false,
     immediatelyRender: false,
-
+    onCreate: ({ editor }) => {
+      editor.commands.focus('end')
+    },
     onUpdate: ({ editor }) => {
       onChange?.(editor.getJSON())
       setCounts({
@@ -120,16 +123,14 @@ export default function Tiptap({
 
   useHeaderHeight()
 
-  if (!editor) return <div>Loading...</div>
+  if (!editor) return <DocumentLoader />
   const editorClass = `prose-editor 
-  ${!display ? 'w-[70%] min-h-screen border-x dark:border-gray-500 border-gray-200 px-2 py-5 sm:px-4 sm:py-7 md:px-6 md:py-10' : 'time-size px-0.5 py-1 md:px-1 md:py-2'} 
+  ${!display ? 'w-[70%] min-h-screen border-x dark:border-gray-500 border-gray-200 px-2 py-5 sm:px-4 sm:py-7 md:px-6 md:py-10 mx-auto' : 'time-size px-0.5 py-1 md:px-1 md:py-2'} 
   ${className}`
   return (
     <>
-      {!display && <MenuBar editor={editor} counts={counts} />}
-      <div className="flex justify-center">
-        <EditorContent editor={editor} className={editorClass} />
-      </div>
+      {!display && editable && <MenuBar editor={editor} counts={counts} />}
+      <EditorContent editor={editor} className={editorClass} />
     </>
   )
 }

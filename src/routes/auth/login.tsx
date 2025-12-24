@@ -5,6 +5,7 @@ import { Link } from '@tanstack/react-router'
 import { emailSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/auth/login')({
   component: RouteComponent,
@@ -30,10 +31,10 @@ function RouteComponent() {
         },
       })
       if (error) {
-        alert(message)
+        toast.error('Login failed')
         console.error(message)
       } else {
-        alert(message)
+        toast.success(message)
         router.invalidate({ sync: true })
         router.navigate({ to: '/dashboard/documents' })
       }

@@ -7,6 +7,7 @@ import { ArrowBigLeft } from 'lucide-react'
 import { updateTitleFn } from '@/lib/serverFunctions/UPDATE/updateTitleFn'
 import { useEffect, useState } from 'react'
 import { Document } from '@/lib/Constants/dataTypes'
+import { toast } from 'sonner'
 
 export default function DocHeader({
   document,
@@ -36,7 +37,7 @@ export default function DocHeader({
         await updateTitleFn({ data: { id, title: value } })
       } catch (error) {
         console.error(error)
-        alert('Something went wrong')
+        toast.error('Something went wrong')
       } finally {
         doneSaving()
       }
@@ -104,7 +105,7 @@ export default function DocHeader({
                 <>
                   {!deleted && (
                     <p className="flex text-[clamp(10px,2vw,16px)]">
-                      <span className="mr-1">Saved:</span>
+                      <span className="mr-1">Saved</span>
                       <span className="md:hidden">
                         {dayjs(updated_at).format('MMM D, YYYY')}
                       </span>
@@ -117,7 +118,7 @@ export default function DocHeader({
               )}
               {document?.deleted && (
                 <p className="flex text-[clamp(10px,2vw,16px)]">
-                  <span className="mr-1">Deleted:</span>
+                  <span className="mr-1">Deleted</span>
                   <span className="md:hidden">
                     {dayjs(deleted_at).format('MMM D, YYYY')}
                   </span>

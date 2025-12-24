@@ -47,7 +47,7 @@ function RouteComponent() {
           </Link>
         </div>
       </div>
-      <DocumentDisplay documents={documents} />
+      <DocumentDisplay documents={documents} documentPage />
       <Paginator setPage={setPage} page={page} totalPages={totalPages} />
     </>
   )

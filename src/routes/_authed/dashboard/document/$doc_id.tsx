@@ -2,11 +2,11 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { getDocumentFn } from '@/lib/serverFunctions/GET/getDocumentFn'
 import { updateContentFormFn } from '@/lib/serverFunctions/UPDATE/updateContentFormFn'
-import { useRouter } from '@tanstack/react-router'
 import Tiptap from '@/components/Tiptap'
 import { useIsSaving } from '@/context/isLoading'
 import { useDebouncedCallback } from '@tanstack/react-pacer/debouncer'
 import type { JSONContent } from '@tiptap/core'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/_authed/dashboard/document/$doc_id')({
   component: RouteComponent,
@@ -40,7 +40,7 @@ function RouteComponent() {
         await updateContentFormFn({ data: { id, content } })
       } catch (error) {
         console.error(error)
-        alert('Something went wrong')
+        toast.error('Something went wrong')
       } finally {
         doneSaving()
       }
@@ -68,13 +68,11 @@ function RouteComponent() {
           }}
           children={(field) => {
             return (
-              <>
-                <Tiptap
-                  value={field.state.value as JSONContent}
-                  onChange={(json: JSONContent) => field.handleChange(json)}
-                  editable
-                />
-              </>
+              <Tiptap
+                value={field.state.value as JSONContent}
+                onChange={(json: JSONContent) => field.handleChange(json)}
+                editable
+              />
             )
           }}
         />

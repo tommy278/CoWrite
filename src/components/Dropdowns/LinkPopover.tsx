@@ -13,7 +13,7 @@ import {
 import { RxDividerVertical } from 'react-icons/rx'
 import { clickDetector } from '@/Hooks/clickDetector'
 import ToolTip from '../ToolTip'
-import MobileText from '../MobileText'
+import MobileText from '../Mobile/MobileText'
 
 export default function LinkPopover({
   editor,

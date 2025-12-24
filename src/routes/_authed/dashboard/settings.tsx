@@ -14,6 +14,7 @@ import dayjs from 'dayjs'
 import { PencilIcon } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useRef, useEffect } from 'react'
+import { toast } from 'sonner'
 
 dayjs.extend(relativeTime)
 
@@ -49,7 +50,7 @@ function RouteComponent() {
       setEditable(false)
     } catch (err) {
       setInputValue(previousValue)
-      alert('Failed to update display name')
+      toast.error('Failed to update display name')
     }
   }
   const { data: stats, isError } = useQuery({

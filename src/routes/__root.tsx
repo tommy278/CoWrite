@@ -17,6 +17,7 @@ import { Document } from '@/lib/Constants/dataTypes'
 import { getProfileFn } from '@/lib/serverFunctions/GET/getProfileFn'
 import { createProfileFn } from '@/lib/serverFunctions/POST/createProfileFn'
 import { defaultName } from '@/lib/Constants/constants'
+import { Toaster } from 'sonner'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -119,6 +120,13 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body className="bg-page-bg text-page-text relative transition-colors duration-300">
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          expand
+          duration={3000}
+        />
         <IsSavingProvider>
           <QueryClientProvider client={queryClient}>
             <Header

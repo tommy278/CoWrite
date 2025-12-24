@@ -4,6 +4,7 @@ import { emailSchema, passwordSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
 import { registerFn } from '@/lib/serverFunctions/AUTH/registerFn'
+import { toast } from 'sonner'
 
 export const Route = createFileRoute('/auth/register')({
   component: RouteComponent,
@@ -36,10 +37,10 @@ function RouteComponent() {
         },
       })
       if (error) {
-        alert(message)
+        toast.error('Registration unsuccessful')
         console.error(message)
       } else {
-        alert(message)
+        toast.error(message)
         router.invalidate({ sync: true })
         router.navigate({ to: '/dashboard/documents' })
       }

@@ -1,6 +1,6 @@
 import { WholeWord } from 'lucide-react'
 import { useState } from 'react'
-import MobileText from '../MobileText'
+import MobileText from '../Mobile/MobileText'
 
 interface CountProps {
   characters: number
