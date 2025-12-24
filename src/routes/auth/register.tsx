@@ -5,6 +5,7 @@ import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
 import { registerFn } from '@/lib/serverFunctions/AUTH/registerFn'
 import { toast } from 'sonner'
+import { loginFn } from '@/lib/serverFunctions/AUTH/loginFn'
 
 export const Route = createFileRoute('/auth/register')({
   component: RouteComponent,
@@ -29,7 +30,6 @@ function RouteComponent() {
   const form = useForm({
     defaultValues: defaultUser,
     onSubmit: async ({ value }) => {
-      console.log(value)
       const { error, message } = await registerFn({
         data: {
           email: value.email,
@@ -40,9 +40,21 @@ function RouteComponent() {
         toast.error('Registration unsuccessful')
         console.error(message)
       } else {
-        toast.error(message)
-        router.invalidate({ sync: true })
-        router.navigate({ to: '/dashboard/documents' })
+        toast.success(message)
+        const { error, message: logInMessage } = await loginFn({
+          data: {
+            email: value.email,
+            password: value.password,
+          },
+        })
+        if (error) {
+          toast.error('Login failed')
+          console.error('Login Failed')
+        } else {
+          toast.success(logInMessage)
+          router.invalidate({ sync: true })
+          router.navigate({ to: '/dashboard/documents' })
+        }
       }
     },
   })

@@ -14,7 +14,10 @@ function RouteComponent() {
     onSubmit: async ({ value, formApi }) => {
       try {
         await resetPasswordFn({ data: { email: value.email } })
-        toast('Password reset email sent. Check your inbox.')
+        toast('Password reset email sent', {
+          description: 'Check your inbox to proceed',
+          duration: Infinity,
+        })
         formApi.reset()
       } catch (error) {
         console.error(error)

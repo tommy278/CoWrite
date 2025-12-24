@@ -1,5 +1,6 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect, useRouter } from '@tanstack/react-router'
 import { exchangeCodeFn } from '@/lib/serverFunctions/AUTH/exchangeCodeFn'
+import { useEffect } from 'react'
 
 export const Route = createFileRoute('/auth/callback')({
   loader: async ({ location }) => {
@@ -11,5 +12,12 @@ export const Route = createFileRoute('/auth/callback')({
     await exchangeCodeFn({ data: { code } })
     throw redirect({ to: '/dashboard/documents' })
   },
-  component: () => <p>Redirecting...</p>,
+  component: () => CallbackComponent,
 })
+
+function CallbackComponent() {
+  const router = useRouter()
+  useEffect(() => {
+    router.invalidate({ sync: true })
+  }, [])
+}

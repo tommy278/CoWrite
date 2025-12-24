@@ -26,7 +26,6 @@ function RouteComponent() {
           toast.error('Passwords do not match')
           return
         }
-
         await updateUserFn({ data: { password: value.newPassword } })
         toast.success('Password updated! Please log in.')
         router.invalidate({ sync: true })

@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useRouter, redirect } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { loginFn } from '@/lib/serverFunctions/AUTH/loginFn'
 import { Link } from '@tanstack/react-router'
@@ -9,6 +9,11 @@ import { toast } from 'sonner'
 
 export const Route = createFileRoute('/auth/login')({
   component: RouteComponent,
+  beforeLoad: ({ context }) => {
+    if (context.user) {
+      throw redirect({ to: '/dashboard/documents' })
+    }
+  },
 })
 
 interface User {
