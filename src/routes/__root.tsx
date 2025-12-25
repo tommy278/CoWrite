@@ -108,12 +108,11 @@ function RootDocument() {
   const document = deepestMatchWithHeaderType?.context.document
 
   return (
-    <html lang="en" className={theme} suppressHydrationWarning>
+    <html lang="en" className={theme ?? 'light'} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="bg-page-bg text-page-text relative transition-colors duration-300">
-        {/* Pass server-side query state to the client */}
         <QueryClientProvider client={queryClient}>
           <IsSavingProvider>
             <HydrationShield fallback={<div className="bg-page-bg h-screen" />}>
