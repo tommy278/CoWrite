@@ -6,8 +6,6 @@ import {
   Outlet,
   useMatches,
 } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import { getUserFn } from '@/lib/serverFunctions/GET/getUserFn'
 import Header from '../components/Headers/Header'
 import appCss from '../styles.css?url'
@@ -99,7 +97,6 @@ export const Route = createRootRoute({
 })
 
 const queryClient = new QueryClient()
-
 function RootDocument() {
   const matches = useMatches()
   const deepestMatchWithHeaderType = [...matches]
@@ -116,36 +113,25 @@ function RootDocument() {
         <HeadContent />
       </head>
       <body className="bg-page-bg text-page-text relative transition-colors duration-300">
-        <Toaster
-          position="top-right"
-          richColors
-          closeButton
-          expand
-          duration={3000}
-        />
-        <IsSavingProvider>
-          <QueryClientProvider client={queryClient}>
-            <Header
-              type={headerType === 'doc' ? 'doc' : 'default'}
-              document={document}
-            />
+        {/* Pass server-side query state to the client */}
+        <QueryClientProvider client={queryClient}>
+          <IsSavingProvider>
             <HydrationShield fallback={<div className="bg-page-bg h-screen" />}>
+              <Toaster
+                position="top-right"
+                richColors
+                closeButton
+                expand
+                duration={3000}
+              />
+              <Header
+                type={headerType === 'doc' ? 'doc' : 'default'}
+                document={document}
+              />
               <Outlet />
             </HydrationShield>
-          </QueryClientProvider>
-
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-        </IsSavingProvider>
+          </IsSavingProvider>
+        </QueryClientProvider>
         <Scripts />
       </body>
     </html>
