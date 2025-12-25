@@ -38,7 +38,10 @@ function LandingPage() {
           </Link>
         </div>
       </div>
-      <footer className="mt-20 text-center text-sm text-gray-500">
+      <footer
+        className="mt-20 text-center text-sm text-gray-500"
+        suppressHydrationWarning
+      >
         &copy; {new Date().getFullYear()} coWrite. All rights reserved.
       </footer>
     </div>
