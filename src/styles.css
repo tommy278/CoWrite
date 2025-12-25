@@ -20,18 +20,27 @@ menu {
 @theme {
   --color-page-bg: #ffffff;
   --color-page-text: #1a1a1a;
+
+  --color-surface-bg: #f6f7f9;
+  --color-dropdown-bg: #f0f1f5;
+}
+
+.dark {
+  --color-page-bg: #0f172a;
+  --color-page-text: #f8fafc;
+
+  --color-surface-bg: #111827;
+  --color-dropdown-bg: #1a202c;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
     --color-page-bg: #0f172a;
     --color-page-text: #f8fafc;
-  }
-}
 
-.dark {
-  --color-page-bg: #0f172a;
-  --color-page-text: #f8fafc;
+    --color-surface-bg: #111827;
+    --color-dropdown-bg: #1a202c;
+  }
 }
 
 .paginator-btn {
@@ -49,19 +58,19 @@ menu {
 
 .dropdown {
   @apply absolute top-full z-50 mt-2 rounded-md p-1 shadow-md md:p-2;
-  background-color: var(--color-page-bg);
+  background-color: var(--color-dropdown-bg);
   color: var(--color-page-text);
 }
 
 .dropdown-right {
   @apply absolute top-10 right-0 z-50 rounded-md p-1;
-  background-color: var(--color-page-bg);
+  background-color: var(--color-dropdown-bg);
   color: var(--color-page-text);
 }
 
 .dropdown-child {
   @apply absolute top-0 left-full ml-2 flex w-full flex-col gap-1 rounded-md p-1;
-  background-color: var(--color-page-bg);
+  background-color: var(--color-dropdown-bg);
   color: var(--color-page-text);
 }
 
@@ -75,7 +84,7 @@ menu {
 
 .form-content {
   @apply w-full max-w-md space-y-5 rounded p-6 shadow-md;
-  background-color: var(--color-page-bg);
+  background-color: var(--color-surface-bg);
   color: var(--color-page-text);
 }
 
