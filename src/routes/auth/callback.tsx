@@ -4,13 +4,13 @@ import { useEffect } from 'react'
 
 export const Route = createFileRoute('/auth/callback')({
   loader: async ({ location }) => {
-    const searchParams = new URLSearchParams(location.search)
-    const code = searchParams.get('code')
-    if (!code) {
-      throw redirect({ to: '/' })
+    const search = new URLSearchParams(location.search)
+    const code = search.get('code')
+    if (!code) throw redirect({ to: '/' })
+    if (typeof window === 'undefined') {
+      await exchangeCodeFn({ data: { code } })
+      throw redirect({ to: '/dashboard/documents' })
     }
-    await exchangeCodeFn({ data: { code } })
-    throw redirect({ to: '/dashboard/documents' })
   },
   component: () => CallbackComponent,
 })

@@ -19,6 +19,7 @@ import { createProfileFn } from '@/lib/serverFunctions/POST/createProfileFn'
 import { defaultName } from '@/lib/Constants/constants'
 import { Toaster } from 'sonner'
 import { getThemeServerFn } from '@/lib/serverFunctions/themeFn'
+import { HydrationShield } from '@/components/HydrationShield'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -128,7 +129,9 @@ function RootDocument() {
               type={headerType === 'doc' ? 'doc' : 'default'}
               document={document}
             />
-            <Outlet />
+            <HydrationShield fallback={<div className="bg-page-bg h-screen" />}>
+              <Outlet />
+            </HydrationShield>
           </QueryClientProvider>
 
           <TanStackDevtools
