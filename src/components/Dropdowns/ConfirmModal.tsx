@@ -30,11 +30,13 @@ export default function ConfirmModal({
     restore: async () => {
       await restoreDocumentFn({ data: { id } })
       onClose()
+      queryClient.invalidateQueries({ queryKey: ['documents'] })
       router.navigate({ to: '/dashboard/documents' })
     },
     confirmDelete: async () => {
       await hardDeleteFn({ data: { id } })
       onClose()
+      queryClient.invalidateQueries({ queryKey: ['documents'] })
       router.navigate({ to: '/dashboard/documents/deleted' })
     },
     softDelete: async () => {

@@ -130,7 +130,7 @@ function RouteComponent() {
         </Link>
       </section>
 
-      <section className="grid-cols grid gap-y-1">
+      <section className="grid-cols grid place-items-start gap-y-1">
         <h3 className="category">Preferences</h3>
         <div className="flex space-x-2">
           <p>Docs per page</p>
