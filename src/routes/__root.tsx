@@ -108,14 +108,11 @@ function RootDocument() {
   const document = deepestMatchWithHeaderType?.context.document
 
   return (
-    <html lang="en" className={theme ?? 'light'} suppressHydrationWarning>
+    <html lang="en" className={theme ?? ''} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body
-        className="bg-page-bg text-page-text relative transition-colors duration-300"
-        suppressHydrationWarning
-      >
+      <body className="bg-page-bg text-page-text relative transition-colors duration-300">
         <QueryClientProvider client={queryClient}>
           <IsSavingProvider>
             <Toaster

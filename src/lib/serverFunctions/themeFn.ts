@@ -2,12 +2,12 @@ import { createServerFn } from '@tanstack/react-start'
 import { getCookie, setCookie } from '@tanstack/react-start/server'
 import { z } from 'zod'
 
-type Theme = 'dark' | 'light'
+type Theme = 'dark' | 'light' | null
 
 const storageKey = 'ui-theme'
 
 export const getThemeServerFn = createServerFn().handler(async () => {
-  return (getCookie(storageKey) || 'light') as Theme
+  return (getCookie(storageKey) || null) as Theme
 })
 
 export const setThemeServerFn = createServerFn({ method: 'POST' })
