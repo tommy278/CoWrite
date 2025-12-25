@@ -1,21 +1,19 @@
 import { Switch } from '@headlessui/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { X, Check } from 'lucide-react'
+import { setThemeServerFn } from '@/lib/serverFunctions/themeFn'
+import { useRouter } from '@tanstack/react-router'
+import { Route as ParentRoute } from '@/routes/__root'
 
 export default function DarkModeToggle() {
-  const [enabled, setEnabled] = useState(false)
-  const applyTheme = () => {
-    setEnabled((prev) => {
-      const next = !prev
-      document.documentElement.classList.toggle('dark', next)
-      localStorage.setItem('theme', next ? 'dark' : 'light')
-      return next
-    })
+  const theme = ParentRoute.useLoaderData()
+  const [enabled, setEnabled] = useState(theme === 'dark' ? true : false)
+  const router = useRouter()
+  const applyTheme = async () => {
+    setThemeServerFn({ data: { mode: enabled ? 'light' : 'dark' } })
+    setEnabled((prev) => !prev)
+    router.invalidate({ sync: true })
   }
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark')
-    setEnabled(isDark)
-  }, [])
   return (
     <div className="flex items-center justify-center space-x-1">
       <p>Toggle Dark Mode</p>

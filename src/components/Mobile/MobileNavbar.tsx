@@ -51,18 +51,6 @@ export default function MobileNavbar(props: MobileNavbarProps) {
           {user ? (
             <>
               <Link
-                to="/dashboard/settings"
-                onClick={() => setIsOpen?.(false)}
-                className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
-                activeProps={{
-                  className:
-                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors',
-                }}
-              >
-                <Settings size={20} />
-                <span className="font-medium">Profile</span>
-              </Link>
-              <Link
                 to="/dashboard/documents/pinned"
                 onClick={() => setIsOpen?.(false)}
                 className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
@@ -85,6 +73,18 @@ export default function MobileNavbar(props: MobileNavbarProps) {
               >
                 <Trash size={20} />
                 <span className="font-medium">Deleted</span>
+              </Link>
+              <Link
+                to="/dashboard/settings"
+                onClick={() => setIsOpen?.(false)}
+                className="flex items-center gap-3 rounded-lg p-3 transition-transform duration-150 hover:scale-105 hover:bg-gray-800"
+                activeProps={{
+                  className:
+                    'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors',
+                }}
+              >
+                <Settings size={20} />
+                <span className="font-medium">Settings</span>
               </Link>
               <Logout onLogout={() => setIsOpen?.(false)} />
             </>

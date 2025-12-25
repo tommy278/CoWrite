@@ -98,3 +98,15 @@ export const defaultName =
   animals[Math.floor(Math.random() * animals.length)]
 
 export type PageOptions = 12 | 24 | 36 | 48
+
+export const themeScript = `
+  (function() {
+    try {
+      const theme = localStorage.getItem('ui-theme') || 'system';
+      const isDark = theme === 'dark' || 
+        (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      
+      document.documentElement.classList.toggle('dark', isDark);
+    } catch (e) {}
+  })();
+`

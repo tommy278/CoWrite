@@ -18,6 +18,7 @@ import { getProfileFn } from '@/lib/serverFunctions/GET/getProfileFn'
 import { createProfileFn } from '@/lib/serverFunctions/POST/createProfileFn'
 import { defaultName } from '@/lib/Constants/constants'
 import { Toaster } from 'sonner'
+import { getThemeServerFn } from '@/lib/serverFunctions/themeFn'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -73,6 +74,7 @@ export const Route = createRootRoute({
       document: null as Document | null,
     }
   },
+  loader: () => getThemeServerFn(),
   shellComponent: RootDocument,
   notFoundComponent: () => {
     return (
@@ -100,32 +102,15 @@ function RootDocument() {
   const deepestMatchWithHeaderType = [...matches]
     .reverse()
     .find((m) => m.context?.headerType)
+  const theme = Route.useLoaderData()
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
   const document = deepestMatchWithHeaderType?.context.document
   const queryClient = new QueryClient()
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={theme}>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-          (() => {
-              try {
-                const stored = localStorage.getItem('theme')
-                if (stored === 'dark') {
-                  document.documentElement.classList.add('dark')
-                } else if (stored === 'light') {
-                  document.documentElement.classList.remove('dark')
-                } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                  document.documentElement.classList.add('dark')
-                }
-              } catch (_) {}
-          })();
-      `,
-          }}
-        />
         <HeadContent />
       </head>
       <body className="bg-page-bg text-page-text relative transition-colors duration-300">
