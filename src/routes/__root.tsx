@@ -110,7 +110,7 @@ function RootDocument() {
   const document = deepestMatchWithHeaderType?.context.document
 
   return (
-    <html lang="en" className={theme}>
+    <html lang="en" className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
