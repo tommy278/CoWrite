@@ -6,6 +6,8 @@ import { emailSchema } from '@/lib/helpers/validators'
 import DesktopSignin from '@/components/Desktop/DesktopSignin'
 import MobileSignin from '@/components/Mobile/MobileSignin'
 import { toast } from 'sonner'
+import { useState } from 'react'
+import { Eye, EyeClosed } from 'lucide-react'
 
 export const Route = createFileRoute('/auth/login')({
   component: RouteComponent,
@@ -37,7 +39,6 @@ function RouteComponent() {
       })
       if (error) {
         toast.error('Login failed')
-        console.error(message)
       } else {
         toast.success(message)
         router.invalidate({ sync: true })
@@ -45,6 +46,7 @@ function RouteComponent() {
       }
     },
   })
+  const [passwordVisible, setPasswordVisible] = useState(false)
   return (
     <div className="flex min-h-screen items-center justify-center">
       <form
@@ -97,10 +99,10 @@ function RouteComponent() {
           <form.Field
             name="password"
             children={(field) => (
-              <div>
+              <div className="relative">
                 <input
                   placeholder="Password"
-                  type="password"
+                  type={passwordVisible ? 'text' : 'password'}
                   autoComplete="current-password"
                   value={field.state.value}
                   onBlur={field.handleBlur}
@@ -111,6 +113,16 @@ function RouteComponent() {
                       : 'border-gray-300 focus:ring-blue-500'
                   }`}
                 />
+                <button
+                  onClick={() => setPasswordVisible((prev) => !prev)}
+                  className="cursor-pointer"
+                >
+                  {!passwordVisible ? (
+                    <Eye className="absolute top-2 right-1" />
+                  ) : (
+                    <EyeClosed className="absolute top-2 right-1" />
+                  )}
+                </button>
                 {field.state.meta.errors.map((error, i) => (
                   <div key={i} className="text-red-500">
                     {error}

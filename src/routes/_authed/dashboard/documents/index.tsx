@@ -64,9 +64,13 @@ function RouteComponent() {
         queryClient.invalidateQueries({
           queryKey: ['documents', user?.id],
         })
-        router.navigate({ to: `/dashboard/view-document/${newDocument.id}` })
+        router.navigate({
+          to: '/dashboard/document/$doc_id',
+          params: {
+            doc_id: newDocument.id,
+          },
+        })
       } catch (error) {
-        console.error(error)
         toast.error('Something went wrong creating the document')
       }
     },
@@ -109,14 +113,21 @@ function RouteComponent() {
         </div>
       </div>
 
-      <DocumentDisplay documents={documents} documentPage />
+      <DocumentDisplay
+        documents={documents}
+        documentPage
+        onClick={() => setIsOpen(true)}
+      />
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex w-full items-center justify-center"
+          className={`fixed inset-0 z-50 flex w-full items-center justify-center backdrop-blur-sm transition-opacity duration-200 ease-out ${isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} `}
           onClick={() => setIsOpen(false)}
         >
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`transform transition-all duration-200 ease-out ${isOpen ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-2 scale-95 opacity-0'} `}
+          >
             <form
               onSubmit={(e) => {
                 e.preventDefault()

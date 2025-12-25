@@ -71,7 +71,7 @@ function RouteComponent() {
           </Link>
         </div>
       </div>
-      <DocumentDisplay documents={documents} />
+      <DocumentDisplay documents={documents} deletedPage />
       <Paginator setPage={setPage} page={page} totalPages={totalPages} />
     </>
   )

@@ -6,6 +6,8 @@ import MobileSignin from '@/components/Mobile/MobileSignin'
 import { registerFn } from '@/lib/serverFunctions/AUTH/registerFn'
 import { toast } from 'sonner'
 import { loginFn } from '@/lib/serverFunctions/AUTH/loginFn'
+import { useState } from 'react'
+import { Eye, EyeClosed } from 'lucide-react'
 
 export const Route = createFileRoute('/auth/register')({
   component: RouteComponent,
@@ -38,7 +40,6 @@ function RouteComponent() {
       })
       if (error) {
         toast.error('Registration unsuccessful')
-        console.error(message)
       } else {
         toast.success(message)
         const { error, message: logInMessage } = await loginFn({
@@ -49,7 +50,6 @@ function RouteComponent() {
         })
         if (error) {
           toast.error('Login failed')
-          console.error('Login Failed')
         } else {
           toast.success(logInMessage)
           router.invalidate({ sync: true })
@@ -58,6 +58,8 @@ function RouteComponent() {
       }
     },
   })
+  const [passwordVisible, setPasswordVisible] = useState(false)
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -152,7 +154,7 @@ function RouteComponent() {
               },
             }}
             children={(field) => (
-              <>
+              <div className="relative">
                 <input
                   placeholder="Password"
                   className={`input-field ${
@@ -160,18 +162,28 @@ function RouteComponent() {
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:ring-blue-500'
                   }`}
-                  type="password"
+                  type={passwordVisible ? 'text' : 'password'}
                   autoComplete="new-password"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
+                <button
+                  onClick={() => setPasswordVisible((prev) => !prev)}
+                  className="cursor-pointer"
+                >
+                  {!passwordVisible ? (
+                    <Eye className="absolute top-2 right-1" />
+                  ) : (
+                    <EyeClosed className="absolute top-2 right-1" />
+                  )}
+                </button>
                 {field.state.meta.errors.map((error, i) => (
                   <div key={i} className="text-red-500">
                     {error}
                   </div>
                 ))}
-              </>
+              </div>
             )}
           />
         </div>
@@ -187,7 +199,7 @@ function RouteComponent() {
               },
             }}
             children={(field) => (
-              <>
+              <div className="relative">
                 <input
                   placeholder="Confirm Password"
                   className={`input-field ${
@@ -195,18 +207,28 @@ function RouteComponent() {
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:ring-blue-500'
                   }`}
-                  type="password"
+                  type={confirmPasswordVisible ? 'text' : 'password'}
                   autoComplete="new-password"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
+                <button
+                  onClick={() => setConfirmPasswordVisible((prev) => !prev)}
+                  className="cursor-pointer"
+                >
+                  {!confirmPasswordVisible ? (
+                    <Eye className="absolute top-2 right-1" />
+                  ) : (
+                    <EyeClosed className="absolute top-2 right-1" />
+                  )}
+                </button>
                 {field.state.meta.errors.map((error, i) => (
                   <div key={i} className="text-red-500">
                     {error}
                   </div>
                 ))}
-              </>
+              </div>
             )}
           />
         </div>

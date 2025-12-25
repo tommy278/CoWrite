@@ -38,6 +38,15 @@ export const Route = createRootRoute({
         rel: 'stylesheet',
         href: appCss,
       },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/favicon.ico',
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: '/apple-touch-icon.png',
+      },
     ],
   }),
   beforeLoad: async () => {
@@ -97,7 +106,7 @@ function RootDocument() {
   const queryClient = new QueryClient()
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

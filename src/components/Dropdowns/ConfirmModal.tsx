@@ -113,7 +113,7 @@ export default function ConfirmModal({
       )}
 
       {type && (
-        <div className="fixed inset-0 z-50 flex w-full flex-col items-center justify-center bg-black/20">
+        <div className="fixed inset-0 z-50 flex w-full flex-col items-center justify-center backdrop-blur-sm">
           <div
             className="w-auto max-w-[90%] min-w-[50%] rounded-md bg-gray-200/95 px-5 py-10 text-sm md:text-base dark:bg-gray-500/95"
             ref={ref}

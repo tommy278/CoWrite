@@ -10,14 +10,57 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 interface DocumentProps {
   documents: Document[]
   documentPage?: boolean
+  deletedPage?: boolean
+  pinnedPage?: boolean
+  onClick?: () => void
 }
 
 export default function DocumentDisplay({
   documents,
   documentPage,
+  onClick,
+  deletedPage,
+  pinnedPage,
 }: DocumentProps) {
   const limitTextLength = (text: string) => {
     return text.length > 30 ? text.slice(0, 30) + '...' : text
+  }
+
+  if (documents.length < 1 && documentPage) {
+    return (
+      <div className="text-muted-foreground mt-20 flex flex-col items-center gap-2 text-center">
+        <p className="text-sm">You don’t have any documents yet.</p>
+        <p className="text-xs">
+          Click{' '}
+          <button
+            type="button"
+            onClick={onClick}
+            className="text-foreground focus-visible:ring-ring cursor-pointer rounded-sm font-medium hover:underline focus:outline-none focus-visible:ring-2"
+          >
+            New Document
+          </button>{' '}
+          to get started.
+        </p>
+      </div>
+    )
+  }
+
+  if (documents.length < 1 && pinnedPage && documentPage) {
+    return (
+      <div className="text-muted-foreground mt-20 flex flex-col items-center gap-2 text-center">
+        <p className="text-sm">No pinned documents.</p>
+        <p className="text-xs">Pin documents to keep them easy to find.</p>
+      </div>
+    )
+  }
+
+  if (documents.length < 1 && deletedPage) {
+    return (
+      <div className="text-muted-foreground mt-20 flex flex-col items-center gap-2 text-center">
+        <p className="text-sm">Trash is empty.</p>
+        <p className="text-xs">Deleted documents will appear here.</p>
+      </div>
+    )
   }
 
   const [activeDocId, setActiveDocId] = useState<string | null>(null)

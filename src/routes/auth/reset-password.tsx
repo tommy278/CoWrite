@@ -31,7 +31,6 @@ function RouteComponent() {
         router.invalidate({ sync: true })
         router.navigate({ to: '/auth/login' })
       } catch (error) {
-        console.error(error)
         toast.error('Password reset unsuccessful.')
       }
     },
