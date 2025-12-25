@@ -19,6 +19,8 @@ import { Toaster } from 'sonner'
 import { getThemeServerFn } from '@/lib/serverFunctions/themeFn'
 import { HydrationShield } from '@/components/HydrationShield'
 
+const queryClient = new QueryClient()
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -96,7 +98,6 @@ export const Route = createRootRoute({
   },
 })
 
-const queryClient = new QueryClient()
 function RootDocument() {
   const matches = useMatches()
   const deepestMatchWithHeaderType = [...matches]
