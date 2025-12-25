@@ -112,7 +112,10 @@ function RootDocument() {
       <head>
         <HeadContent />
       </head>
-      <body className="bg-page-bg text-page-text relative transition-colors duration-300">
+      <body
+        className="bg-page-bg text-page-text relative transition-colors duration-300"
+        suppressHydrationWarning
+      >
         <QueryClientProvider client={queryClient}>
           <IsSavingProvider>
             <HydrationShield fallback={<div className="bg-page-bg h-screen" />}>
