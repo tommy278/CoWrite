@@ -97,6 +97,8 @@ export const Route = createRootRoute({
   },
 })
 
+const queryClient = new QueryClient()
+
 function RootDocument() {
   const matches = useMatches()
   const deepestMatchWithHeaderType = [...matches]
@@ -106,7 +108,6 @@ function RootDocument() {
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
   const document = deepestMatchWithHeaderType?.context.document
-  const queryClient = new QueryClient()
 
   return (
     <html lang="en" className={theme}>
