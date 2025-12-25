@@ -1,4 +1,5 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/')({
   component: LandingPage,
@@ -11,6 +12,11 @@ export const Route = createFileRoute('/')({
 })
 
 function LandingPage() {
+  const [year, setYear] = useState<number | null>(null)
+
+  useEffect(() => {
+    setYear(new Date().getFullYear())
+  }, [])
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-linear-to-br from-blue-50 to-blue-100 px-6 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-2xl text-center">
@@ -38,12 +44,7 @@ function LandingPage() {
           </Link>
         </div>
       </div>
-      <footer
-        className="mt-20 text-center text-sm text-gray-500"
-        suppressHydrationWarning
-      >
-        &copy; {new Date().getFullYear()} coWrite. All rights reserved.
-      </footer>
+      <footer>&copy; {year ?? '2025'} coWrite. All rights reserved.</footer>
     </div>
   )
 }
