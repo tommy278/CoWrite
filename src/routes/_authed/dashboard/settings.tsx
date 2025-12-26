@@ -61,7 +61,7 @@ function RouteComponent() {
   if (isError) return <p>Failed to load stats</p>
   const { total = 0, active = 0, pinned = 0, deleted = 0 } = stats ?? {}
   return (
-    <div className="grid-cols mx-auto my-5 grid max-w-md justify-center gap-y-4 border border-gray-300 p-10 text-gray-700 shadow-lg drop-shadow-2xl md:my-10 dark:text-white">
+    <div className="text-settings-text grid-cols mx-auto my-5 grid max-w-md justify-center gap-y-4 border border-gray-300 p-10 shadow-lg drop-shadow-2xl md:my-10">
       <section className="grid-cols grid place-items-start gap-y-1">
         <h3 className="category">Account</h3>
         <div className="relative flex items-center">
