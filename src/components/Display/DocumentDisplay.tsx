@@ -118,7 +118,7 @@ export default function DocumentDisplay({
                         prev === doc.id ? null : doc.id
                       )
                     }}
-                    className="z-50 cursor-pointer rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-600"
+                    className="hover:bg-hover-bg z-50 cursor-pointer rounded-full p-2"
                   >
                     {activeDocId === doc.id ? (
                       <X className="icon" />

@@ -16,7 +16,7 @@ import { getProfileFn } from '@/lib/serverFunctions/GET/getProfileFn'
 import { createProfileFn } from '@/lib/serverFunctions/POST/createProfileFn'
 import { defaultName } from '@/lib/Constants/constants'
 import { Toaster } from 'sonner'
-import { getThemeServerFn } from '@/lib/serverFunctions/themeFn'
+import themeScriptUrl from '../theme-init?url'
 
 const queryClient = new QueryClient()
 
@@ -32,6 +32,12 @@ export const Route = createRootRoute({
       },
       {
         title: 'coWrite',
+      },
+    ],
+    scripts: [
+      {
+        src: themeScriptUrl,
+        async: false,
       },
     ],
     links: [
@@ -74,7 +80,6 @@ export const Route = createRootRoute({
       document: null as Document | null,
     }
   },
-  loader: () => getThemeServerFn(),
   shellComponent: RootDocument,
   notFoundComponent: () => {
     return (
@@ -102,13 +107,12 @@ function RootDocument() {
   const deepestMatchWithHeaderType = [...matches]
     .reverse()
     .find((m) => m.context?.headerType)
-  const theme = Route.useLoaderData()
 
   const headerType = deepestMatchWithHeaderType?.context.headerType ?? 'default'
   const document = deepestMatchWithHeaderType?.context.document
 
   return (
-    <html lang="en" className={theme ?? ''} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

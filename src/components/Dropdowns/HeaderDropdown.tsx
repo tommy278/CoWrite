@@ -60,7 +60,7 @@ export default function HeaderDropdown({ editor }: { editor: Editor }) {
             <div key={index}>
               <button
                 onClick={() => handleClick(level)}
-                className={`w-full cursor-pointer rounded-md px-1 py-0.5 hover:bg-gray-300 dark:hover:bg-gray-700 ${editor.isActive('heading', { level }) ? 'font-bold' : ''}`}
+                className={`hover:bg-hover-bg w-full cursor-pointer rounded-md px-1 py-0.5 ${editor.isActive('heading', { level }) ? 'font-bold' : ''}`}
               >
                 {`Heading ${level}`}
               </button>

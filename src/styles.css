@@ -6,6 +6,13 @@ menu {
   z-index: 40;
 }
 
+:root,
+.dark {
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
 @theme {
   --color-page-bg: #ffffff;
   --color-page-text: #1a1a1a;
@@ -14,7 +21,8 @@ menu {
   --color-dropdown-bg: #f0f1f5;
   --color-navbar-bg: #1447e6;
   --color-editor-bg: #e5e7eb;
-  --color-settings-text: #d1d5dc;
+  --color-settings-text: rgb(31, 32, 33);
+  --color-hover-bg: rgb(218, 220, 225);
 }
 
 .dark {
@@ -26,19 +34,7 @@ menu {
   --color-navbar-bg: #1c398e;
   --color-editor-bg: #1e2939;
   --color-settings-text: #ffffff;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light):not(.dark) {
-    --color-page-bg: #0f172a;
-    --color-page-text: #f8fafc;
-
-    --color-surface-bg: #111827;
-    --color-dropdown-bg: #1a202c;
-    --color-navbar-bg: #1c398e;
-    --color-editor-bg: #1e2939;
-    --color-settings-text: #ffffff;
-  }
+  --color-hover-bg: #364153;
 }
 
 body {
@@ -62,6 +58,15 @@ body {
 .prose-editor code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.button {
+  background-color: var(--color-editor-bg);
+  transition: filter 0.2s;
+}
+
+.button:hover {
+  filter: brightness(1.1);
 }
 
 .dropdown {

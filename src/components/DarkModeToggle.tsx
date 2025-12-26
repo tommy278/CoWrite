@@ -1,25 +1,31 @@
 import { Switch } from '@headlessui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { X, Check } from 'lucide-react'
-import { setThemeServerFn } from '@/lib/serverFunctions/themeFn'
-import { useRouter } from '@tanstack/react-router'
-import { Route as ParentRoute } from '@/routes/__root'
 
 export default function DarkModeToggle() {
-  const theme = ParentRoute.useLoaderData()
-  const [enabled, setEnabled] = useState(theme === 'dark' ? true : false)
-  const router = useRouter()
-  const applyTheme = async () => {
-    setThemeServerFn({ data: { mode: enabled ? 'light' : 'dark' } })
-    setEnabled((prev) => !prev)
-    router.invalidate({ sync: true })
+  const [enabled, setEnabled] = useState<boolean | null>(null)
+  useEffect(() => {
+    setEnabled(document.documentElement.classList.contains('dark'))
+  }, [])
+  const toggleTheme = () => {
+    const newIsDark = !enabled
+    setEnabled(newIsDark)
+
+    if (newIsDark) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
   }
+  if (enabled === null) return <div className="h-10 w-10" />
   return (
     <div className="flex items-center justify-center space-x-1">
       <p>Toggle Dark Mode</p>
       <Switch
         checked={enabled}
-        onChange={applyTheme}
+        onChange={toggleTheme}
         className="group relative flex h-7 w-14 cursor-pointer rounded-full bg-gray-400/25 p-1 ease-in-out focus:not-data-focus:outline-none data-checked:bg-white/10 data-focus:outline data-focus:outline-white dark:bg-white/10"
         aria-label="Toggle dark mode"
       >

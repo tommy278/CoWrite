@@ -20,7 +20,7 @@ export default function SortDropdown({
         const [nextSort, dir] = e.target.value.split('-')
         onChange(nextSort as 'updated' | 'created', dir === 'asc')
       }}
-      className="cursor-pointer rounded-md bg-gray-300/50 px-1 py-2 text-xs hover:bg-gray-300/95 sm:text-sm md:text-base dark:bg-gray-600/50 dark:hover:bg-gray-600/95"
+      className="hover:bg-hover-bg bg-dropdown-bg cursor-pointer rounded-md px-1 py-2 text-xs sm:text-sm md:text-base"
     >
       <option value="updated-desc">
         {!deleted ? 'Last Updated' : 'Last Deleted'} (Newest)

@@ -62,7 +62,7 @@ function RouteComponent() {
   const { total = 0, active = 0, pinned = 0, deleted = 0 } = stats ?? {}
   return (
     <div className="text-settings-text grid-cols mx-auto my-5 grid max-w-md justify-center gap-y-4 border border-gray-300 p-10 shadow-lg drop-shadow-2xl md:my-10">
-      <section className="grid-cols grid place-items-start gap-y-1">
+      <section className="grid-cols grid place-items-start gap-y-2">
         <h3 className="category">Account</h3>
         <div className="relative flex items-center">
           <input
@@ -139,7 +139,7 @@ function RouteComponent() {
             onChange={(e) =>
               changePageSize(Number(e.target.value) as PageOptions)
             }
-            className="block cursor-pointer rounded-md bg-gray-300/50 hover:bg-gray-300/95 dark:bg-gray-600/50 dark:hover:bg-gray-600/95"
+            className="hover:bg-hover-bg bg-dropdown-bg block cursor-pointer rounded-md"
           >
             <option value={12}>12</option>
             <option value={24}>24</option>
