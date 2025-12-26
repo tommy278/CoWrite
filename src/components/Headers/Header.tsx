@@ -18,7 +18,7 @@ export default function Header({ type, document }: HeaderProps) {
   const { user } = ParentRoute.useRouteContext()
   return (
     <>
-      <header className="sticky top-0 z-51 flex items-center justify-between bg-blue-700 px-4 py-2 text-white shadow-lg dark:bg-blue-900">
+      <header className="bg-navbar-bg sticky top-0 z-51 flex items-center justify-between px-4 py-2 text-white shadow-lg">
         {type === 'default' && (
           <h1
             className={`${user ? 'w-[80%]' : 'w-[50%]'} flex items-center justify-between gap-4 text-lg font-semibold sm:text-xl md:text-2xl`}

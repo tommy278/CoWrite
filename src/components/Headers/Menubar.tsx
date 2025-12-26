@@ -43,7 +43,7 @@ export default function MenuBar({
   )
   return (
     <menu
-      className="flex w-full items-center justify-between self-start bg-gray-200 px-0.5 py-2 sm:px-6 md:px-10 dark:bg-gray-800"
+      className="bg-editor-bg flex w-full items-center justify-between self-start px-0.5 py-2 sm:px-6 md:px-10"
       aria-label="Editor toolbar"
     >
       <Tooltip.Provider delayDuration={200}>
