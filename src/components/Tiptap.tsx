@@ -110,6 +110,10 @@ export default function Tiptap({
     editorProps: {
       attributes: {
         class: 'focus:outline-none outline-none prose w-full',
+        autocomplete: 'off',
+        autocorrect: 'off',
+        autocapitalize: 'off',
+        spellcheck: 'false',
       },
     },
   })

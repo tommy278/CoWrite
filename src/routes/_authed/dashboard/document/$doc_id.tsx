@@ -50,12 +50,16 @@ function RouteComponent() {
   return (
     <>
       <form
+        className="flex w-full flex-col justify-center"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
           contentForm.handleSubmit()
         }}
-        className="flex w-full flex-col justify-center"
       >
         <contentForm.Field
           name="content"

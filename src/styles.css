@@ -15,8 +15,6 @@ menu {
   z-index: 40;
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
   --color-page-bg: #ffffff;
   --color-page-text: #1a1a1a;
