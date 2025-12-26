@@ -25,7 +25,7 @@ menu {
   --color-dropdown-bg: #1a202c;
   --color-navbar-bg: #1c398e;
   --color-editor-bg: #1e2939;
-  --color-settings-text: #364153;
+  --color-settings-text: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,7 +37,7 @@ menu {
     --color-dropdown-bg: #1a202c;
     --color-navbar-bg: #1c398e;
     --color-editor-bg: #1e2939;
-    --color-settings-text: #364153;
+    --color-settings-text: #ffffff;
   }
 }
 
