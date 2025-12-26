@@ -19,6 +19,7 @@ import { TableKit } from '@tiptap/extension-table'
 import TextAlign from '@tiptap/extension-text-align'
 import { useHeaderHeight } from '@/Hooks/useHeaderHeight'
 import DocumentLoader from './SkeletonLoader/DocumentLoader'
+import Placeholder from '@tiptap/extension-placeholder'
 
 const lowlight = createLowlight()
 lowlight.register('javascript', javascript)
@@ -83,6 +84,9 @@ export default function Tiptap({
         table: { resizable: true },
       }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      Placeholder.configure({
+        placeholder: 'Begin writing...',
+      }),
     ]
   }, [])
 
