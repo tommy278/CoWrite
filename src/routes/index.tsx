@@ -22,7 +22,9 @@ function LandingPage() {
       <div className="max-w-2xl text-center">
         <h1 className="animate-fade-in mb-4 text-6xl font-extrabold text-blue-600 sm:text-7xl dark:text-blue-400">
           Welcome to{' '}
-          <span className="text-blue-500 dark:text-blue-300">coWrite</span>
+          <span className="text-blue-500 contrast-150 dark:text-blue-300">
+            coWrite
+          </span>
         </h1>
         <p className="mb-8 text-lg text-gray-700 sm:text-xl dark:text-gray-300">
           Create, organize, and manage your documents easily. coWrite makes it

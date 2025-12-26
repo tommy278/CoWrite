@@ -33,12 +33,12 @@ export default function Paginator({
   }, [page])
   if (totalPages > 1) {
     return (
-      <div className="mx-5 my-2 flex items-center justify-between rounded-3xl bg-gray-300/50 py-2 text-xs md:px-5 md:text-sm dark:bg-gray-700/50">
+      <div className="bg-surface-bg mx-5 my-2 flex items-center justify-between rounded-3xl py-2 text-xs md:px-5 md:text-sm">
         <div className="mx-auto flex w-fit items-center space-x-2">
           <button
             disabled={page === 0}
             onClick={() => setPage((prev) => prev - 1)}
-            className={`${page === 0 ? 'cursor-not-allowed bg-gray-300/40 dark:bg-gray-700/20' : 'cursor-pointer bg-gray-300 dark:bg-gray-500'} paginator-btn flex items-center`}
+            className={`${page === 0 ? 'cursor-not-allowed bg-blend-color-burn contrast-50' : 'cursor-pointer contrast-150'} paginator-btn flex items-center`}
           >
             <ChevronLeft className="icon" />
             <span>Previous</span>
@@ -82,7 +82,7 @@ export default function Paginator({
           <button
             disabled={currentPage >= totalPages}
             onClick={() => setPage((prev) => prev + 1)}
-            className={`${currentPage >= totalPages ? 'cursor-not-allowed bg-gray-300/40 dark:bg-gray-700/20' : 'cursor-pointer bg-gray-300 dark:bg-gray-500'} paginator-btn flex items-center`}
+            className={`${currentPage >= totalPages ? 'cursor-not-allowed contrast-50' : 'cursor-pointer contrast-150'} paginator-btn flex items-center`}
           >
             <span>Next</span>
             <ChevronRight className="icon" />
