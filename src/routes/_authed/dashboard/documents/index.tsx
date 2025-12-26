@@ -133,7 +133,7 @@ function RouteComponent() {
                 e.preventDefault()
                 form.handleSubmit()
               }}
-              className="w-full space-y-5 rounded bg-gray-200/95 p-6 shadow-lg"
+              className="bg-surface-bg w-full space-y-5 rounded p-6 shadow-lg"
             >
               <form.Field
                 name="title"
