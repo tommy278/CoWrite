@@ -26,7 +26,7 @@ export default function MobileNavbar(props: MobileNavbarProps) {
           <h2 className="text-xl font-bold">Navigation</h2>
           <button
             onClick={() => setIsOpen?.(false)}
-            className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-blue-300 dark:hover:bg-blue-700"
+            className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-blue-300"
             aria-label="Close menu"
           >
             <X size={24} />

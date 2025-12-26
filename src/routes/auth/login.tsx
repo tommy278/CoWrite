@@ -48,7 +48,7 @@ function RouteComponent() {
   })
   const [passwordVisible, setPasswordVisible] = useState(false)
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="center-wrapper">
       <form
         onSubmit={(e) => {
           e.preventDefault()

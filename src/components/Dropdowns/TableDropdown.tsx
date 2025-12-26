@@ -90,8 +90,8 @@ export default function TableDropdown({
                       isActive
                         ? 'bg-blue-400'
                         : isHover
-                          ? 'bg-blue-200 dark:bg-blue-300'
-                          : 'bg-gray-300 dark:bg-gray-400'
+                          ? 'bg-blue-200'
+                          : 'bg-gray-300'
                     }`}
                     onMouseEnter={() =>
                       setHovered({ row: rowIndex, col: colIndex })

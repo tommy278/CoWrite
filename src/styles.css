@@ -47,6 +47,17 @@ body {
   color: var(--color-page-text);
 }
 
+.center-wrapper {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .paginator-btn {
   @apply rounded-4xl px-2 py-1 text-xs sm:px-3 sm:py-1.5 md:px-4 md:py-2 md:text-base;
 }

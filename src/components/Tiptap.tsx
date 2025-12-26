@@ -129,7 +129,7 @@ export default function Tiptap({
 
   if (!editor) return <DocumentLoader />
   const editorClass = `prose-editor 
-  ${!display ? 'w-[70%] min-h-screen border-x dark:border-gray-500 border-gray-200 px-2 py-5 sm:px-4 sm:py-7 md:px-6 md:py-10 mx-auto' : 'time-size px-0.5 py-1 md:px-1 md:py-2'} 
+  ${!display ? 'w-[70%] min-h-screen border-x border-gray-200 px-2 py-5 sm:px-4 sm:py-7 md:px-6 md:py-10 mx-auto' : 'time-size px-0.5 py-1 md:px-1 md:py-2'} 
   ${className}`
   return (
     <>

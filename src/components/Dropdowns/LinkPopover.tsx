@@ -97,7 +97,7 @@ export default function LinkPopover({
       </button>
       {isOpen && (
         <div
-          className={`${mobile ? 'absolute left-[101%] w-fit rounded-md bg-gray-300 p-1 text-xs sm:left-[105%] dark:bg-gray-600' : 'dropdown-right'} flex-col`}
+          className={`${mobile ? 'absolute left-[101%] w-fit rounded-md bg-gray-300 p-1 text-xs sm:left-[105%]' : 'dropdown-right'} flex-col`}
         >
           {type === 'youtube' && (
             <div className="relative flex justify-between">

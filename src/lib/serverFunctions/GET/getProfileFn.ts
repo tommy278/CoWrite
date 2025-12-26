@@ -15,7 +15,6 @@ export const getProfileFn = createServerFn({ method: 'GET' })
       .maybeSingle()
 
     if (error) {
-      console.error('Error fetching profile:', error.message)
       throw error
     }
 

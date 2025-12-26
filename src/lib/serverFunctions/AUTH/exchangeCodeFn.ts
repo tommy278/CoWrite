@@ -12,7 +12,6 @@ export const exchangeCodeFn = createServerFn()
     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (error) {
-      console.error(error)
       throw new Error('Failed to exchange code')
     }
 

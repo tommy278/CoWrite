@@ -79,14 +79,14 @@ export default function ConfirmModal({
         <div className="flex flex-col space-y-1 md:space-y-2">
           <button
             onClick={serverFunctions.pinDocument}
-            className="flex cursor-pointer items-center justify-center rounded-md bg-blue-300 px-2 py-1 dark:bg-blue-400"
+            className="flex cursor-pointer items-center justify-center rounded-md bg-blue-400 px-2 py-1"
           >
             <Pin className="mr-1 h-4 w-4" />
             {!pinned ? 'Pin' : 'Unpin'}
           </button>
           <button
             onClick={() => setIsDeleteOpen(true)}
-            className="flex cursor-pointer items-center justify-center rounded-md bg-red-500/85 px-2 py-1 dark:bg-red-400"
+            className="flex cursor-pointer items-center justify-center rounded-md bg-red-400 px-2 py-1"
           >
             <Trash className="mr-1 h-4 w-4" />
             Delete
@@ -124,7 +124,7 @@ export default function ConfirmModal({
             <div className="flex justify-between">
               <button
                 onClick={() => onClose()}
-                className="cursor-pointer rounded-md bg-gray-300 p-2 shadow-md dark:bg-gray-600"
+                className="cursor-pointer rounded-md bg-gray-300 p-2 shadow-md"
               >
                 Close
               </button>

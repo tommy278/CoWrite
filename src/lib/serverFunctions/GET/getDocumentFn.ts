@@ -16,7 +16,6 @@ export const getDocumentFn = createServerFn({ method: 'GET' })
       .single()
 
     if (error) {
-      console.error('Error fetching single record', error.message)
       return null
     }
 
@@ -34,7 +33,6 @@ export const getDocumentFn = createServerFn({ method: 'GET' })
       }
       return document
     } else {
-      console.log('No data found')
       return null
     }
   })

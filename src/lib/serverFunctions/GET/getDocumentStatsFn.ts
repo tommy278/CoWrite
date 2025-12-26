@@ -13,7 +13,6 @@ export const getDocumentStatsFn = createServerFn({ method: 'GET' }).handler(
     const supabase = getSupabaseServerClient()
     const { data, error } = await supabase.rpc('get_document_stats')
     if (error) {
-      console.error('Error fetching document stats:', error.message)
       throw error
     }
     const stats = data?.[0] ?? null

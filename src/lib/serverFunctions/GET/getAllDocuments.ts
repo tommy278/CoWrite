@@ -16,7 +16,6 @@ export const getAllDocumentsFn = createServerFn({ method: 'GET' })
       .range(0, 99)
 
     if (error) {
-      console.error('Error fetching single record', error.message)
       return []
     }
     const documents = data as Document[]

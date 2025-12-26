@@ -26,20 +26,18 @@ export default function DarkModeToggle() {
       <Switch
         checked={enabled}
         onChange={toggleTheme}
-        className="group relative flex h-7 w-14 cursor-pointer rounded-full bg-gray-400/25 p-1 ease-in-out focus:not-data-focus:outline-none data-checked:bg-white/10 data-focus:outline data-focus:outline-white dark:bg-white/10"
+        className="group relative flex h-7 w-14 cursor-pointer rounded-full bg-gray-400/25 p-1 ease-in-out focus:not-data-focus:outline-none data-checked:bg-white/10 data-focus:outline data-focus:outline-white"
         aria-label="Toggle dark mode"
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none grid size-5 translate-x-0 rounded-full bg-white text-center shadow-lg ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-7"
+          className="bg-dropdown-bg pointer-events-none grid size-5 translate-x-0 rounded-full text-center shadow-lg ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-7"
         >
-          <span className="m-auto">
-            {!enabled ? (
-              <X color="black" className="h-4 w-4" />
-            ) : (
-              <Check color="black" className="h-4 w-4" />
-            )}
-          </span>
+          {!enabled ? (
+            <X color="black" className="m-auto h-4 w-4" />
+          ) : (
+            <Check color="white" className="m-auto h-4 w-4" />
+          )}
         </div>
       </Switch>
     </div>

@@ -33,7 +33,7 @@ export default function CountsDropdown({
 
   const MobileComponent = () => {
     return (
-      <div className="absolute top-[160%] right-0 rounded-md bg-gray-400 p-1 dark:bg-gray-700">
+      <div className="bg-dropdown-bg absolute top-[160%] right-0 rounded-md p-1">
         <p>Characters: {counts.characters}</p>
         <p>Words: {counts.words}</p>
       </div>

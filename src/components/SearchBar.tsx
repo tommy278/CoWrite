@@ -126,7 +126,7 @@ export default function SearchBar({ className }: SearchBarProps) {
                 )}
 
                 {searchIsOpen && searchResults.deleted.length > 0 && (
-                  <section className="w-full rounded-b-md dark:bg-gray-800">
+                  <section className="w-full rounded-b-md">
                     <div className="px-4 py-2 text-xs font-semibold tracking-wide uppercase">
                       Deleted
                     </div>

@@ -36,7 +36,6 @@ export default function DocHeader({
       try {
         await updateTitleFn({ data: { id, title: value } })
       } catch (error) {
-        console.error(error)
         toast.error('Something went wrong')
       } finally {
         doneSaving()

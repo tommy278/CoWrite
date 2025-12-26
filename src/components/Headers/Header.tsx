@@ -30,7 +30,7 @@ export default function Header({ type, document }: HeaderProps) {
         {type === 'doc' && <DocHeader document={document} />}
         <button
           onClick={() => setIsOpen(true)}
-          className="cursor-pointer rounded-lg p-2 hover:bg-blue-300 md:hidden dark:hover:bg-blue-700"
+          className="cursor-pointer rounded-lg p-2 hover:bg-blue-300 md:hidden"
           aria-label="Open menu"
         >
           <Menu className="h-5 w-5" />

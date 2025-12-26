@@ -37,7 +37,7 @@ function RouteComponent() {
   })
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="center-wrapper">
       <form
         onSubmit={(e) => {
           e.preventDefault()
