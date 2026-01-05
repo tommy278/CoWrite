@@ -19,7 +19,7 @@ function LandingPage() {
   }, [])
   return (
     <div className="center-wrapper mx-2 flex flex-col items-center justify-center">
-      <div className="max-w-2xl text-center">
+      <div className="flex max-w-2xl flex-col gap-y-0.5 text-center">
         <h1 className="animate-fade-in mb-4 text-6xl font-extrabold text-blue-600 sm:text-7xl">
           Welcome to <span className="text-blue-500 contrast-150">coWrite</span>
         </h1>
@@ -42,6 +42,14 @@ function LandingPage() {
             Log In
           </Link>
         </div>
+        <a
+          href="https://github.com/tommy278/CoWrite"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 text-sm font-medium text-blue-500 underline-offset-4 hover:underline"
+        >
+          View project on GitHub →
+        </a>
       </div>
       <footer>&copy; {year ?? '2025'} coWrite. All rights reserved.</footer>
     </div>
