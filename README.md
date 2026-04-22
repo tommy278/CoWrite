@@ -33,7 +33,7 @@ CoWrite is a modern, distraction-free writing application focused on structured 
 ## Getting Started
 
 ```bash
-git clone https://github.com/your-username/cowrite.git
+git clone https://github.com/tommy278/cowrite.git
 cd cowrite
 npm install
 npm run dev
